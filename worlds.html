@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Scent Worlds — Giberish</title>
+  <meta name="description" content="Every Giberish fragrance has its own world. Step into a hall of lamps, a saffron bazaar, moonlit dunes or a northern shore, and meet each bottle where it belongs.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/worlds.css">
+</head>
+<body data-page="worlds" data-no-dust>
+<main class="sw" id="sw">
+  <div class="sw-track" id="sw-track">
+    <!-- The world: a pinned stage of parallax layers (built by worlds.js) -->
+    <section class="sw-stage" id="sw-stage" aria-label="Scent world">
+      <div class="sw-layers" id="sw-layers" aria-hidden="true"></div>
+      <div class="sw-shade sw-shade-b" id="sw-shade-b" aria-hidden="true"></div>
+      <div class="sw-shade sw-shade-l" id="sw-shade-l" aria-hidden="true"></div>
+      <div class="sw-shade sw-shade-r" id="sw-shade-r" aria-hidden="true"></div>
+
+      <div class="sw-hud" id="sw-hud">
+        <div class="sw-hud-title">
+          <span class="eyebrow">Scent World <b id="sw-count"></b></span>
+          <span class="sw-world-name" id="sw-world-name"></span>
+        </div>
+        <div class="sw-hud-tools" id="sw-tools"></div>
+      </div>
+
+      <nav class="sw-rail" id="sw-rail" aria-label="Choose a fragrance world">
+        <button class="sw-rail-arrow" data-step="-1" aria-label="Previous world"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="sw-rail-list" id="sw-rail-list"></div>
+        <button class="sw-rail-arrow" data-step="1" aria-label="Next world"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </nav>
+
+    </section>
+
+    <!-- Story panels scroll over the pinned world -->
+    <div class="sw-panels" id="sw-panels"></div>
+  </div>
+  <!-- fade-through-dark veil used when travelling between worlds -->
+  <div class="sw-veil show" id="sw-veil" aria-hidden="true"><i></i><img src="assets/img/buddha-sil.png" alt=""></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script src="assets/js/worlds.js"></script>
+</body>
+</html>

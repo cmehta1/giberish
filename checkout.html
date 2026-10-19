@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Checkout — Giberish</title>
+  <meta name="theme-color" content="#0a0604">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="checkout">
+<main>
+  <section class="page-hero container" style="padding-bottom:40px">
+    <span class="eyebrow">Almost yours</span>
+    <h1 class="h-1" style="margin-top:14px">Your <span class="script" style="font-size:1.3em">bag</span></h1>
+  </section>
+
+  <section class="container" style="padding-bottom:100px" id="co-root">
+    <div class="checkout-grid">
+      <form class="co-panel" id="co-form" novalidate>
+        <h3>Where should we send it?</h3>
+        <div class="form-grid">
+          <div class="field full"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile" required pattern="[0-9]{10}"></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+          <div class="field full"><label for="f-addr">Address</label><textarea id="f-addr" name="address" autocomplete="street-address" required></textarea></div>
+          <div class="field"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2" required></div>
+          <div class="field"><label for="f-pin">Pincode</label><input id="f-pin" name="pincode" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{6}"></div>
+        </div>
+
+        <label class="gift-toggle"><input type="checkbox" id="f-gift"> <span>This is a gift. Add a handwritten note.</span></label>
+        <div class="field" id="gift-wrap" style="display:none"><label for="f-note">Your note</label><textarea id="f-note" maxlength="240" placeholder="We’ll write it by hand…"></textarea></div>
+
+        <h3 style="margin-top:30px">How would you like to pay?</h3>
+        <label class="pay-opt"><input type="radio" name="pay" value="whatsapp" checked><div><b>Order on WhatsApp</b><small>Your order opens in WhatsApp to <span data-wa></span>. Press send and we’ll confirm personally. Pay by UPI or cash on delivery.</small></div></label>
+        <label class="pay-opt"><input type="radio" name="pay" value="instagram"><div><b>Order on Instagram</b><small>We copy your order and open a chat with <span data-ig></span>. Just paste and send.</small></div></label>
+        <label class="pay-opt" id="opt-online" hidden><input type="radio" name="pay" value="online"><div><b>Pay online: UPI, cards, netbanking</b><small id="online-note">Secure payment via Razorpay</small></div></label>
+
+        <p id="co-error" class="gold" style="min-height:24px;margin:16px 0 0"></p>
+        <button class="btn btn-solid" type="submit" style="width:100%;margin-top:8px" id="co-submit">Place order</button>
+      </form>
+
+      <aside class="co-panel co-summary">
+        <h3>Summary</h3>
+        <div id="co-lines"></div>
+        <div class="sum-row"><span>Subtotal</span><span id="co-sub"></span></div>
+        <div class="sum-row"><span>Shipping</span><span id="co-ship"></span></div>
+        <div class="sum-row total"><span class="eyebrow">Total</span><span id="co-total"></span></div>
+        <p class="muted" style="font-size:13px;margin-top:14px">Every order is wrapped like a gift and packed by hand.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const C = window.GIB_CONFIG, Cart = window.GibCart, money = window.gibMoney;
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function renderSummary() {
+    const lines = Cart.lines();
+    if (!lines.length) {
+      $('#co-root').innerHTML = `<div class="thanks"><div class="script" style="font-size:64px">Silence…</div>
+        <p class="lead" style="margin:10px auto 26px">Your bag is empty. Let’s find something precious.</p>
+        <div class="btn-row" style="justify-content:center"><a class="btn btn-solid" href="shop.html">Explore the collection</a><a class="btn" href="kundli.html">Read my Scent Kundli</a></div></div>`;
+      return false;
+    }
+    $('#co-lines').innerHTML = lines.map((l) => `
+      <div class="cart-line" style="grid-template-columns:60px 1fr auto">
+        ${l.image ? `<img src="${l.image}" alt="" style="width:60px;height:60px">` : '<div class="bespoke-thumb" style="width:60px;height:60px">G</div>'}
+        <div><h4 style="font-size:17px">${esc(l.name)}</h4><small>${l.qty} × ${money(l.price)}${l.custom ? ' · ' + esc(l.custom.formula) : ''}</small></div>
+        <div class="price" style="font-size:17px">${money(l.price * l.qty)}</div>
+      </div>`).join('');
+    $('#co-sub').textContent = money(Cart.subtotal());
+    $('#co-ship').textContent = Cart.shipping() ? money(Cart.shipping()) : 'Complimentary';
+    $('#co-total').textContent = money(Cart.subtotal() + Cart.shipping());
+    return true;
+  }
+  if (!renderSummary()) return;
+  document.addEventListener('cart:change', renderSummary);
+
+  // Online payment appears only once a Razorpay key is set in data.js
+  if (C.razorpayKey) $('#opt-online').hidden = false;
+  document.querySelectorAll('[data-wa]').forEach((e) => (e.textContent = C.whatsappDisplay));
+  document.querySelectorAll('[data-ig]').forEach((e) => (e.textContent = '@' + C.instagramHandle));
+  $('#f-gift').onchange = (e) => ($('#gift-wrap').style.display = e.target.checked ? 'flex' : 'none');
+
+  function collect() {
+    const f = $('#co-form');
+    const d = Object.fromEntries(new FormData(f).entries());
+    d.phone = (d.phone || '').replace(/\D/g, '').slice(-10);
+    d.gift = $('#f-gift').checked ? ($('#f-note').value || '(gift wrap, no note)') : '';
+    const errs = [];
+    if (!d.name.trim()) errs.push('your name');
+    if (d.phone.length !== 10) errs.push('a 10-digit phone number');
+    if (!d.address.trim()) errs.push('your address');
+    if (!d.city.trim()) errs.push('your city');
+    if (!/^\d{6}$/.test(d.pincode)) errs.push('a 6-digit pincode');
+    return { d, errs };
+  }
+
+  function orderText(d, id) {
+    const lines = Cart.lines().map((l) => `• ${l.name} × ${l.qty} = ${money(l.price * l.qty)}${l.custom ? `\n   (${l.custom.formula})` : ''}`).join('\n');
+    return `✨ New Giberish order ${id}\n\n${lines}\n\nSubtotal: ${money(Cart.subtotal())}\nShipping: ${Cart.shipping() ? money(Cart.shipping()) : 'Free'}\nTotal: ${money(Cart.subtotal() + Cart.shipping())}\n\nName: ${d.name}\nPhone: ${d.phone}\nEmail: ${d.email || '-'}\nAddress: ${d.address}, ${d.city} - ${d.pincode}${d.gift ? `\nGift note: ${d.gift}` : ''}`;
+  }
+
+  function thanks(d, id, how, text) {
+    Cart.clear();
+    $('#co-root').innerHTML = `<div class="thanks k-anim-in">
+      <div class="script" style="font-size:clamp(56px,9vw,96px);line-height:1">Shukriya, ${esc(d.name.split(' ')[0])}</div>
+      <p class="lead" style="margin:16px auto">Your order <b class="gold">${id}</b> ${how === 'online' ? 'is paid and is being wrapped with care.' : how === 'instagram' ? `is copied. Paste it in the Instagram chat with <b class="gold">@${C.instagramHandle}</b> and we’ll confirm personally.` : 'is ready in WhatsApp. Just press send and we’ll confirm it with you personally.'}</p>
+      ${how === 'instagram' ? `<textarea readonly class="order-copy" aria-label="Your order">${esc(text)}</textarea><p><a class="btn btn-sm" href="https://ig.me/m/${C.instagramHandle}" target="_blank" rel="noopener">Open Instagram chat</a></p>` : ''}
+      <p class="muted">Until it arrives, close your eyes and take one slow breath. That’s where every Giberish ritual begins.</p>
+      <div class="btn-row" style="justify-content:center;margin-top:24px"><a class="btn btn-solid" href="index.html">Back home</a></div></div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function loadRazorpay() {
+    return new Promise((res, rej) => {
+      if (window.Razorpay) return res();
+      const s = document.createElement('script');
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  $('#co-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const { d, errs } = collect();
+    if (errs.length) { $('#co-error').textContent = 'Please add ' + (errs.length > 1 ? errs.slice(0, -1).join(', ') + ' and ' + errs.slice(-1) : errs[0]) + '.'; return; }
+    $('#co-error').textContent = '';
+    const id = 'GB' + Date.now().toString(36).toUpperCase().slice(-6);
+    const how = (document.querySelector('input[name=pay]:checked') || {}).value;
+    const total = Cart.subtotal() + Cart.shipping();
+
+    if (how === 'online' && C.razorpayKey) {
+      try { await loadRazorpay(); } catch (_) { $('#co-error').textContent = 'Couldn’t reach the payment gateway. Please try WhatsApp instead.'; return; }
+      new window.Razorpay({
+        key: C.razorpayKey, amount: total * 100, currency: 'INR', name: 'Giberish',
+        description: 'Order ' + id, image: location.origin + '/assets/img/buddha-mark.png',
+        prefill: { name: d.name, email: d.email, contact: d.phone },
+        notes: { order: id, address: `${d.address}, ${d.city} - ${d.pincode}`, items: Cart.lines().map((l) => `${l.name} x${l.qty}`).join(', ').slice(0, 250), gift: d.gift.slice(0, 250) },
+        theme: { color: '#d4a957' },
+        handler: () => thanks(d, id, 'online'),
+      }).open();
+      return;
+    }
+
+    if (how === 'instagram') {
+      // Instagram can't prefill a message, so copy the order and open the chat
+      const text = orderText(d, id);
+      window.open(`https://ig.me/m/${C.instagramHandle}`, '_blank', 'noopener'); // open first so pop-up blockers allow it
+      try { navigator.clipboard.writeText(text).catch(() => {}); } catch (_) {}
+      thanks(d, id, 'instagram', text);
+      return;
+    }
+    window.open(`https://wa.me/${C.whatsappNumber}?text=${encodeURIComponent(orderText(d, id))}`, '_blank', 'noopener');
+    thanks(d, id, 'whatsapp');
+  });
+});
+</script>
+</body>
+</html>

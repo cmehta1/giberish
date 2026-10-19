@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Collection — Giberish</title>
+  <meta name="description" content="Attars, perfumes and home rituals, each one personally chosen by Giberish. Tap any bottle to feel it.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="shop">
+<main>
+  <section class="page-hero container">
+    <span class="eyebrow reveal">The Collection</span>
+    <h1 class="h-display reveal" data-delay="1" style="margin-top:16px">Every bottle is <em>a story</em></h1>
+    <p class="lead reveal" data-delay="2">We don’t stock shelves. We collect moments. Tap any bottle to <span class="gold">feel it</span>: watch its notes come alive and see what it does to a person.</p>
+  </section>
+
+  <div class="filters">
+    <div class="filter-row" role="tablist" aria-label="Category">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="attar">Attars</button>
+      <button class="filter-btn" data-cat="perfume">Perfumes</button>
+      <button class="filter-btn" data-cat="ritual">Home Rituals</button>
+    </div>
+    <div class="filter-row mood-row" aria-label="Mood">
+      <button class="filter-btn" data-mood="calm">I want calm</button>
+      <button class="filter-btn" data-mood="bold">I want to be bold</button>
+      <button class="filter-btn" data-mood="romance">I want romance</button>
+      <button class="filter-btn" data-mood="fresh">I want freshness</button>
+      <button class="filter-btn" data-mood="royal">I want to feel royal</button>
+    </div>
+  </div>
+
+  <div class="container" id="chapters"></div>
+  <div class="container empty-filter" id="empty">
+    <p class="h-2">Nothing here… <em>yet.</em></p>
+    <p class="muted">Try another mood, or let your <a href="kundli.html" class="gold">Scent Kundli</a> choose for you.</p>
+  </div>
+
+  <section class="section center">
+    <div class="container reveal">
+      <span class="eyebrow">Can’t decide?</span>
+      <h2 class="h-1" style="margin:14px 0 18px">Let the fragrance <em>choose you.</em></h2>
+      <p class="lead">Ten small questions. One reading. Your perfect match from our collection, and an attar blended only for you.</p>
+      <div class="btn-row" style="margin-top:26px"><a class="btn btn-solid" href="kundli.html">Read my Scent Kundli</a></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const P = window.GIB_PRODUCTS;
+  const chapters = [
+    { id: 'attar', num: 'I', title: 'Attars', sub: 'The old way', text: 'Pure perfume oils with no alcohol and no hurry. Attar warms on your skin and opens slowly through the day. One touch on the wrist is enough.' },
+    { id: 'perfume', num: 'II', title: 'Eau de Parfum', sub: 'The modern soul', text: 'For the days you want to be noticed before you speak. These are bold, lasting and personally worn by us first.' },
+    { id: 'ritual', num: 'III', title: 'Home Rituals', sub: 'Bring the temple home', text: 'Fragrance isn’t only for skin. Let it fill your room, settle your evening and quiet your home.' },
+  ];
+  const wrap = document.getElementById('chapters');
+  wrap.innerHTML = chapters.map((c) => `
+    <section class="chapter" id="${c.id}" data-chapter="${c.id}">
+      <div class="chapter-head reveal">
+        <div class="chapter-num">${c.num}</div>
+        <div><span class="eyebrow">${c.sub}</span><h2 class="h-1" style="margin-top:10px">${c.title}</h2><p class="muted">${c.text}</p></div>
+      </div>
+      <div class="grid">${P.filter((p) => p.type === c.id).map((p) => window.gibCard(p, { story: true })).join('')}</div>
+    </section>`).join('');
+  wrap.querySelectorAll('.p-card').forEach((c, i) => { c.classList.add('reveal'); c.dataset.delay = (i % 3) + 1; });
+  window.gibObserveReveals(wrap);
+
+  // Moods are derived from each product's note families
+  const MOODS = {
+    calm:    (f) => f.woody * .5 + f.musk + (f.amber * .4) - f.spicy * .6,
+    bold:    (f) => f.spicy + f.woody * .7 - f.musk * .3,
+    romance: (f) => f.floral * 1.2 + f.amber * .4,
+    fresh:   (f) => f.fresh * 1.5 + f.musk * .3,
+    royal:   (f) => f.spicy * .7 + f.floral * .5 + f.woody * .5 + f.amber * .3,
+  };
+  let cat = 'all', mood = null;
+  function apply() {
+    let shown = 0;
+    const scores = mood ? P.map((p) => [p.id, MOODS[mood](window.gibProductFamily(p))]).sort((a, b) => b[1] - a[1]) : [];
+    const top = new Set(scores.slice(0, 5).map((s) => s[0]));
+    document.querySelectorAll('.p-card').forEach((c) => {
+      const ok = (cat === 'all' || c.dataset.type === cat) && (!mood || top.has(c.dataset.id));
+      c.classList.toggle('hide', !ok);
+      if (ok) { shown++; c.classList.add('in'); }
+    });
+    document.querySelectorAll('[data-chapter]').forEach((ch) => {
+      ch.style.display = ch.querySelector('.p-card:not(.hide)') ? '' : 'none';
+    });
+    document.getElementById('empty').style.display = shown ? 'none' : 'block';
+  }
+  document.querySelectorAll('[data-cat]').forEach((b) => b.addEventListener('click', () => {
+    cat = b.dataset.cat;
+    document.querySelectorAll('[data-cat]').forEach((x) => x.classList.toggle('active', x === b));
+    apply();
+  }));
+  document.querySelectorAll('[data-mood]').forEach((b) => b.addEventListener('click', () => {
+    mood = mood === b.dataset.mood ? null : b.dataset.mood;
+    document.querySelectorAll('[data-mood]').forEach((x) => x.classList.toggle('active', x.dataset.mood === mood));
+    apply();
+    window.scrollTo({ top: document.getElementById('chapters').offsetTop - 160, behavior: 'smooth' });
+  }));
+  // shop.html#attar etc.
+  const h = location.hash.replace('#', '');
+  if (chapters.some((c) => c.id === h)) {
+    const btn = document.querySelector(`[data-cat="${h}"]`);
+    if (btn) btn.click();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" class="bq-lock">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Boutique — Giberish</title>
+  <meta name="description" content="Walk through the Giberish virtual boutique: marble floors, soft gold light and floating displays. Discover the story of every attar and perfume, and tap a bottle to shop.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/boutique.css">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin>
+</head>
+<body data-page="boutique" data-no-footer data-no-dust>
+<main class="bq">
+
+  <!-- ============ 3D showroom ============ -->
+  <section class="bq-stage" id="bq-stage" data-lenis-prevent aria-label="The Giberish boutique, a walkable 3D showroom">
+    <div class="bq-vignette" aria-hidden="true"></div>
+    <div class="bq-fade" id="bq-fade" aria-hidden="true"></div>
+
+    <div class="bq-head">
+      <span class="eyebrow"><span class="bq-hide-sm">Giberish · </span>Virtual showroom</span>
+      <h1 class="bq-title">The <em>Boutique</em></h1>
+      <p class="bq-zone" id="bq-zone" aria-live="polite"><b>I</b><span>Attars</span></p>
+    </div>
+
+    <div class="bq-tools">
+      <div class="bq-sound" id="bq-sound"></div>
+      <button class="bq-chip" type="button" id="bq-to-gallery" aria-label="Switch to gallery view">Gallery</button>
+    </div>
+
+    <p class="bq-caption" id="bq-caption" aria-live="polite"></p>
+    <div class="bq-tip" id="bq-tip" aria-hidden="true"></div>
+
+    <p class="bq-hint" id="bq-hint">
+      <span class="hint-fine">Drag to look · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk · Scroll to glide · Click a bottle</span>
+      <span class="hint-touch">Swipe sideways to look · up to walk · Tap a bottle</span>
+    </p>
+
+    <nav class="bq-nav" aria-label="Showroom navigation">
+      <button class="bq-arrow" type="button" id="bq-prev" aria-label="Previous display"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="bq-tour" type="button" id="bq-tour" aria-pressed="false"><i aria-hidden="true"></i><span>Guided tour</span></button>
+      <button class="bq-arrow" type="button" id="bq-next" aria-label="Next display"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <span class="bq-count" id="bq-count" aria-hidden="true">01 / 16</span>
+    </nav>
+
+    <aside class="bq-card" id="bq-card" aria-hidden="true" aria-live="polite" data-lenis-prevent></aside>
+  </section>
+
+  <!-- ============ Loading ============ -->
+  <div class="bq-loader" id="bq-loader" role="status">
+    <div class="bq-loader-monk" aria-hidden="true"><i></i><img src="assets/img/buddha-sil.png" alt=""></div>
+    <p class="bq-loader-text">Opening the boutique<span>…</span></p>
+    <div class="bq-loader-bar" aria-hidden="true"><i id="bq-progress"></i></div>
+  </div>
+
+  <!-- ============ 2D gallery (no WebGL / reduced motion / by choice) ============ -->
+  <section class="bq-gallery" id="bq-gallery" hidden>
+    <div class="page-hero"><div class="container">
+      <span class="eyebrow">Giberish · The Boutique</span>
+      <h1 class="h-display" style="margin-top:16px">The <em>Gallery</em></h1>
+      <p class="lead" id="bq-gallery-note">Every bottle in our boutique, quietly laid out. Tap any one to feel it.</p>
+      <div class="btn-row bq-gallery-actions">
+        <button class="btn btn-ghost btn-sm" type="button" id="bq-to-3d" hidden>Walk the boutique</button>
+        <div id="bq-gallery-sound"></div>
+      </div>
+    </div></div>
+    <div class="container" id="bq-gallery-zones"></div>
+    <div class="bq-gallery-end center container">
+      <div class="ornament"><span></span></div>
+      <p class="muted">Not sure where to begin? Let your <a href="kundli.html" class="gold">Scent Kundli</a> choose.</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script src="assets/js/bottle3d.js"></script>
+<script type="module" src="assets/js/boutique.js"></script>
+</body>
+</html>

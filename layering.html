@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Layering Lab — Giberish</title>
+  <meta name="description" content="Pour two Giberish fragrances into one glass and see how their notes meet: a harmony score, shared notes, what each adds, and exactly how to wear them together.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/layering.css">
+</head>
+<body data-page="layering">
+<main class="ll">
+  <section class="ll-hero container">
+    <span class="eyebrow reveal">The Layering Lab</span>
+    <h1 class="h-1 reveal" data-delay="1">Two fragrances. <em>One signature.</em></h1>
+    <p class="lead reveal" data-delay="2">Choose two bottles from the collection and pour them into the glass. See where their notes meet, what each one brings, and how to wear them together.</p>
+  </section>
+
+  <!-- The lab: two selectors around a pouring glass -->
+  <section class="ll-lab container" id="lab" aria-label="Choose two fragrances">
+    <div class="ll-picker ll-picker-a">
+      <div class="ll-picker-head"><i class="ll-swatch" data-swatch="a"></i><span class="eyebrow">First</span><b class="ll-picker-name" data-name="a"></b></div>
+      <div class="ll-nav">
+        <button type="button" class="ll-arrow ll-prev" data-step="a:-1" aria-label="Previous bottle for the first glass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 14l4-4 4 4"/></svg></button>
+        <div class="ll-rail" data-rail="a" role="group" aria-label="First fragrance. Use the arrow keys to step through bottles." data-lenis-prevent></div>
+        <button type="button" class="ll-arrow ll-next" data-step="a:1" aria-label="Next bottle for the first glass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 14l4-4 4 4"/></svg></button>
+      </div>
+    </div>
+
+    <figure class="ll-stage" id="stage">
+      <canvas class="ll-canvas" aria-hidden="true"></canvas>
+      <figcaption class="ll-caption">
+        <span data-name="a"></span><i aria-hidden="true">+</i><span data-name="b"></span>
+      </figcaption>
+      <div class="ll-pour-wrap"><button type="button" class="ll-pour btn btn-ghost btn-sm" id="pourAgain">Pour again</button></div>
+      <p class="ll-sr" id="stageDesc" aria-live="polite"></p>
+    </figure>
+
+    <div class="ll-picker ll-picker-b">
+      <div class="ll-picker-head"><i class="ll-swatch" data-swatch="b"></i><span class="eyebrow">Second</span><b class="ll-picker-name" data-name="b"></b></div>
+      <div class="ll-nav">
+        <button type="button" class="ll-arrow ll-prev" data-step="b:-1" aria-label="Previous bottle for the second glass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 14l4-4 4 4"/></svg></button>
+        <div class="ll-rail" data-rail="b" role="group" aria-label="Second fragrance. Use the arrow keys to step through bottles." data-lenis-prevent></div>
+        <button type="button" class="ll-arrow ll-next" data-step="b:1" aria-label="Next bottle for the second glass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 14l4-4 4 4"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How they meet -->
+  <section class="ll-read container" aria-labelledby="readTitle">
+    <div class="ll-read-head reveal">
+      <span class="eyebrow">The reading</span>
+      <h2 class="h-2" id="readTitle">How they <em>meet</em></h2>
+    </div>
+
+    <div class="ll-grid">
+      <div class="ll-card ll-radar-card reveal">
+        <svg class="ll-radar" viewBox="0 0 340 330" role="img" aria-labelledby="radarTitle"><title id="radarTitle">Scent profile of both fragrances and the blend</title></svg>
+        <ul class="ll-legend"></ul>
+      </div>
+
+      <div class="ll-card ll-score-card reveal" data-delay="1">
+        <div class="ll-score">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="trk"/><circle cx="60" cy="60" r="52" class="val"/></svg>
+          <div class="ll-score-num"><b id="scoreNum">0</b><small>/100</small></div>
+        </div>
+        <div class="ll-score-text">
+          <span class="eyebrow">Harmony</span>
+          <h3 class="ll-score-title" id="scoreTitle"></h3>
+          <p class="ll-score-reason" id="scoreReason"></p>
+        </div>
+      </div>
+
+      <div class="ll-card ll-notes-card reveal">
+        <div class="ll-notes-col"><span class="eyebrow" data-adds="a"></span><ul class="ll-ings" data-ings="a"></ul></div>
+        <div class="ll-notes-col ll-shared"><span class="eyebrow">Shared notes</span><ul class="ll-ings" data-ings="shared"></ul></div>
+        <div class="ll-notes-col"><span class="eyebrow" data-adds="b"></span><ul class="ll-ings" data-ings="b"></ul></div>
+      </div>
+
+      <div class="ll-card ll-wear-card reveal" data-delay="1">
+        <span class="eyebrow">How to wear them</span>
+        <ol class="ll-wear" id="wear"></ol>
+      </div>
+    </div>
+
+    <!-- Shop the pair -->
+    <div class="ll-shop reveal">
+      <div class="ll-shop-pair" id="shopPair"></div>
+      <div class="ll-shop-actions">
+        <button type="button" class="btn btn-solid" id="addBoth">Add both to bag</button>
+        <div class="ll-feel">
+          <button type="button" class="btn btn-ghost btn-sm" data-feel-slot="a"></button>
+          <button type="button" class="btn btn-ghost btn-sm" data-feel-slot="b"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Suggested pairs -->
+  <section class="ll-loves container" aria-labelledby="lovesTitle">
+    <div class="ll-read-head reveal">
+      <span class="eyebrow">Tried on skin</span>
+      <h2 class="h-2" id="lovesTitle">Pairings <em>we love</em></h2>
+    </div>
+    <div class="ll-love-grid" id="loves"></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script src="assets/js/layering.js"></script>
+</body>
+</html>

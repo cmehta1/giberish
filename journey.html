@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Scent Journey — Giberish</title>
+  <meta name="description" content="Watch a Giberish fragrance unfold on skin: the bright top notes, the blooming heart and the deep, lasting base, from the first minute to ten hours later.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/journey.css">
+</head>
+<body data-page="journey" data-no-dust>
+<main class="jr">
+  <!-- Scroll (or drag the timeline) to move through ten hours on skin -->
+  <section class="jr-scroll" id="journey" aria-label="Scent journey timeline">
+    <div class="jr-stage" id="stage">
+      <div class="jr-atmos" aria-hidden="true"><i class="jr-beam"></i><i class="jr-vignette"></i></div>
+      <canvas class="jr-canvas jr-back" aria-hidden="true"></canvas>
+      <div class="jr-bottle"><img alt=""></div>
+      <canvas class="jr-canvas jr-front" aria-hidden="true"></canvas>
+
+      <div class="jr-top">
+        <button type="button" class="jr-change" id="changeBtn" aria-expanded="false" aria-controls="picker">
+          <img alt="" class="jr-change-img">
+          <span><span class="eyebrow">Scent Journey</span><b class="jr-change-name"></b></span>
+          <small><span>Change</span><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></small>
+        </button>
+        <div class="jr-tools" id="tools"></div>
+      </div>
+
+      <div class="jr-picker" id="picker" hidden>
+        <div class="jr-rail" data-picker="stage" data-lenis-prevent role="group" aria-label="Choose a fragrance"></div>
+      </div>
+
+      <div class="jr-phase" aria-live="polite">
+        <span class="eyebrow jr-phase-k"></span>
+        <h1 class="jr-phase-name"></h1>
+        <p class="jr-notes"></p>
+        <p class="jr-desc"></p>
+      </div>
+
+      <div class="jr-clock" aria-hidden="true">
+        <span class="jr-clock-k">On skin</span>
+        <b class="jr-clock-v">0 min</b>
+      </div>
+
+      <div class="jr-bottom">
+        <div class="jr-hint" aria-hidden="true"><i></i>Scroll or drag to let time pass</div>
+        <div class="jr-cta">
+          <button type="button" class="btn btn-solid btn-sm" data-cta-add></button>
+          <button type="button" class="btn btn-ghost btn-sm" data-cta-feel>Feel it</button>
+        </div>
+        <div class="jr-phases" role="group" aria-label="Jump to a phase">
+          <button type="button" data-phase="0"><i></i>Top</button>
+          <button type="button" data-phase="1"><i></i>Heart</button>
+          <button type="button" data-phase="2"><i></i>Base</button>
+        </div>
+        <div class="jr-slider" id="slider" role="slider" tabindex="0" aria-label="Time since application" aria-valuemin="0" aria-valuemax="600" aria-valuenow="0">
+          <div class="jr-track"><i class="jr-fill"></i><i class="jr-mark" style="--at:28%"></i><i class="jr-mark" style="--at:62%"></i></div>
+          <div class="jr-thumb"><i></i></div>
+          <div class="jr-ticks" aria-hidden="true"><span style="--at:0%">0</span><span style="--at:28%">15 min</span><span style="--at:62%">3 h</span><span style="--at:100%">10 h</span></div>
+        </div>
+        <p class="jr-note">Timings are typical; skin, climate and how much you apply change them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The end of the journey: shop it, feel it, or take another -->
+  <section class="jr-end container" id="end">
+    <div class="jr-end-grid">
+      <div class="jr-end-media reveal"><img alt="" id="endImg"></div>
+      <div class="jr-end-body">
+        <span class="eyebrow reveal">Ten hours later</span>
+        <h2 class="h-1 reveal" data-delay="1" id="endTitle"></h2>
+        <p class="p-tag reveal" data-delay="1" id="endTag"></p>
+        <p class="reveal muted" data-delay="2" id="endStory"></p>
+        <div class="pyramid reveal" data-delay="2" id="endPyr"></div>
+        <div class="jr-end-buy reveal" data-delay="3">
+          <div class="p-price" id="endPrice"></div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-solid" id="endAdd"></button>
+            <button type="button" class="btn btn-ghost" id="endFeel">Feel it</button>
+          </div>
+          <button type="button" class="link-arrow jr-again" id="again">Begin the journey again <svg width="22" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor"><path d="M0 5h20M16 1l4 4-4 4"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="jr-more">
+      <span class="eyebrow">Take another journey</span>
+      <div class="jr-rail jr-rail-end" data-picker="end" data-lenis-prevent role="group" aria-label="Choose another fragrance"></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script src="assets/js/journey.js"></script>
+</body>
+</html>

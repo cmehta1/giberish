@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Scent Alchemy — Giberish</title>
+  <meta name="description" content="Compose your own fragrance. Drag rose, oud, saffron and more into a glowing glass orb, watch the notes come alive, and discover which Giberish bottle shares its soul.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/alchemy.css">
+</head>
+<body data-page="alchemy">
+<!-- full-screen note effects, painted behind the page -->
+<canvas class="al-fx" aria-hidden="true"></canvas>
+
+<main class="al-page">
+  <section class="al-hero container">
+    <span class="eyebrow reveal">Scent Alchemy</span>
+    <h1 class="h-1 reveal" data-delay="1">Compose a scent <em>in light</em></h1>
+    <p class="al-intro reveal" data-delay="2">Every perfume begins as a handful of notes and a little patience. Choose up to five, let them settle into the glass, and watch them become something that has never existed before.</p>
+    <div class="al-howto reveal" data-delay="3">
+      <span class="al-instr"><i aria-hidden="true"></i>Drag notes into the orb — or tap them</span>
+      <span id="al-sound"></span>
+    </div>
+  </section>
+
+  <section class="al-lab container" aria-label="Fragrance composer">
+    <!-- the fragrance pyramid: top, heart, base -->
+    <div class="al-tray" id="al-tray" role="group" aria-label="Fragrance notes" data-lenis-prevent></div>
+
+    <!-- the glass orb -->
+    <div class="al-stage">
+      <div class="al-orb" id="al-orb">
+        <div class="al-orb-glow" aria-hidden="true"></div>
+        <div class="al-orb-flash" aria-hidden="true"></div>
+        <div class="al-orb-base" aria-hidden="true"></div>
+        <div class="al-orb-ring" aria-hidden="true"></div>
+        <div class="al-orb-sphere" role="img" aria-label="Glass orb holding your blend">
+          <canvas class="al-orb-liquid"></canvas>
+          <div class="al-orb-glass"></div>
+          <div class="al-orb-rim"></div>
+          <span class="al-orb-empty" aria-hidden="true">your blend<br>begins here</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- chosen notes -->
+    <div class="al-chosen">
+      <div class="al-chosen-head">
+        <span class="eyebrow" id="al-count">0 / 5 notes</span>
+        <button class="al-clear" id="al-clear" type="button">Clear</button>
+      </div>
+      <ul class="al-chips" id="al-chips"></ul>
+    </div>
+
+    <!-- the live result -->
+    <aside class="al-result" aria-label="Your composition">
+      <span class="eyebrow">Your composition</span>
+      <h2 class="al-name" id="al-name">An empty vessel</h2>
+      <p class="al-line" id="al-line"></p>
+      <div class="al-bars" id="al-bars" aria-label="Fragrance families"></div>
+      <button class="btn btn-solid al-blend" id="al-blend" type="button" disabled>Blend this for me</button>
+      <p class="al-price" id="al-price"></p>
+    </aside>
+  </section>
+
+  <section class="al-matches container" aria-labelledby="al-matches-title">
+    <div class="al-matches-head">
+      <span class="eyebrow">Closest in our collection</span>
+      <h2 class="h-2" id="al-matches-title">Bottles that share <em>its soul</em></h2>
+    </div>
+    <div class="grid al-grid" id="al-matches"></div>
+  </section>
+
+  <p class="al-sr" id="al-live" aria-live="polite"></p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/experience.js"></script>
+<script src="assets/js/alchemy.js"></script>
+</body>
+</html>

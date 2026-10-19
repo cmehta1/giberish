@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Experiences — Giberish</title>
+  <meta name="description" content="Step inside Giberish: scent worlds, a fragrance alchemy orb, a virtual boutique, a layering lab and a scent journey.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="explore">
+<main>
+  <section class="page-hero container">
+    <span class="eyebrow reveal">Experiences</span>
+    <h1 class="h-display reveal" data-delay="1" style="margin-top:16px">Don’t just shop. <em>Wander.</em></h1>
+    <p class="lead reveal" data-delay="2">Five ways to meet a fragrance before it meets your skin. Turn on sound if you like: each world has its own quiet music.</p>
+  </section>
+  <section class="container exp-grid" id="exp-grid">
+    <a class="exp-card reveal" href="worlds.html" style="--a:#2a1d3a;--b:#0b0712">
+      <div class="exp-vis worlds"><i class="moon"></i><i class="dune d1"></i><i class="dune d2"></i><img src="assets/img/hd/kaaf.png" alt=""></div>
+      <div class="exp-body"><span class="eyebrow">01 · Scent Worlds</span><h2 class="h-2">Step <em>inside</em> each fragrance</h2><p class="muted">A moonlit desert for oud, a twilight rose garden for florals, a temple courtyard for incense. Move, scroll and explore.</p><span class="link-arrow">Enter a world →</span></div>
+    </a>
+    <a class="exp-card reveal" data-delay="1" href="alchemy.html" style="--a:#3a2410;--b:#0d0805">
+      <div class="exp-vis alchemy"><i class="orb"></i></div>
+      <div class="exp-body"><span class="eyebrow">02 · Scent Alchemy</span><h2 class="h-2">Compose notes in a <em>glass orb</em></h2><p class="muted">Drag rose, oud, saffron or citrus into the orb and watch the room change. We’ll show which fragrance matches your creation.</p><span class="link-arrow">Start composing →</span></div>
+    </a>
+    <a class="exp-card reveal" data-delay="2" href="boutique.html" style="--a:#241a12;--b:#090605">
+      <div class="exp-vis boutique"><i class="arch"></i><img src="assets/img/hd/barakkat-rouge.png" alt=""></div>
+      <div class="exp-body"><span class="eyebrow">03 · The Boutique</span><h2 class="h-2">Walk our <em>virtual showroom</em></h2><p class="muted">Marble floors, soft light and floating plinths. Wander between the displays and pick up any bottle.</p><span class="link-arrow">Walk in →</span></div>
+    </a>
+    <a class="exp-card reveal" href="layering.html" style="--a:#33141a;--b:#0d0506">
+      <div class="exp-vis layering"><img class="l" src="assets/img/hd/fahad.png" alt=""><img class="r" src="assets/img/hd/white-oud.png" alt=""></div>
+      <div class="exp-body"><span class="eyebrow">04 · Layering Lab</span><h2 class="h-2">Pair <em>two</em> fragrances</h2><p class="muted">See how two scents complement each other, what each one adds, and how to wear them together.</p><span class="link-arrow">Open the lab →</span></div>
+    </a>
+    <a class="exp-card reveal" data-delay="1" href="journey.html" style="--a:#1d2a24;--b:#060a08">
+      <div class="exp-vis journey"><i class="line"></i><b style="--p:10%">Top</b><b style="--p:48%">Heart</b><b style="--p:86%">Base</b></div>
+      <div class="exp-body"><span class="eyebrow">05 · Scent Journey</span><h2 class="h-2">How a fragrance <em>unfolds</em></h2><p class="muted">Travel from the first bright minutes to the deep, warm hours and watch each note arrive and fade.</p><span class="link-arrow">Begin the journey →</span></div>
+    </a>
+    <a class="exp-card reveal" data-delay="2" href="kundli.html" style="--a:#2a210c;--b:#0a0804">
+      <div class="exp-vis kundli"><div class="kt-wheel"><svg viewBox="0 0 400 400" id="ekw"></svg></div></div>
+      <div class="exp-body"><span class="eyebrow">Signature · Scent Kundli</span><h2 class="h-2">Your soul’s <em>scent chart</em></h2><p class="muted">Ten questions, one archetype and an attar blended only for you.</p><span class="link-arrow">Read my Kundli →</span></div>
+    </a>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/i18n-dict.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const svg = document.getElementById('ekw');
+  const n = ['Rose', 'Oud', 'Saffron', 'Amber', 'Musk', 'Jasmine', 'Sandal', 'Vanilla', 'Citrus', 'Incense', 'Leather', 'Cardamom'];
+  let s = '<circle cx="200" cy="200" r="190" class="kw-line"/><circle cx="200" cy="200" r="150" class="kw-line"/><path d="M200 10 L390 200 L200 390 L10 200 Z" class="kw-line"/><g class="kw-rot">';
+  n.forEach((t, i) => { const a = (i / n.length) * Math.PI * 2 - Math.PI / 2, x = 200 + Math.cos(a) * 170, y = 200 + Math.sin(a) * 170; s += `<text x="${x}" y="${y}" transform="rotate(${(a * 180) / Math.PI + 90} ${x} ${y})" class="kw-text">${t}</text>`; });
+  svg.innerHTML = s + '</g>';
+});
+</script>
+</body>
+</html>
