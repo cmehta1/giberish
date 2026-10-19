@@ -659,3 +659,10 @@ body.has-crumbs { --bar-h: 72px; --header-h: 106px; }
 .crumb-others a:hover { color: var(--gold-2); }
 @media (max-width: 960px) { .crumb-others { display: none; } }
 @media (max-width: 560px) { body.has-crumbs { --bar-h: 64px; --header-h: 96px; } .crumbs { height: 32px; } .crumbs nav { font-size: 10px; letter-spacing: .16em; } }
+.mobile-menu.open a:nth-child(8) { transition-delay: .56s; }
+@media (max-height: 760px) { .mobile-menu a { font-size: 30px; padding: 2px 0; } }
+.nav { gap: clamp(18px, 2.2vw, 34px); }
+
+/* with six menu items, switch to the menu button a little earlier so nothing wraps */
+.nav a { white-space: nowrap; }
+@media (max-width: 1140px) { .nav { display: none; } .menu-btn { display: grid; } }

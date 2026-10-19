@@ -49,6 +49,7 @@
               ${EXPERIENCES.map(([h, t, d]) => `<a href="${h}">${t}<small>${d}</small></a>`).join('')}
             </div>
           </div>
+          <a href="whispers.html" class="${page === 'whispers' ? 'active' : ''}">Whispers</a>
           <a href="kundli.html" class="nav-kundli ${page === 'kundli' ? 'active' : ''}"><i></i>Scent Kundli</a>
         </nav>
         <div class="header-actions">
@@ -80,6 +81,7 @@
       <a href="about.html">Our <em>Philosophy</em></a>
       <a href="kundli.html">Scent <em>Kundli</em></a>
       <a href="explore.html"><em>Experiences</em></a>
+      <a href="whispers.html"><em>Whispers</em></a>
       <a href="checkout.html">Your <em>Bag</em></a>
       <div class="mm-foot">Pure · Rare · Timeless</div>`;
     document.body.appendChild(mm);
@@ -108,6 +110,7 @@
             <ul>
               <li><a href="about.html">Philosophy</a></li>
               <li><a href="kundli.html">Scent Kundli</a></li>
+              <li><a href="whispers.html">Whispers</a></li>
               <li><a href="${C.instagram}" target="_blank" rel="noopener">Instagram @${C.instagramHandle}</a></li>
               <li><a href="https://wa.me/${C.whatsappNumber}" target="_blank" rel="noopener">WhatsApp ${C.whatsappDisplay}</a></li>
             </ul>

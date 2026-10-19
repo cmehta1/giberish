@@ -230,3 +230,38 @@
   .ll-score-num b { font-size: 36px; }
   .ll-feel { grid-template-columns: 1fr; }
 }
+
+/* ---------- Phones: the whole lab on one screen ----------
+   Stage on top, then the two selectors as compact strips (‹ rail ›), all above the
+   fold right under the header. The intro text moves below the lab. */
+@media (max-width: 760px) {
+  .ll { display: flex; flex-direction: column; }
+  .ll > section { order: 2; }
+  .ll > .ll-lab { order: 0; padding-top: calc(var(--header-h) + 8px); }
+  .ll > .ll-hero { order: 1; padding: 34px var(--gutter) 0; }
+  .ll-hero .h-1 { font-size: clamp(28px, 8vw, 36px); }
+  .ll-hero .lead { font-size: 16px; }
+  .ll-read { padding-top: 48px; }
+
+  .ll-lab { --pick-h: 108px; gap: 6px; }
+  .ll-stage {
+    height: calc(100svh - var(--header-h) - 8px - 2 * var(--pick-h) - 2 * 6px - 10px);
+    min-height: 330px; max-height: 560px; border-radius: 22px;
+  }
+  .ll-caption { top: 12px; font-size: 18px; }
+  .ll-pour-wrap { bottom: 8px; }
+  .ll-pour { min-height: 40px; padding: 8px 18px; }
+
+  .ll-picker { height: var(--pick-h); display: flex; flex-direction: column; }
+  .ll-picker-head { padding: 0 2px 2px; gap: 8px; }
+  .ll-picker-head .eyebrow { font-size: 9px; letter-spacing: .26em; }
+  .ll-picker-name { font-size: 15px; }
+  .ll-nav { flex: 1; min-height: 0; gap: 4px; }
+  .ll-arrow { width: 40px; height: 40px; }
+  .ll-arrow svg { width: 18px; height: 18px; }
+  .ll-rail { height: 100%; align-items: stretch; padding: 2px 6px; gap: 4px; }
+  .ll-pick { flex: 0 0 64px; min-width: 0; padding: 4px 2px 5px; gap: 3px; border-radius: 12px; }
+  .ll-pick-media { height: 56px; }
+  .ll-pick-name { font-size: 9.5px; letter-spacing: .03em; -webkit-line-clamp: 1; white-space: nowrap; text-overflow: ellipsis; display: block; width: 100%; overflow: hidden; }
+  .ll-pick-taken { width: 58px; font-size: 7.5px; padding: 3px 4px; letter-spacing: .1em; top: 42%; }
+}

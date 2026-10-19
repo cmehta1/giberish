@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const tFall = (-vy + Math.sqrt(vy * vy + 2 * g * dy)) / g;
       const mouthX = L.cx + s.side * L.R * .16 - u[0] * sp * tFall;
       // keep the tilted bottle inside the stage on narrow screens
-      const reach = (Math.abs(s.h * Math.sin(th)) + Math.abs(s.w * Math.cos(th))) / 2 + 4;
+      const reach = (Math.abs(s.h * Math.sin(th)) + Math.abs(s.w * Math.cos(th))) / 2 + 14;
       s.pour = { x: clamp(mouthX - rx, reach, W - reach), y: mouthY - ry };
       s.th = th; s.nz = [mx, my]; s.sp = sp; s.g = g;
     }
