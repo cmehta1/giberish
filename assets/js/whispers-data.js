@@ -81,4 +81,76 @@ window.GIB_WHISPERS = [
   { cat: 'giberish', text: 'In the silence after the noise, you can finally smell the rose.', src: 'Giberish', art: ['rose', 'petal'] },
   { cat: 'giberish', text: 'Attar is patience you can carry in your pocket.', src: 'Giberish', art: ['sandalwood', 'oud'] },
   { cat: 'giberish', text: 'Every bottle holds a place you have never been, and a memory you have not made yet.', src: 'Giberish', art: ['orange', 'jasmine', 'saffron'] },
+  /* ---------------- Second collection (added later; appended so existing #w= links stay the same) ---------------- */
+
+  // ---- The science
+  { cat: 'science', text: 'Unlike sight, sound and touch, smell does not have to pass through the thalamus, the brain’s usual relay station, before it reaches the cortex.', src: 'Neuroscience of olfaction', art: ['musk', 'jasmine'] },
+  { cat: 'science', text: 'Each smell receptor answers to many molecules, and each molecule wakes several receptors. The brain reads the pattern, the way notes become a chord.', src: 'Combinatorial odour coding', art: ['rose', 'orange', 'oud'] },
+  { cat: 'science', text: 'Two molecules can be perfect mirror images and still smell different. One form of carvone smells of spearmint; its mirror twin smells of caraway.', src: 'Chirality in smell', art: ['leaf', 'anise'] },
+  { cat: 'science', text: 'Your smell receptors sit in a small patch of tissue high inside the nose, roughly the size of a postage stamp on each side.', src: 'Olfactory anatomy', art: ['musk'] },
+  { cat: 'science', text: 'Sniffing is active. Deeper, quicker sniffs carry more aroma molecules up to the receptors high in the nose.', src: 'Olfactory physiology', art: ['jasmine', 'petal'] },
+  { cat: 'science', text: 'Some people cannot smell certain molecules at all. Androstenone smells of urine to some, sweet to others, and of nothing to many, depending on their genes.', src: 'Genetics of smell (OR7D4)', art: ['musk', 'sandalwood'] },
+  { cat: 'science', text: 'Because our receptor genes differ, two people can smell the same flower and genuinely perceive something different.', src: 'Genetics of smell', art: ['rose', 'jasmine'] },
+  { cat: 'science', text: 'On average, women score slightly better than men in many smell tests, though the difference is small.', src: 'Meta-analysis of smell tests (Sorokowski et al., 2019)', art: ['petal', 'musk'] },
+  { cat: 'science', text: 'Even before birth, babies are learning flavours and scents from what their mother eats.', src: 'Prenatal flavour learning research', art: ['vanilla', 'honey'] },
+  { cat: 'science', text: 'The smell of freshly cut grass is a plant’s distress call: green leaf volatiles released the moment its leaves are damaged.', src: 'Plant biology', art: ['leaf', 'leaf'] },
+  { cat: 'science', text: 'Warmth and humidity help scent travel, so a fragrance often seems stronger on a warm, humid evening than on a cold, dry one.', src: 'Volatility of aroma molecules', art: ['jasmine', 'amber'] },
+  { cat: 'science', text: 'Vanillin, the heart of the vanilla aroma, was first made in a laboratory in 1874.', src: 'History of chemistry', art: ['vanilla'] },
+  { cat: 'science', text: 'Coumarin, first isolated from the tonka bean in 1820, smells of fresh hay and sweet almond.', src: 'History of chemistry', art: ['vanilla', 'leaf'] },
+  { cat: 'science', text: 'Fougère Royale, created in 1882, was among the first perfumes to use a synthetic ingredient: coumarin.', src: 'History of perfumery', art: ['leaf', 'sandalwood'] },
+  { cat: 'science', text: 'Chanel No. 5, launched in 1921, made aldehydes famous: bright, sparkling molecules that lift a fragrance like light on silk.', src: 'History of perfumery', art: ['jasmine', 'musk'] },
+
+  // ---- Memory & feeling
+  { cat: 'memory', text: 'In many studies, pleasant scents have been linked with lifted mood and lower feelings of stress.', src: 'Research on scent and mood', art: ['orange', 'jasmine'] },
+  { cat: 'memory', text: 'Lavender is one of the most studied scents for relaxation, and several studies suggest it may ease feelings of anxiety.', src: 'Aromatherapy research', art: ['leaf', 'musk'] },
+  { cat: 'memory', text: 'People can often recognise their partner or their child just from the scent left on clothing.', src: 'Research on body-odour recognition', art: ['musk', 'petal'] },
+  { cat: 'memory', text: 'In one study, smelling a romantic partner’s shirt helped people feel calmer under stress.', src: 'Hofer et al., 2018', art: ['musk', 'sandalwood'] },
+  { cat: 'memory', text: 'Smells we learn in childhood can shape what feels comforting to us for the rest of our lives.', src: 'Research on early scent learning', art: ['vanilla', 'honey'] },
+  { cat: 'memory', text: 'A room can keep someone’s scent long after they have left it. Sometimes a fragrance is the last thing to say goodbye.', src: 'Giberish', art: ['petal', 'smoke'] },
+  { cat: 'memory', text: 'Diwali sweets, monsoon pakoras, a mother’s kitchen: memories tied to festival and food scents often feel the warmest of all.', src: 'Giberish', art: ['cardamom', 'honey', 'saffron'] },
+
+  // ---- Heritage & craft
+  { cat: 'heritage', text: 'Kewra, from the screwpine flower, perfumes biryani and sweets, and has been distilled as an attar in India for centuries.', src: 'Indian attar tradition', art: ['leaf', 'jasmine'] },
+  { cat: 'heritage', text: 'Khus, the root of vetiver grass, cools Indian summers. Woven into window screens and wetted, it fills a room with an earthy breeze.', src: 'Indian tradition', art: ['leaf', 'sandalwood'] },
+  { cat: 'heritage', text: 'Shamama is a classic attar of Kannauj: a deep, warm blend of dozens of herbs, spices and resins, slowly distilled together.', src: 'Kannauj attar tradition', art: ['cinnamon', 'saffron', 'amber'] },
+  { cat: 'heritage', text: 'Ruh means the pure, distilled essence of a single flower, as in ruh gulab, the soul of the rose, with no base oil at all.', src: 'Indian perfumery', art: ['rose', 'rose'] },
+  { cat: 'heritage', text: 'A Mughal legend credits Empress Nur Jahan, or her mother, with discovering attar of roses floating on a bath of rose water.', src: 'Mughal legend', art: ['rose', 'petal'] },
+  { cat: 'heritage', text: 'In Arab hospitality, guests are traditionally offered bakhoor smoke to perfume their clothes before they leave.', src: 'Arabian tradition', art: ['smoke', 'oud'] },
+  { cat: 'heritage', text: 'Frankincense and myrrh, resins from the trees of Arabia and the Horn of Africa, travelled the incense routes for thousands of years.', src: 'History of the incense trade', art: ['amber', 'smoke'] },
+  { cat: 'heritage', text: 'Grasse, in southern France, became the world’s perfume capital. Its perfume skills are recognised by UNESCO as Intangible Cultural Heritage.', src: 'UNESCO, 2018', art: ['jasmine', 'rose'] },
+  { cat: 'heritage', text: 'Ambergris, long prized in perfumery, forms in the gut of sperm whales. Most perfumers today use synthetic versions such as Ambroxan instead.', src: 'Perfumery', art: ['amber', 'musk'] },
+  { cat: 'heritage', text: 'A well-known story says patchouli became famous in Europe because Indian shawls were packed with its leaves to keep moths away.', src: 'History of perfumery', art: ['leaf', 'oud'] },
+  { cat: 'heritage', text: 'Bergamot, the citrus behind Earl Grey tea, grows mostly along a small stretch of coast in Calabria, southern Italy.', src: 'Bergamot cultivation', art: ['lemon', 'orange'] },
+  { cat: 'heritage', text: 'Gram for gram, rare oud oil can cost more than gold.', src: 'Agarwood trade', art: ['oud', 'amber'] },
+  { cat: 'heritage', text: 'Mysore Sandal Soap was first made in 1916, from sandalwood oil distilled in Mysore.', src: 'Karnataka heritage', art: ['sandalwood'] },
+  { cat: 'heritage', text: 'Agarbatti, India’s incense sticks, are traditionally hand-rolled from thin bamboo, charcoal paste and fragrant powders.', src: 'Indian craft', art: ['smoke', 'sandalwood'] },
+  { cat: 'heritage', text: 'Cloves are dried flower buds, and nutmeg and mace come from the very same fruit.', src: 'Spice botany', art: ['anise', 'cinnamon'] },
+
+  // ---- Old wisdom (public-domain words)
+  { cat: 'wisdom', text: '“Jo Rahim uttam prakriti, ka kari sakat kusang; chandan vish vyapat nahin, lipte rahat bhujang.” Snakes coil around sandalwood, yet it never turns to poison: a noble nature is not spoiled by bad company.', src: 'Rahim, 16th century', art: ['sandalwood', 'leaf'] },
+  { cat: 'wisdom', text: '“The rose looks fair, but fairer we it deem / For that sweet odour which doth in it live.”', src: 'William Shakespeare, Sonnet 54', art: ['rose', 'petal'] },
+  { cat: 'wisdom', text: '“All the perfumes of Arabia will not sweeten this little hand.”', src: 'William Shakespeare, Macbeth', art: ['oud', 'smoke'] },
+  { cat: 'wisdom', text: '“Essential Oils — are wrung — / The Attar from the Rose / Be not expressed by Suns — alone — / It is the gift of Screws —”', src: 'Emily Dickinson, c. 1863', art: ['rose', 'rose'] },
+  { cat: 'wisdom', text: '“Die of a rose in aromatic pain?”', src: 'Alexander Pope, An Essay on Man (1733)', art: ['rose', 'petal'] },
+  { cat: 'wisdom', text: 'In Ayurveda, sandalwood is traditionally considered cooling, and is used to calm both body and mind.', src: 'Ayurvedic tradition', art: ['sandalwood', 'jasmine'] },
+
+  // ---- The ritual
+  { cat: 'ritual', text: 'A light mist on a scarf or collar often lasts longer than on skin. Test delicate fabrics first.', src: 'Perfumery practice', art: ['petal', 'musk'] },
+  { cat: 'ritual', text: 'Keep fragrance away from sunlight and heat. Light and warmth slowly break down its aroma.', src: 'Perfume care', art: ['amber'] },
+  { cat: 'ritual', text: 'The bathroom is the worst place to keep perfume. Steam and changing temperatures make it age faster.', src: 'Perfume care', art: ['leaf'] },
+  { cat: 'ritual', text: 'To layer two fragrances, apply the deeper, heavier one first and let the lighter one rest over it.', src: 'Perfumery practice', art: ['oud', 'jasmine'] },
+  { cat: 'ritual', text: 'Try a touch of attar inside the elbow. It is warm and protected, and releases a little scent each time you move.', src: 'Perfumery practice', art: ['rose', 'sandalwood'] },
+  { cat: 'ritual', text: 'In a perfume shop, sniff the inside of your own elbow between scents to reset your nose. Many experts prefer it to coffee beans.', src: 'Perfumery practice', art: ['musk'] },
+  { cat: 'ritual', text: 'Judge a fragrance on skin, not on paper, and wait at least twenty minutes before you decide.', src: 'Perfumery practice', art: ['amber', 'vanilla'] },
+  { cat: 'ritual', text: 'Before you wear an attar, pause. Take three slow breaths so your nose and your mind arrive at the same moment.', src: 'Giberish', art: ['jasmine', 'smoke'] },
+
+  // ---- Giberish says
+  { cat: 'giberish', text: 'Some fragrances are worn. The best ones are remembered.', src: 'Giberish', art: ['rose', 'oud'] },
+  { cat: 'giberish', text: 'We don’t sell bottles. We sell the second someone leans a little closer.', src: 'Giberish', art: ['petal', 'musk'] },
+  { cat: 'giberish', text: 'A fragrance is a letter you write to everyone you will meet today.', src: 'Giberish', art: ['jasmine', 'saffron'] },
+  { cat: 'giberish', text: 'Silence has a scent. For us, it smells of sandalwood and rain.', src: 'Giberish', art: ['sandalwood', 'leaf'] },
+  { cat: 'giberish', text: 'Scent asks for nothing. It simply stays.', src: 'Giberish', art: ['musk', 'amber'] },
+  { cat: 'giberish', text: 'The noise of the day fades. The fragrance on your wrist does not.', src: 'Giberish', art: ['oud', 'rose'] },
+  { cat: 'giberish', text: 'You never forget the scent of someone who made you feel safe.', src: 'Giberish', art: ['vanilla', 'sandalwood'] },
+  { cat: 'giberish', text: 'Choose a fragrance the way you choose a friend: slowly, and for life.', src: 'Giberish', art: ['saffron', 'amber'] },
 ];

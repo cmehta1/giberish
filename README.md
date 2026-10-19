@@ -25,7 +25,7 @@ Then open http://localhost:5880.
 | `boutique.html` | **The Boutique**: a 3D virtual showroom (three.js), with a 2D gallery fallback |
 | `layering.html` | **Layering Lab**: pair two fragrances, with a harmony score and suggested pairings |
 | `journey.html?p=<id>` | **Scent Journey**: how top, heart and base notes unfold over time |
-| `whispers.html` | **Whispers**: 54 small truths about scent (science, memory research, heritage, old wisdom, the ritual, Giberish lines), revealed one at a time with drifting ingredients. Edit them in `assets/js/whispers-data.js`; `whispers.html#w=12` links to one |
+| `whispers.html` | **Whispers**: 113 small truths about scent (science, memory research, heritage, old wisdom, the ritual, Giberish lines), revealed one at a time with drifting ingredients. Edit them in `assets/js/whispers-data.js`; `whispers.html#w=12` links to one |
 
 Tapping any bottle opens the **Feel it** experience: the ingredients bloom and orbit the bottle, it sprays, and the person breathes in, closes their eyes and smiles. You can link straight to it with `any-page.html#feel=<product-id>`.
 

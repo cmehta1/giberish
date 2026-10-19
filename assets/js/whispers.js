@@ -12,7 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const card = $('.wh-card'), textEl = $('.wh-text'), catEl = $('.wh-cat'), numEl = $('.wh-num'), srcEl = $('.wh-src');
   const prog = $('.wh-progress i'), playBtn = $('#wh-play');
-  let filter = 'all', list = ALL, idx = 0, playing = !reduce, timer = 0, inView = false;
+  // "All" weaves the categories together (science, memory, heritage…) so the flow keeps changing colour
+  const MIXED = (() => {
+    const by = Object.keys(CATS).map((k) => ALL.filter((w) => w.cat === k)), out = [];
+    for (let i = 0; out.length < ALL.length; i++) by.forEach((g) => g[i] && out.push(g[i]));
+    return out;
+  })();
+  let filter = 'all', list = MIXED, idx = 0, playing = !reduce, timer = 0, inView = false;
 
   /* ---------- Category chips ---------- */
   const cats = $('.wh-cats');
@@ -23,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!b) return;
     filter = b.dataset.cat;
     cats.querySelectorAll('.wh-chip').forEach((x) => x.classList.toggle('active', x === b));
-    list = filter === 'all' ? ALL : ALL.filter((w) => w.cat === filter);
+    list = filter === 'all' ? MIXED : ALL.filter((w) => w.cat === filter);
     renderGrid();
     show(0);
   });
@@ -39,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const D = (window.GIB_I18N || {})[window.GibI18n ? window.GibI18n.lang : 'en'] || {};
     const words = (D[w.text] || w.text).split(/(\s+)/);
     let n = 0;
-    textEl.innerHTML = words.map((t) => (/^\s+$/.test(t) ? t : `<span class="ww" style="--i:${n++}">${esc(t)}</span>`)).join('');
+    textEl.innerHTML = `<span class="wh-line">${words.map((t) => (/^\s+$/.test(t) ? t : `<span class="ww" style="--i:${n++}">${esc(t)}</span>`)).join('')}</span>`;
     textEl.classList.toggle('long', w.text.length > 150);
     textEl.classList.toggle('quote', w.cat === 'wisdom');
     catEl.textContent = c.label;
@@ -183,6 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // start: a deep-linked whisper (#w=12) or the first
   renderGrid();
   const m = location.hash.match(/w=(\d+)/);
-  show(m ? Math.max(0, ALL.findIndex((w) => w.id === Number(m[1]))) : 0);
+  show(m ? Math.max(0, list.findIndex((w) => w.id === Number(m[1]))) : 0);
   if (reduce) setPlaying(false);
 });
