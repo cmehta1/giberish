@@ -1,6 +1,6 @@
 /* ============================================================
    GIBERISH — Scent Worlds   (worlds.html?p=<product-id>)
-   Every fragrance has its own photographic world (assets/img/worlds/<id>.jpg):
+   Every fragrance has its own photographic world (assets/img/worlds/<id>.webp, .jpg original):
      blurred far plane → sharp photo plane (slow Ken-Burns drift) →
      soft particles → the bottle on a dark reflective floor → near particles
    Each plane sits at a depth. Mouse / drag pans the camera, scrolling
@@ -166,7 +166,7 @@
     parts: () => ({ mid: [['dust', { count: 30, rgb: '242,213,155', size: [.5, 1.2], vx: 3, vy: -4, swirl: 8, alpha: .5 }]], front: [] }),
   };
   const worldOf = (p) => WORLDS[p.id] || FALLBACK;
-  const photoOf = (p) => (WORLDS[p.id] ? `assets/img/worlds/${p.id}.jpg` : null);
+  const photoOf = (p) => (WORLDS[p.id] ? `assets/img/worlds/${p.id}.webp` : null); // .jpg originals are the fallback (common.js)
 
   /* ============================================================
      Canvas helpers: pre-rendered glow sprites (fast, no ctx.filter)

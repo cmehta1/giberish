@@ -4,3 +4,5 @@
 .DS_Store
 # local preview settings for Claude Code
 .claude/
+# sharp, installed only to run tools/webp.mjs
+node_modules/

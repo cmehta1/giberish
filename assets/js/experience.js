@@ -358,6 +358,7 @@
     img.alt = product.name;
     if (window.GibSound && window.gibProductSound) window.GibSound.setTheme(window.gibProductSound(product));
     renderPanel(product);
+    if (window.gibLD) window.gibLD('ld-feel', window.gibProductLD(product));
     humanEl.classList.remove('bliss');
     wordsEl.innerHTML = '';
     sprayBtn.innerHTML = 'Spray<br>on me';

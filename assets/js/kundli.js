@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function intro() {
     app.innerHTML = `
       <div class="k-intro k-anim-in">
-        <div class="kt-wheel"><svg viewBox="0 0 400 400" id="kw"></svg><div class="kt-center"><img src="assets/img/buddha.jpg" alt=""></div></div>
+        <div class="kt-wheel"><svg viewBox="0 0 400 400" id="kw"></svg><div class="kt-center"><img src="assets/img/buddha.webp" alt=""></div></div>
         <span class="eyebrow">Only at Giberish</span>
         <h1 class="h-1" style="margin:14px 0 18px">Your <span class="script" style="font-size:1.35em">Scent Kundli</span></h1>
         <p class="lead" style="margin:0 auto">Your stars have a kundli. So does your soul. Answer ten small questions and we’ll read your scent chart, find the fragrances that are already yours and hand-blend an attar <span class="gold">made only for you.</span></p>

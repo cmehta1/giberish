@@ -1,9 +1,11 @@
 /* ============================================================
    GIBERISH — home page: philosophy story, rail, kundli wheel, breathe
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s) => document.querySelector(s);
+  // the setup below runs in a few short steps, handing the main thread back in between, so taps and paint never wait long
+  const yieldToMain = () => (window.scheduler && scheduler.yield ? scheduler.yield() : new Promise((r) => setTimeout(r, 0)));
 
   /* ---------- Intro reveal (once per visit) ---------- */
   const intro = document.getElementById('intro');
@@ -13,16 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // candle-lit dust
     const c = intro.querySelector('.intro-dust'), x = c.getContext('2d');
     const dpr = Math.min(devicePixelRatio || 1, 2);
-    c.width = innerWidth * dpr; c.height = innerHeight * dpr; x.scale(dpr, dpr);
-    const specks = Array.from({ length: 46 }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.4 + .3, v: Math.random() * 10 + 4, p: Math.random() * 6 }));
+    const vw = innerWidth, vh = innerHeight; // read once: reading them every frame forces a layout
+    c.width = vw * dpr; c.height = vh * dpr; x.scale(dpr, dpr);
+    const specks = Array.from({ length: 46 }, () => ({ x: Math.random() * vw, y: Math.random() * vh, r: Math.random() * 1.4 + .3, v: Math.random() * 10 + 4, p: Math.random() * 6 }));
     let live = true, last = performance.now();
     (function dust(now) {
       if (!live) return;
       const dt = Math.min(.05, (now - last) / 1000); last = now;
-      x.clearRect(0, 0, innerWidth, innerHeight);
+      x.clearRect(0, 0, vw, vh);
       for (const s of specks) {
         s.y -= s.v * dt; s.x += Math.sin(now / 1000 + s.p) * .2; s.p += dt;
-        if (s.y < -5) s.y = innerHeight + 5;
+        if (s.y < -5) s.y = vh + 5;
         x.fillStyle = `rgba(255,214,140,${.35 + .35 * Math.sin(s.p * 2)})`;
         x.beginPath(); x.arc(s.x, s.y, s.r, 0, Math.PI * 2); x.fill();
       }
@@ -54,8 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     addEventListener('keydown', skip, { once: true });
   }
 
+  await yieldToMain();
+
   /* ---------- Living emblem + floating ingredients ---------- */
   window.GibScene.emblem('#hero-emblem');
+
+  await yieldToMain();
 
   /* ---------- Story ending: bottles that spray ---------- */
   const sbWrap = document.querySelector('.story-bottles');
@@ -71,11 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  await yieldToMain();
+
   /* ---------- Featured rail ---------- */
   const rail = $('#featured-rail');
   const order = ['barakkat-rouge-540', 'kaaf', 'fahad', 'giberish-signature', 'white-oud', 'ajmal-1001-night', 'mukhallat-malaki', 'musk-gold'];
   rail.innerHTML = order.map((id) => window.GIB_PRODUCTS.find((p) => p.id === id)).filter(Boolean)
     .map((p) => `<div class="rail-item">${window.gibCard(p)}</div>`).join('');
+
+  await yieldToMain();
 
   /* ---------- Noise words ---------- */
   const WORDS = ['deadlines', 'notifications', 'what if', 'hurry', 'EMI', 'traffic', 'should', 'jaldi karo', 'tension', 'meeting', 'ping', 'more', 'faster', 'log kya kahenge', 'kal', 'scroll', 'reply', 'compare', 'not enough', 'overthinking', 'later', 'busy', 'unread (99+)', 'kya hoga', 'news', 'target', 'expectations', 'noise', 'why me', 'hurry up'];
@@ -106,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
       w.textContent = on ? [...w.dataset.orig].map((ch) => (ch === ' ' ? ' ' : GLYPHS[Math.floor(Math.random() * GLYPHS.length)])).join('') : w.dataset.orig;
     });
   }
+
+  await yieldToMain();
 
   /* ---------- Story timeline ---------- */
   if (window.gsap && window.ScrollTrigger && !reduceMotion) {
@@ -169,6 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.story').classList.add('static');
   }
 
+  await yieldToMain();
+
   /* ---------- Petal rain on the feel banner ---------- */
   const rain = document.querySelector('.petal-rain');
   if (rain && !reduceMotion) {
@@ -182,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
       rain.appendChild(p);
     }
   }
+
+  await yieldToMain();
 
   /* ---------- Kundli wheel ---------- */
   const wheel = $('#kundli-wheel');
@@ -209,6 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
     s += `<polygon points="${pts.map((p) => p.join(',')).join(' ')}" class="kw-poly"/>`;
     wheel.innerHTML = s;
   }
+
+  await yieldToMain();
 
   /* ---------- A minute of silence: lotus breathing ---------- */
   const stageBtn = $('#breathe');

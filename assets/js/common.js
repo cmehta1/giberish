@@ -15,6 +15,50 @@
     arrow: '<svg width="22" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor"><path d="M0 5h20M16 1l4 4-4 4"/></svg>',
   };
 
+  /* ---------- Images ----------
+     Photos are served as WebP (made from the PNG/JPG originals next to them, which stay as
+     the fallback). Bottle cut-outs also have a 400px-wide "-400" copy for small cards. */
+  const IMG_W = { 'ajmal-1001-night': 621, 'al-bakhoor': 630, 'bakhoor-dani': 793, 'barakkat-rouge': 491, celoud: 531, fahad: 531, 'giberish-signature': 573,
+    'hajar-al-aswad': 633, kaaf: 380, 'mukhallat-malaki': 630, 'musk-gold': 633, 'viking-creed': 756, 'white-oud': 714 };
+  window.GibImg = {
+    // "x-400.webp 400w, x.webp 573w" for a bottle in assets/img/hd/, else ''
+    srcset(src) {
+      const m = /^(.*\/hd\/([a-z0-9-]+))\.webp$/.exec(src || ''), w = m && IMG_W[m[2]];
+      return w ? (w > 400 ? `${m[1]}-400.webp 400w, ` : '') + `${src} ${w}w` : '';
+    },
+    fallback: (src) => src.replace(/\.(webp|avif)(?=$|\?)/, /\/hd\/|buddha-sil/.test(src) ? '.png' : '.jpg'),
+  };
+  // a browser that cannot show WebP gets the original PNG/JPG instead
+  document.addEventListener('error', (e) => {
+    const im = e.target;
+    if (im.tagName !== 'IMG' || im.dataset.fb || !/\.(webp|avif)(\?|$)/.test(im.currentSrc || im.src)) return;
+    im.dataset.fb = '1'; im.removeAttribute('srcset'); im.src = window.GibImg.fallback(im.currentSrc || im.src);
+  }, true);
+
+  /* ---------- Structured data (schema.org), built from data.js so prices never drift ---------- */
+  // a Product for one bottle; "By invitation" bottles (price: null) have no offer to describe, so they get none
+  window.gibProductLD = function (p) {
+    if (!p || p.price == null) return null;
+    const abs = (u) => new URL(u, location.origin + '/').href;
+    const house = String(p.house || '').split(' · ')[0];
+    const url = abs('shop#feel=' + p.id);
+    return {
+      '@type': 'Product', '@id': url, sku: p.id, name: p.name,
+      image: [abs(p.image), abs(window.GibImg.fallback(p.image))],
+      description: p.story || p.tagline,
+      brand: { '@type': 'Brand', name: /^(Attar|Eau de Parfum)$/.test(house) ? 'Giberish' : house },
+      category: { attar: 'Attar', perfume: 'Eau de Parfum', ritual: 'Home fragrance' }[p.type] || p.size,
+      offers: { '@type': 'Offer', url, price: p.price, priceCurrency: 'INR', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition', seller: { '@type': 'Organization', name: 'Giberish' } },
+    };
+  };
+  // put JSON-LD in <head> (replaces the block with the same id)
+  window.gibLD = function (id, data) {
+    let s = document.getElementById(id);
+    if (!data) { if (s) s.remove(); return; }
+    if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = id; document.head.appendChild(s); }
+    s.textContent = JSON.stringify({ '@context': 'https://schema.org', ...data });
+  };
+
   // Interactive experiences (also listed on explore.html)
   const EXPERIENCES = [
     ['worlds.html', 'Scent Worlds', 'Step inside each fragrance'],
@@ -287,7 +331,7 @@
     return `
       <article class="p-card" data-tilt data-id="${p.id}" data-type="${p.type}">
         <div class="p-media" data-feel="${p.id}" role="button" tabindex="0" aria-label="Feel ${p.name}">
-          <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <img src="${p.image}" srcset="${window.GibImg.srcset(p.image)}" sizes="(min-width: 700px) 240px, 72vw" alt="${p.name}" loading="lazy" decoding="async">
           ${window.GibArt ? [...new Set(p.ingredients.flatMap((k) => window.GibArt.forIngredient(k)))].filter((k) => k !== 'smoke').slice(0, 3)
             .map((k) => `<img class="p-ing" data-k="${k}" src="${window.GibArt.url(k)}" alt="">`).join('') : ''}
           <span class="feel-badge"><i></i>Feel it</span>
@@ -403,7 +447,7 @@
   function initCurtain() {
     const cur = document.createElement('div');
     cur.className = 'curtain';
-    cur.innerHTML = '<img src="assets/img/buddha-sil.png" alt="">';
+    cur.innerHTML = '<img src="assets/img/buddha-sil.webp" alt="">';
     let arriving = false;
     try { arriving = !!sessionStorage.getItem('gibNav'); sessionStorage.removeItem('gibNav'); } catch (_) {}
     if (!arriving) cur.classList.add('up', 'gone');

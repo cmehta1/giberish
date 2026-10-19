@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://giberish.vercel.app/sitemap.xml

@@ -19,6 +19,8 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rand = (a, b) => a + Math.random() * (b - a);
   const FLUTTER = new Set(['petal', 'jasmine', 'leaf', 'rose']);
+  // while the home intro covers the page (its CSS animations are paused too), the canvases skip drawing
+  const covered = () => document.documentElement.classList.contains('intro-on');
 
   function mount(container, o = {}) {
     const opts = Object.assign({ count: 14, rx: .62, ry: .2, tilt: -8, size: [.07, .13], speed: 1, kinds: ['rose', 'orange', 'honey', 'saffron', 'jasmine', 'cinnamon', 'amber', 'sandalwood'], emitters: [], autoSpray: 0, clickToSpray: false, blurBack: true }, o);
@@ -135,6 +137,7 @@
 
     function frame(now) {
       raf = visible ? requestAnimationFrame(frame) : 0;
+      if (covered()) { last = now; return; }
       const dt = Math.min(.05, (now - (last || now)) / 1000);
       last = now;
       px += (tpx - px) * .05; py += (tpy - py) * .05;
@@ -235,7 +238,7 @@
       </svg>
       <canvas class="em-sparks"></canvas>
       <div class="em-seat"></div>
-      <div class="em-monk"><img src="assets/img/buddha-sil.png" alt=""></div>
+      <div class="em-monk"><img src="assets/img/buddha-sil.webp" alt=""></div>
       ${o.word ? '<div class="em-word">Giberish</div>' : ''}`;
 
     // twinkling gold dust inside the halo
@@ -251,6 +254,7 @@
     };
     const loop = (t) => {
       raf = vis ? requestAnimationFrame(loop) : 0;
+      if (covered()) return;
       cx.clearRect(0, 0, W, H);
       for (const d of dots) {
         d.tw += .03; d.a += d.sp * .02;

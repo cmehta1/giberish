@@ -6,16 +6,32 @@
   <title>Giberish — Fragrance for the moment after the noise</title>
   <meta name="description" content="Giberish: pure attars and perfumes, personally chosen. Find your Scent Kundli and feel every note before you buy.">
   <meta name="theme-color" content="#0a0604">
+  <link rel="canonical" href="https://giberish.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Giberish">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="https://giberish.vercel.app/">
   <meta property="og:title" content="Giberish — Pure. Rare. Timeless.">
   <meta property="og:description" content="Fragrance for the moment after the noise.">
-  <meta property="og:image" content="assets/img/logo.jpg">
+  <meta property="og:image" content="https://giberish.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Giberish: the laughing Buddha logo between attar and perfume bottles">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Giberish — Pure. Rare. Timeless.">
+  <meta name="twitter:description" content="Fragrance for the moment after the noise.">
+  <meta name="twitter:image" content="https://giberish.vercel.app/assets/img/og-image.jpg">
   <link rel="icon" href="assets/img/buddha-mark.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/great-vibes-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>try{var gl=new URLSearchParams(location.search).get('lang')||localStorage.getItem('gib.lang');if(gl==='hi'||gl==='gu'){var pl=document.createElement('link');pl.rel='preload';pl.as='script';pl.href='assets/js/i18n-dict.js';document.head.appendChild(pl)}}catch(e){}</script>
   <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}
   try{if(sessionStorage.getItem('gibIntro'))document.documentElement.classList.add('no-intro');else document.documentElement.classList.add('intro-on')}catch(e){document.documentElement.classList.add('no-intro')}</script>
   <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+    {"@type":"Organization","@id":"https://giberish.vercel.app/#org","name":"Giberish","url":"https://giberish.vercel.app/","logo":"https://giberish.vercel.app/assets/img/logo.jpg","sameAs":["https://instagram.com/gibberish_perfume"],"contactPoint":{"@type":"ContactPoint","telephone":"+91-90169-95128","contactType":"sales","areaServed":"IN","availableLanguage":["English","Hindi","Gujarati"]}},
+    {"@type":"WebSite","@id":"https://giberish.vercel.app/#site","name":"Giberish","url":"https://giberish.vercel.app/","publisher":{"@id":"https://giberish.vercel.app/#org"},"inLanguage":"en-IN"}]}</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/pages.css">
 </head>
@@ -23,7 +39,7 @@
 <!-- Intro: darkness → light → monk → "Giberish" (once per visit; tap, scroll or key skips) -->
 <div class="intro" id="intro" aria-hidden="true">
   <canvas class="intro-dust"></canvas>
-  <div class="intro-figure"><div class="intro-glow"></div><div class="intro-monk"><img src="assets/img/buddha-sil.png" alt=""></div></div>
+  <div class="intro-figure"><div class="intro-glow"></div><div class="intro-monk"><picture><source type="image/webp" srcset="assets/img/buddha-sil.webp"><img src="assets/img/buddha-sil.png" alt="" decoding="async"></picture></div></div>
   <svg class="intro-word" viewBox="0 0 640 190">
     <defs>
       <linearGradient id="ishine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff8dc" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
@@ -65,11 +81,11 @@
         <div class="ripple"></div><div class="ripple"></div><div class="ripple"></div>
       </div>
       <div class="story-bottles" aria-hidden="true">
-        <img class="sb sb-l2" src="assets/img/hd/fahad.png" alt="">
-        <img class="sb sb-r2" src="assets/img/hd/celoud.png" alt="">
-        <img class="sb sb-l1" src="assets/img/hd/barakkat-rouge.png" alt="">
-        <img class="sb sb-r1" src="assets/img/hd/kaaf.png" alt="">
-        <img class="sb sb-main" src="assets/img/hd/giberish-signature.png" alt="">
+        <picture><source type="image/webp" srcset="assets/img/hd/fahad.webp"><img class="sb sb-l2" src="assets/img/hd/fahad.png" alt="" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/webp" srcset="assets/img/hd/celoud.webp"><img class="sb sb-r2" src="assets/img/hd/celoud.png" alt="" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/webp" srcset="assets/img/hd/barakkat-rouge.webp"><img class="sb sb-l1" src="assets/img/hd/barakkat-rouge.png" alt="" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/webp" srcset="assets/img/hd/kaaf.webp"><img class="sb sb-r1" src="assets/img/hd/kaaf.png" alt="" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/webp" srcset="assets/img/hd/giberish-signature.webp"><img class="sb sb-main" src="assets/img/hd/giberish-signature.png" alt="" loading="lazy" decoding="async"></picture>
         <div class="sb-floor"></div>
       </div>
 
@@ -105,19 +121,19 @@
       </div>
       <div class="truth-grid">
         <article class="truth reveal" data-delay="1">
-          <div class="truth-media"><img src="assets/img/truth-pure.jpg" alt="Oud wood smouldering beside a bowl of agarwood chips and amber attar" loading="lazy"><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
+          <div class="truth-media"><picture><source type="image/avif" srcset="assets/img/truth-pure.avif"><source type="image/webp" srcset="assets/img/truth-pure.webp"><img src="assets/img/truth-pure.jpg" alt="Oud wood smouldering beside a bowl of agarwood chips and amber attar" loading="lazy" decoding="async"></picture><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
           <div class="truth-icon"><svg class="draw" viewBox="0 0 64 64"><path d="M32 6C32 6 14 28 14 40a18 18 0 0 0 36 0C50 28 32 6 32 6Z"/><path d="M24 42a8 8 0 0 0 8 8"/></svg></div>
           <h3 class="h-2">Pure</h3>
           <p class="muted">Real oud, real resins, rich oils and patient blends. We never rush a fragrance, because you can smell the hurry.</p>
         </article>
         <article class="truth reveal" data-delay="2">
-          <div class="truth-media"><img src="assets/img/truth-personal.jpg" alt="Fahad by Lattafa, a black faceted bottle with a gold cap beside its box" loading="lazy" style="object-position:60% 40%"><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
+          <div class="truth-media"><picture><source type="image/avif" srcset="assets/img/truth-personal.avif"><source type="image/webp" srcset="assets/img/truth-personal.webp"><img src="assets/img/truth-personal.jpg" alt="Fahad by Lattafa, a black faceted bottle with a gold cap beside its box" loading="lazy" style="object-position:60% 40%" decoding="async"></picture><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
           <div class="truth-icon"><svg class="draw" viewBox="0 0 64 64"><path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30Z"/><path d="M22 26c2-4 6-5 10 0"/></svg></div>
           <h3 class="h-2">Personal</h3>
           <p class="muted"><span class="script" style="font-size:24px">Pehle humne pehna, phir aapke liye chuna.</span><br>We wear everything before we recommend it to you. If we wouldn’t wear it, we won’t sell it.</p>
         </article>
         <article class="truth reveal" data-delay="3">
-          <div class="truth-media"><img src="assets/img/truth-precious.jpg" alt="The Giberish signature attar in a gold domed vessel with incense smoke behind" loading="lazy" style="object-position:60% 45%"><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
+          <div class="truth-media"><picture><source type="image/avif" srcset="assets/img/truth-precious.avif"><source type="image/webp" srcset="assets/img/truth-precious.webp"><img src="assets/img/truth-precious.jpg" alt="The Giberish signature attar in a gold domed vessel with incense smoke behind" loading="lazy" style="object-position:60% 45%" decoding="async"></picture><span class="truth-sheen"></span><span class="truth-motes" aria-hidden="true"><i style="--x:14%;--d:7s;--t:0s"></i><i style="--x:32%;--d:9s;--t:2.4s"></i><i style="--x:51%;--d:8s;--t:1.1s"></i><i style="--x:68%;--d:10s;--t:3.6s"></i><i style="--x:82%;--d:7.5s;--t:0.6s"></i><i style="--x:44%;--d:11s;--t:5s"></i></span></div>
           <div class="truth-icon"><svg class="draw" viewBox="0 0 64 64"><path d="M16 8h32l10 16-26 32L6 24 16 8Z"/><path d="M6 24h52M24 8l-4 16 12 32 12-32-4-16"/></svg></div>
           <h3 class="h-2">Precious</h3>
           <p class="muted">One drop lasts the whole day. Each bottle is something to keep for yourself or give to someone you love.</p>
@@ -145,7 +161,7 @@
     <div class="container feel-grid">
       <div class="feel-visual reveal" data-feel="barakkat-rouge-540" role="button" tabindex="0" aria-label="Feel Barakkat Rouge 540">
         <div class="petal-rain" aria-hidden="true"></div>
-        <img src="assets/img/hd/barakkat-rouge.png" alt="Barakkat Rouge 540">
+        <picture><source type="image/webp" srcset="assets/img/hd/barakkat-rouge.webp"><img src="assets/img/hd/barakkat-rouge.png" alt="Barakkat Rouge 540" loading="lazy" decoding="async"></picture>
         <span class="feel-badge"><i></i>Tap to feel</span>
       </div>
       <div class="reveal" data-delay="1">
@@ -176,7 +192,7 @@
       </div>
       <div class="kt-wheel reveal" data-delay="2" aria-hidden="true">
         <svg viewBox="0 0 400 400" id="kundli-wheel"></svg>
-        <div class="kt-center"><img src="assets/img/buddha.jpg" alt=""></div>
+        <div class="kt-center"><picture><source type="image/avif" srcset="assets/img/buddha.avif"><source type="image/webp" srcset="assets/img/buddha.webp"><img src="assets/img/buddha.jpg" alt="" loading="lazy" decoding="async"></picture></div>
       </div>
     </div>
   </section>
@@ -195,7 +211,7 @@
     <div class="rail exp-rail">
       <div class="exp-rail-item">
       <a class="exp-card reveal" href="worlds.html" style="--a:#2a1d3a;--b:#0b0712">
-      <div class="exp-vis worlds"><i class="moon"></i><i class="dune d1"></i><i class="dune d2"></i><img src="assets/img/hd/kaaf.png" alt=""></div>
+      <div class="exp-vis worlds"><i class="moon"></i><i class="dune d1"></i><i class="dune d2"></i><picture><source type="image/webp" srcset="assets/img/hd/kaaf.webp"><img src="assets/img/hd/kaaf.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="exp-body"><span class="eyebrow">01 · Scent Worlds</span><h2 class="h-2">Step <em>inside</em> each fragrance</h2><p class="muted">A moonlit desert for oud, a twilight rose garden for florals, a temple courtyard for incense. Move, scroll and explore.</p><span class="link-arrow">Enter a world →</span></div>
     </a>
       </div>
@@ -207,13 +223,13 @@
       </div>
       <div class="exp-rail-item">
       <a class="exp-card reveal" href="boutique.html" style="--a:#241a12;--b:#090605">
-      <div class="exp-vis boutique"><i class="arch"></i><img src="assets/img/hd/barakkat-rouge.png" alt=""></div>
+      <div class="exp-vis boutique"><i class="arch"></i><picture><source type="image/webp" srcset="assets/img/hd/barakkat-rouge.webp"><img src="assets/img/hd/barakkat-rouge.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="exp-body"><span class="eyebrow">03 · The Boutique</span><h2 class="h-2">Walk our <em>virtual showroom</em></h2><p class="muted">Marble floors, soft light and floating plinths. Wander between the displays and pick up any bottle.</p><span class="link-arrow">Walk in →</span></div>
     </a>
       </div>
       <div class="exp-rail-item">
       <a class="exp-card reveal" href="layering.html" style="--a:#33141a;--b:#0d0506">
-      <div class="exp-vis layering"><img class="l" src="assets/img/hd/fahad.png" alt=""><img class="r" src="assets/img/hd/white-oud.png" alt=""></div>
+      <div class="exp-vis layering"><picture><source type="image/webp" srcset="assets/img/hd/fahad.webp"><img class="l" src="assets/img/hd/fahad.png" alt="" loading="lazy" decoding="async"></picture><picture><source type="image/webp" srcset="assets/img/hd/white-oud.webp"><img class="r" src="assets/img/hd/white-oud.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="exp-body"><span class="eyebrow">04 · Layering Lab</span><h2 class="h-2">Pair <em>two</em> fragrances</h2><p class="muted">See how two scents complement each other, what each one adds, and how to wear them together.</p><span class="link-arrow">Open the lab →</span></div>
     </a>
       </div>
@@ -267,7 +283,7 @@
 
   <!-- ============ HOME RITUAL ============ -->
   <section class="home-ritual">
-    <div class="hr-media"><img src="assets/img/bakhoor-scene.jpg" alt="Giberish Bakhoor Dani" loading="lazy"></div>
+    <div class="hr-media"><picture><source type="image/avif" srcset="assets/img/bakhoor-scene.avif"><source type="image/webp" srcset="assets/img/bakhoor-scene.webp"><img src="assets/img/bakhoor-scene.jpg" alt="Giberish Bakhoor Dani" loading="lazy" decoding="async"></picture></div>
     <div class="container hr-copy reveal">
       <span class="eyebrow">Home Ritual</span>
       <h2 class="h-1" style="margin-top:14px">Bring the <em>temple</em> home.</h2>
@@ -297,17 +313,16 @@
 
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/art.js"></script>
-<script src="assets/js/scene.js"></script>
-<script src="assets/js/sound.js"></script>
-<script src="assets/js/i18n-dict.js"></script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/common.js"></script>
-<script src="assets/js/experience.js"></script>
-<script src="assets/js/home.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="assets/js/data.js"></script>
+<script defer src="assets/js/art.js"></script>
+<script defer src="assets/js/scene.js"></script>
+<script defer src="assets/js/sound.js"></script>
+<script defer src="assets/js/i18n.js"></script>
+<script defer src="assets/js/common.js"></script>
+<script defer src="assets/js/experience.js"></script>
+<script defer src="assets/js/home.js"></script>
 </body>
 </html>

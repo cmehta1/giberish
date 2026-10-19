@@ -30,6 +30,21 @@
   if (!LANGS[lang]) lang = 'en';
 
   const dict = () => (window.GIB_I18N || {})[lang] || {};
+
+  // the dictionary (~300 KB) is only fetched for Hindi / Gujarati, never for English visitors
+  const DICT_SRC = ((document.currentScript && document.currentScript.src) || 'assets/js/i18n.js').replace(/i18n\.js(\?.*)?$/, 'i18n-dict.js');
+  let waiting = null;
+  function withDict(cb) {
+    if (window.GIB_I18N) return cb();
+    if (!waiting) {
+      waiting = [];
+      const s = document.createElement('script');
+      s.src = DICT_SRC;
+      s.onload = s.onerror = () => { const q = waiting; waiting = null; q.forEach((f) => f()); };
+      document.head.appendChild(s);
+    }
+    waiting.push(cb);
+  }
   const orig = new WeakMap();      // element → original English innerHTML
   const origText = new WeakMap();  // text node → original English text
   let busy = false;
@@ -86,6 +101,7 @@
 
   function set(l) {
     if (!LANGS[l]) return;
+    if (l !== 'en' && !window.GIB_I18N) return withDict(() => set(l));
     lang = l;
     try { localStorage.setItem('gib.lang', l); } catch (_) {}
     document.documentElement.lang = l === 'en' ? 'en' : l;
@@ -124,7 +140,8 @@
     if (lang !== 'en') loadFont();
     // translate after the page's own scripts have rendered
     setTimeout(() => {
-      apply();
+      if (lang !== 'en') withDict(() => { apply(); document.dispatchEvent(new CustomEvent('lang:change', { detail: lang })); });
+      else apply();
       // keep translating anything added later (cards, quiz steps, overlays)
       let queued = new Set(), raf = 0;
       new MutationObserver((muts) => {

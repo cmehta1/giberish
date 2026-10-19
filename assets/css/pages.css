@@ -392,6 +392,7 @@ html.after-intro .hero-word span { animation-duration: .01s !important; }
 .p-card.hide { display: none; }
 .p-story { font-size: 14px; color: var(--muted); margin: 4px 0 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .empty-filter { text-align: center; padding: 60px 0; display: none; }
+#chapters:empty { min-height: 100vh; } /* holds the space until the cards render, so nothing below jumps */
 
 /* ======================= ABOUT ======================= */
 .about-hero { min-height: 92svh; display: grid; place-items: center; text-align: center; position: relative; overflow: hidden; padding: calc(var(--header-h) + 40px) var(--gutter) 60px; }
@@ -625,4 +626,5 @@ html.after-intro .hero-word span { animation-duration: .01s !important; }
 
 /* Scent Worlds preview uses the real world photo */
 .exp-vis.worlds { background: linear-gradient(180deg, rgba(10,6,4,.1), rgba(10,6,4,.55)), url('../img/worlds/kaaf.jpg') center 60%/cover no-repeat; }
+.exp-vis.worlds { background: linear-gradient(180deg, rgba(10,6,4,.1), rgba(10,6,4,.55)), image-set(url('../img/worlds/kaaf-1200.avif') type('image/avif'), url('../img/worlds/kaaf-1200.webp') type('image/webp'), url('../img/worlds/kaaf.jpg') type('image/jpeg')) center 60%/cover no-repeat; }
 .exp-vis.worlds .moon, .exp-vis.worlds .dune { display: none; }

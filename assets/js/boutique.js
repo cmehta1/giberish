@@ -524,7 +524,7 @@ async function buildBoutique(THREE) {
     manager.itemEnd('monk');
   };
   monkImg.onerror = () => manager.itemEnd('monk');
-  monkImg.src = 'assets/img/buddha-sil.png';
+  monkImg.src = 'assets/img/buddha-sil.webp';
   // gold seat line + its reflection
   const seat = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 0.5), additive(glowTex, 0xffd38a, 0.9));
   seat.scale.y = 0.18; seat.position.set(0, EMB_Y - 1.42, 0.24); emblem.add(seat);
