@@ -17,7 +17,7 @@ Then open http://localhost:5880.
 | `index.html` | Hero, a scroll story about the philosophy (Noise → Letting go → Silence → Essence), the three truths, featured fragrances, the "Feel it" banner, the Scent Kundli teaser, the breathing ritual and the bakhoor banner |
 | `shop.html` | The collection in three chapters (Attars, Perfumes, Home Rituals), with category and mood filters |
 | `about.html` | The full philosophy: the word, the laughing Buddha, the way of attar and our promise |
-| `kundli.html` | **Scent Kundli**: an 8-question scent horoscope. It gives an archetype, a chart, top matches, a shareable story image and a bespoke attar you can order |
+| `kundli.html` | **Scent Kundli**: a 10-question scent horoscope. It gives an archetype, a chart, top matches, a shareable story image and a bespoke attar you can order |
 | `checkout.html` | Bag, address, gift note, then an order on WhatsApp or online payment through Razorpay |
 | `explore.html` | The Experiences hub, linked from the "Experiences" menu |
 | `worlds.html?p=<id>` | **Scent Worlds**: each fragrance in its own world (desert, garden, bazaar, monsoon, silk, temple). Set `world:` on a product in data.js to choose its world |
@@ -26,6 +26,7 @@ Then open http://localhost:5880.
 | `layering.html` | **Layering Lab**: pair two fragrances, with a harmony score and suggested pairings |
 | `journey.html?p=<id>` | **Scent Journey**: how top, heart and base notes unfold over time |
 | `whispers.html` | **Whispers**: 113 small truths about scent (science, memory research, heritage, old wisdom, the ritual, Giberish lines), revealed one at a time with drifting ingredients. Edit them in `assets/js/whispers-data.js`; `whispers.html#w=12` links to one |
+| `atlas.html` | **The Scent Atlas**: an illustrated guide to the natural and synthetic materials perfumers use. It has an animated note pyramid, a family wheel, the ways scent is extracted, and a searchable library with a detail page for each material. `atlas.html#m=vetiver` opens one material and `atlas.html?q=rose` opens a search |
 
 Tapping any bottle opens the **Feel it** experience: the ingredients bloom and orbit the bottle, it sprays, and the person breathes in, closes their eyes and smiles. You can link straight to it with `any-page.html#feel=<product-id>`.
 
@@ -104,3 +105,16 @@ There is an EN · हि · ગુ switch in the header. Pages are written in En
 
 - `assets/js/bottle3d.js` (`GibBottle3D`) builds a 3D glass-and-metal bottle for each product, with its label. The Boutique uses these bottles, and the Layering Lab uses them as thumbnails. On slow devices it steps down to simpler glass, then to the HD photos. Add `boutique.html?bottles=high|low|photo` to force one quality for testing.
 - Scent Worlds uses 13 free-licence Unsplash photos in `assets/img/worlds/` (served as `.webp`). Photographer credits are in `assets/img/worlds/CREDITS.md`, and the world for each product is set in `assets/js/worlds.js`.
+
+## The Scent Atlas
+
+- The materials are in `assets/js/atlas-data.js` (`GIB_ATLAS`). Each one has its names (English, Latin, Indian, Hindi and Gujarati) and its family, plus how strongly it shows as a top, heart and base note (0–3). Each one also says where it comes from, how it is made, how it smells, what it pairs with, a fact, a safety note and its sources. Set `gib:` to an ingredient key from `data.js` to show the Giberish fragrances that contain that material.
+- The page text (families, methods, glossary and safety cards) is in `assets/js/atlas.js`.
+- Natural materials use free-licence Unsplash photos in `assets/img/atlas/`, with credits in `assets/img/atlas/CREDITS.md`. Synthetic molecules are drawn as gold line art from PubChem structures, which are public domain. To redraw them after you add a synthetic with a `cid`, run:
+
+  ```bash
+  node tools/molecule-svg.mjs --atlas
+  ```
+
+- Facts were checked against the sources listed with each material. Safety notes are general. IFRA standards change, so check the current IFRA amendment before you make a formula.
+

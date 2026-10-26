@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Scent Atlas — Giberish</title>
+  <meta name="description" content="The Scent Atlas: more than 160 natural and synthetic perfume ingredients, from rose and oud to Iso E Super and Ambroxan. How they smell, where they come from, how they are made and where they sit in the fragrance pyramid.">
+  <meta name="theme-color" content="#0a0604">
+  <link rel="canonical" href="https://giberish.vercel.app/atlas">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Giberish">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="https://giberish.vercel.app/atlas">
+  <meta property="og:title" content="The Scent Atlas — Giberish">
+  <meta property="og:description" content="The Scent Atlas: more than 160 natural and synthetic perfume ingredients, from rose and oud to Iso E Super and Ambroxan. How they smell, where they come from, how they are made and where they sit in the fragrance pyramid.">
+  <meta property="og:image" content="https://giberish.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Giberish: the laughing Buddha logo between attar and perfume bottles">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Scent Atlas — Giberish">
+  <meta name="twitter:description" content="The Scent Atlas: more than 160 natural and synthetic perfume ingredients, from rose and oud to Iso E Super and Ambroxan. How they smell, where they come from, how they are made and where they sit in the fragrance pyramid.">
+  <meta name="twitter:image" content="https://giberish.vercel.app/assets/img/og-image.jpg">
+  <link rel="icon" href="assets/img/buddha-mark.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/great-vibes-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>try{var gl=new URLSearchParams(location.search).get('lang')||localStorage.getItem('gib.lang');if(gl==='hi'||gl==='gu'){var pl=document.createElement('link');pl.rel='preload';pl.as='script';pl.href='assets/js/i18n-dict.js';document.head.appendChild(pl)}}catch(e){}</script>
+  <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
+  <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/atlas.css">
+</head>
+<body data-page="atlas">
+<main>
+  <!-- Hero -->
+  <section class="at-hero">
+    <canvas class="at-hero-art" aria-hidden="true"></canvas>
+    <div class="container at-hero-in">
+      <span class="eyebrow reveal">The Scent Atlas</span>
+      <h1 class="h-display reveal" data-delay="1">What a fragrance is <em>made of</em></h1>
+      <p class="lead reveal" data-delay="2">Every perfume is a composition of ingredients: petals and resins, woods and spices, and molecules first made in a laboratory. Here is where each one comes from, how it is made, how it smells, and where it lives in a fragrance.</p>
+      <form class="at-search reveal" data-delay="3" role="search" onsubmit="return false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="at-q" type="search" placeholder="Search rose, oud, Iso E Super, chandan…" aria-label="Search ingredients" autocomplete="off">
+      </form>
+      <div class="at-stats reveal" data-delay="3" id="at-stats"></div>
+    </div>
+  </section>
+
+  <!-- Pyramid -->
+  <section class="section at-pyramid-sec">
+    <div class="container at-two">
+      <div class="reveal">
+        <span class="eyebrow">How a fragrance is built</span>
+        <h2 class="h-1" style="margin:14px 0 18px">Top, heart <em>and base</em></h2>
+        <p class="lead">A fragrance is not one smell but three movements. Small, light molecules rise first; the heart arrives as they fade; heavy molecules stay for hours.</p>
+        <div class="at-layer-text" id="at-layer-text"></div>
+        <p class="muted" style="font-size:13px;margin-top:14px">Timings are typical. Skin, climate and the amount you wear change them.</p>
+      </div>
+      <div class="at-pyr reveal" data-delay="2">
+        <svg viewBox="0 0 400 360" id="at-pyr-svg" aria-label="Fragrance pyramid">
+          <defs><linearGradient id="pyrG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2d59b" stop-opacity=".35"/><stop offset="1" stop-color="#8a6a32" stop-opacity=".18"/></linearGradient></defs>
+          <path class="pyr-band" data-layer="top" d="M200 20 L262 120 L138 120 Z"/>
+          <path class="pyr-band" data-layer="heart" d="M134 126 L266 126 L326 226 L74 226 Z"/>
+          <path class="pyr-band" data-layer="base" d="M70 232 L330 232 L390 340 L10 340 Z"/>
+          <text x="200" y="88" class="pyr-label" data-en="Top">Top</text>
+          <text x="200" y="184" class="pyr-label" data-en="Heart">Heart</text>
+          <text x="200" y="294" class="pyr-label" data-en="Base">Base</text>
+        </svg>
+        <canvas class="at-pyr-motes" aria-hidden="true"></canvas>
+        <div class="at-clock"><span id="at-clock">0 min</span><i><b id="at-clock-bar"></b></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wheel -->
+  <section class="section at-wheel-sec">
+    <div class="container at-two at-two-rev">
+      <div class="at-wheel reveal">
+        <svg viewBox="-210 -210 420 420" id="at-wheel" aria-label="The fragrance wheel"></svg>
+        <div class="at-wheel-center" id="at-wheel-center"></div>
+      </div>
+      <div class="reveal" data-delay="2">
+        <span class="eyebrow">The fragrance wheel</span>
+        <h2 class="h-1" style="margin:14px 0 18px">Fifteen <em>families</em></h2>
+        <p class="lead">Perfumers group smells into families that sit side by side like colours on a wheel. Neighbours blend easily; opposites create tension and surprise.</p>
+        <div class="at-family-card" id="at-family-card"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Natural vs synthetic + methods -->
+  <section class="section at-make-sec">
+    <div class="container">
+      <div class="center reveal">
+        <span class="eyebrow">Natural and synthetic</span>
+        <h2 class="h-1" style="margin-top:14px">From the field <em>and from the lab</em></h2>
+        <div class="ornament"><span></span></div>
+      </div>
+      <div class="at-ns">
+        <article class="at-ns-card reveal" data-delay="1">
+          <h3 class="h-2">Natural</h3>
+          <p>Taken from flowers, leaves, roots, woods, seeds, peels and resins by physical processes such as distillation, pressing or extraction. Naturals are rich and complex: one rose oil holds hundreds of molecules.</p>
+          <p class="muted">Their harvest depends on soil, weather and hands, so every season smells a little different.</p>
+        </article>
+        <div class="at-ns-and" aria-hidden="true">&amp;</div>
+        <article class="at-ns-card reveal" data-delay="2">
+          <h3 class="h-2">Synthetic</h3>
+          <p>Molecules made by chemistry. Some copy a molecule found in nature (nature-identical); others smell like nothing that grows, such as clean musks and airy woods.</p>
+          <p class="muted">Synthetics spare endangered plants and animals, keep a fragrance consistent, and opened up whole new families of scent.</p>
+        </article>
+      </div>
+      <p class="center lead at-ns-note reveal">Almost every modern perfume uses both. “Natural” is not automatically safer, and “synthetic” is not automatically cheaper: some lab molecules cost more than gold.</p>
+
+      <div class="center reveal" style="margin-top:80px">
+        <span class="eyebrow">How ingredients are made</span>
+        <h2 class="h-2" style="margin-top:12px">Eleven ways to <em>catch a scent</em></h2>
+      </div>
+      <div class="at-methods" id="at-methods"></div>
+    </div>
+  </section>
+
+  <!-- Library -->
+  <section class="at-lib-sec" id="library">
+    <div class="container">
+      <div class="center reveal">
+        <span class="eyebrow">The library</span>
+        <h2 class="h-1" style="margin-top:12px">Every <em>ingredient</em></h2>
+      </div>
+    </div>
+    <div class="at-filters" id="at-filters" data-lenis-prevent>
+      <div class="container">
+        <div class="at-filter-row">
+          <div class="at-seg" role="group" aria-label="Type" id="at-type">
+            <button type="button" data-type="all" class="active">All</button><button type="button" data-type="natural">Natural</button><button type="button" data-type="synthetic">Synthetic</button>
+          </div>
+          <div class="at-seg" role="group" aria-label="Layer" id="at-layer">
+            <button type="button" data-layer="all" class="active">Any layer</button><button type="button" data-layer="top">Top</button><button type="button" data-layer="heart">Heart</button><button type="button" data-layer="base">Base</button>
+          </div>
+          <label class="at-check"><input type="checkbox" id="at-gib"> <span>In Giberish</span></label>
+          <span class="at-count muted" id="at-count" aria-live="polite"></span>
+        </div>
+        <div class="at-fams" id="at-fams" role="group" aria-label="Family"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="at-grid" id="at-grid"></div>
+      <div class="center"><button type="button" class="btn btn-ghost at-more" id="at-more" hidden>Show more</button></div>
+      <p class="at-empty muted center" id="at-empty" hidden>Nothing matches yet. Try another family or clear the search.</p>
+    </div>
+  </section>
+
+  <!-- Glossary -->
+  <section class="section at-gloss-sec">
+    <div class="container at-gloss-wrap">
+      <div class="reveal">
+        <span class="eyebrow">Speak perfume</span>
+        <h2 class="h-1" style="margin:14px 0 18px">A small <em>glossary</em></h2>
+        <p class="lead">The words perfumers use, in plain language.</p>
+      </div>
+      <div class="at-gloss" id="at-gloss"></div>
+    </div>
+  </section>
+
+  <!-- Safety -->
+  <section class="section-tight at-safe-sec">
+    <div class="container">
+      <div class="center reveal">
+        <span class="eyebrow">Wear it well</span>
+        <h2 class="h-2" style="margin-top:12px">Safety, <em>simply</em></h2>
+      </div>
+      <div class="at-safe" id="at-safe"></div>
+    </div>
+  </section>
+
+  <section class="section center">
+    <div class="container reveal">
+      <span class="eyebrow">Now that you know the notes</span>
+      <h2 class="h-1" style="margin:14px 0 22px">Find the ones that are <em>already yours</em></h2>
+      <div class="btn-row" style="justify-content:center"><a class="btn btn-solid" href="kundli.html">Read my Scent Kundli</a><a class="btn" href="alchemy.html">Compose in Scent Alchemy</a></div>
+    </div>
+  </section>
+</main>
+
+<!-- Ingredient detail -->
+<div class="at-scrim" id="at-scrim"></div>
+<aside class="at-drawer" id="at-drawer" role="dialog" aria-modal="true" aria-labelledby="at-d-name" data-lenis-prevent>
+  <button class="icon-btn at-d-close" id="at-d-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div id="at-d-body"></div>
+</aside>
+
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="assets/js/data.js"></script>
+<script defer src="assets/js/art.js"></script>
+<script defer src="assets/js/scene.js"></script>
+<script defer src="assets/js/sound.js"></script>
+<script defer src="assets/js/i18n.js"></script>
+<script defer src="assets/js/common.js"></script>
+<script defer src="assets/js/experience.js"></script>
+<script defer src="assets/js/atlas-data.js"></script>
+<script defer src="assets/js/atlas.js"></script>
+</body>
+</html>

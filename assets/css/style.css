@@ -690,3 +690,8 @@ body.has-crumbs { --bar-h: 72px; --header-h: 106px; }
 /* with six menu items, switch to the menu button a little earlier so nothing wraps */
 .nav a { white-space: nowrap; }
 @media (max-width: 1140px) { .nav { display: none; } .menu-btn { display: grid; } }
+
+/* seven menu items: switch to the menu button below 1280px; tighter mobile menu */
+@media (max-width: 1280px) { .nav { display: none; } .menu-btn { display: grid; } }
+.mobile-menu.open a:nth-child(9) { transition-delay: .64s; }
+@media (max-height: 820px) { .mobile-menu a { font-size: 28px; padding: 1px 0; } }
