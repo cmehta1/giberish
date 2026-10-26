@@ -203,3 +203,7 @@
   .at-method span { font-size: 12.5px; line-height: 1.45; }
   .at-method small { font-size: 10px; letter-spacing: .12em; }
 }
+.at-d-gib { margin-top: 22px; padding: 18px 20px; border-radius: 16px; border: 1px solid rgba(212,169,87,.22); background: linear-gradient(135deg, rgba(212,169,87,.08), transparent); }
+.at-d-gib p { margin: 10px 0 14px; color: var(--muted); line-height: 1.6; }
+.at-d-gib .chip { margin-right: 6px; color: var(--gold-2); border-color: var(--gold); }
+.at-d-gib .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }

@@ -95,9 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Helpers ---------- */
   const artFor = (m) => {
     const map = { citrus: 'lemon', rose: 'rose', jasmine: 'jasmine', oud: 'oud', sandalwood: 'sandalwood', cedar: 'sandalwood', saffron: 'saffron', amber: 'amber', musk: 'musk', vanilla: 'vanilla', cardamom: 'cardamom', leather: 'cinnamon', smoke: 'smoke' };
-    return (m.gib && map[m.gib]) || (FAM[m.family] || {}).art || 'musk';
+    return (m.gib && (map[m.gib] || window.GibArt.forIngredient(m.gib)[0])) || (FAM[m.family] || {}).art || 'musk';
   };
   const localName = (m) => (lang() === 'hi' && m.hi) || (lang() === 'gu' && m.gu) || m.indian || '';
+  const ING = window.GIB_INGREDIENTS || {};
   const giberishProducts = (m) => (m.gib ? (window.GIB_PRODUCTS || []).filter((p) => p.ingredients.includes(m.gib)) : []);
   const strongest = (m) => ['top', 'heart', 'base'].reduce((a, k) => ((m.notes || {})[k] > ((m.notes || {})[a] || 0) ? k : a), 'top');
   function media(m, cls = '') {
@@ -250,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filters.type !== 'all' && m.type !== filters.type) return false;
     if (filters.layer !== 'all' && !((m.notes || {})[filters.layer] >= 2)) return false;
     if (filters.fam !== 'all' && m.family !== filters.fam) return false;
-    if (filters.gib && !giberishProducts(m).length) return false;
+    if (filters.gib && !m.gib) return false; // a note Giberish offers
     if (filters.method && !(m.method || []).includes(filters.method)) return false;
     if (filters.q) {
       const hay = norm([m.name, m.latin, m.indian, m.hi, m.gu, m.facet, m.family, FAM[m.family] && FAM[m.family].label, m.smells, m.formula].join(' '));
@@ -326,6 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ${m.fact ? `<div class="at-d-fact"><span class="eyebrow">Did you know</span><p>${esc(m.fact)}</p></div>` : ''}
         ${(m.pairs || []).length ? `<span class="eyebrow">Pairs beautifully with</span><div class="at-chips">${m.pairs.filter((p) => byId[p]).map((p) => `<button type="button" class="chip" data-open="${p}">${esc(byId[p].name)}</button>`).join('')}</div>` : ''}
         ${prods.length ? `<span class="eyebrow" style="margin-top:22px;display:block">Found in Giberish</span><div class="at-d-prods">${prods.map((p) => `<button type="button" class="at-d-prod" data-feel="${p.id}"><img src="${p.image}" alt=""><span>${esc(p.name)}</span></button>`).join('')}</div>` : ''}
+        ${m.gib && ING[m.gib] ? `<div class="at-d-gib"><span class="eyebrow">At Giberish</span><p><span class="chip" data-no-i18n>${esc(ING[m.gib].label)}</span> Giberish offers this note. Add it to your own blend in Scent Alchemy, or let your Scent Kundli find where it belongs in you.</p>
+          <div class="btn-row"><a class="btn btn-sm" href="alchemy.html?add=${m.gib}">Blend it in Scent Alchemy</a><a class="btn btn-ghost btn-sm" href="kundli.html">Read my Scent Kundli</a></div></div>` : ''}
         ${m.safety ? `<div class="at-d-safe"><b>Safety note</b><p>${esc(m.safety)}</p></div>` : ''}
         ${(m.src || []).length ? `<p class="at-d-src">Sources: ${m.src.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${(() => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (_) { return 'source ' + (i + 1); } })()}</a>`).join(' · ')}</p>` : ''}
         ${m.credit ? `<p class="at-d-src">Image: ${esc(m.credit)}</p>` : ''}

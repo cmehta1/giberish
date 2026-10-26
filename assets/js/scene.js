@@ -270,7 +270,8 @@
 
     return mount(el, Object.assign({
       center: '.em-monk', centerY: .5,
-      kinds: ['orange', 'rose', 'honey', 'jasmine', 'saffron', 'cinnamon', 'lemon', 'petal', 'amber', 'cardamom', 'vanilla', 'sandalwood', 'anise', 'honeycomb', 'oud', 'leaf'],
+      kinds: ['orange', 'rose', 'honey', 'jasmine', 'saffron', 'cinnamon', 'lemon', 'petal', 'amber', 'cardamom', 'vanilla', 'sandalwood', 'anise', 'honeycomb', 'oud', 'leaf',
+        'peach', 'raspberry', 'peony', 'orangeblossom', 'coffee', 'tonka', 'bergamot', 'orchid'],
       count: 10, rx: .38, ry: .1, tilt: -6, size: [.04, .062], speed: .8,
     }, o.orbit || {}));
   }

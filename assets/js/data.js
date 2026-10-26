@@ -24,7 +24,7 @@ window.GIB_CONFIG = {
 window.GIB_INGREDIENT_PHOTOS = {};
 
 /* Ingredient palette used by the "Feel it" animation and the note chips.
-   `family` drives the Scent Kundli matching. */
+   `family` drives the Scent Kundli matching. `color` (optional) tints the note in Scent Alchemy. */
 window.GIB_INGREDIENTS = {
   rose:       { label: 'Rose',        family: { floral: 1 } },
   jasmine:    { label: 'Jasmine',     family: { floral: 1 } },
@@ -39,6 +39,28 @@ window.GIB_INGREDIENTS = {
   cardamom:   { label: 'Cardamom',    family: { spicy: .8, fresh: .4 } },
   leather:    { label: 'Leather',     family: { woody: .5, spicy: .6 } },
   smoke:      { label: 'Incense',     family: { woody: .5, amber: .6 } },
+  green:      { label: 'Green Leaves', family: { fresh: 1 } },
+
+  // Fruit & flower
+  apple:        { label: 'Green Apple',      family: { fruity: 1, fresh: .5 }, color: '#9ccf4f' },
+  peach:        { label: 'Peach',            family: { fruity: 1, floral: .2 }, color: '#f2a07a' },
+  raspberry:    { label: 'Raspberry',        family: { fruity: 1, floral: .2 }, color: '#d23a5e' },
+  blackcurrant: { label: 'Blackcurrant',     family: { fruity: .9, fresh: .4 }, color: '#6b3a8c' },
+  bergamot:     { label: 'Bergamot',         family: { fresh: 1, fruity: .3 }, color: '#c7d65a' },
+  peony:        { label: 'White Peony',      family: { floral: 1, fresh: .3 }, color: '#f3d9dc' },
+  orangeblossom:{ label: 'Orange Blossom',   family: { floral: 1, fresh: .3 }, color: '#f7ecd2' },
+  orchid:       { label: 'Wild Orchid',      family: { floral: 1, gourmand: .2 }, color: '#c75bb8' },
+  // Sweet indulgence
+  candy:        { label: 'Cotton Candy',     family: { gourmand: 1, fruity: .2 }, color: '#f4a6c8' },
+  marshmallow:  { label: 'Marshmallow',      family: { gourmand: 1, musk: .4 }, color: '#f6e8ee' },
+  tonka:        { label: 'Tonka Bean',       family: { gourmand: .8, amber: .5 }, color: '#9a6a42' },
+  caramel:      { label: 'Caramel',          family: { gourmand: 1, amber: .4 }, color: '#d99a45' },
+  cocoa:        { label: 'Dark Cocoa',       family: { gourmand: 1, woody: .3 }, color: '#6e4630' },
+  coffee:       { label: 'Espresso',         family: { gourmand: .8, woody: .3, spicy: .2 }, color: '#7a4e2e' },
+  praline:      { label: 'Hazelnut Praline', family: { gourmand: 1, amber: .3 }, color: '#c08a52' },
+  // Deep roots
+  cashmere:     { label: 'Cashmere Wood',    family: { woody: .8, musk: .5 }, color: '#e2d3bc' },
+  vetiver:      { label: 'Vetiver',          family: { woody: .9, fresh: .3 }, color: '#a89a55' },
 };
 
 /* NOTE for the Giberish team: notes marked in the poster artwork are used as-is
@@ -140,6 +162,40 @@ window.GIB_PRODUCTS = [
     notes: { top: ['Citrus'], heart: ['Smoked Birch'], base: ['Musk', 'Sandalwood'] },
     ingredients: ['citrus', 'smoke', 'musk', 'sandalwood'],
     feel: ['Fearless', 'Fresh', 'Driven'],
+  },
+  {
+    id: 'liquid-burn',
+    sound: 'fire', // GibSound theme for this fragrance
+    nozzle: [.5, .02], // where the spray starts, as a fraction of the cut-out image
+    name: 'Liquid Burn',
+    house: 'French Avenue',
+    type: 'perfume',
+    size: '60 ml · Eau de Parfum',
+    price: 600,
+    image: 'assets/img/hd/liquid-burn.webp',
+    tagline: 'More than a fragrance. It’s a feeling.',
+    story: 'A powerful blend of spices, woods and warmth. Saffron and black pepper strike first like a match, then smouldering woods and amber glow on for hours. Liquid Burn is for those who leave a lasting impression.',
+    // from the poster: spices, woods and warmth (saffron, black pepper and wood shown). Exact notes to confirm.
+    notes: { top: ['Saffron', 'Black Pepper'], heart: ['Spices'], base: ['Woods', 'Amber'] },
+    ingredients: ['saffron', 'cardamom', 'smoke', 'cedar', 'amber'],
+    feel: ['Bold', 'Intense', 'Lasting'],
+  },
+  {
+    id: 'green-irish',
+    sound: 'forest', // GibSound theme for this fragrance
+    nozzle: [.5, .02], // where the spray starts, as a fraction of the cut-out image
+    name: 'Green Irish',
+    house: 'Giberish',
+    type: 'perfume',
+    size: '60 ml · Men’s Perfume',
+    price: 600,
+    image: 'assets/img/hd/green-irish.webp',
+    tagline: 'Fresh. Refined. Timeless.',
+    story: 'Rain on green hills, a walk through wet grass, a freshly pressed shirt. Green Irish opens with bright citrus and crushed leaves, then settles into a soft, woody calm. Fresh enough for every day, refined enough to be remembered.',
+    // best-guess notes in the classic green, fresh style. Please confirm.
+    notes: { top: ['Citrus', 'Green Leaves'], heart: ['Violet Leaf', 'Iris'], base: ['Sandalwood', 'Ambergris'] },
+    ingredients: ['citrus', 'green', 'sandalwood', 'musk', 'amber'],
+    feel: ['Fresh', 'Refined', 'Timeless'],
   },
   {
     id: 'ajmal-1001-night',
@@ -252,16 +308,18 @@ window.GIB_PRODUCTS = [
 ];
 
 window.GIB_FAMILIES = {
-  floral: { label: 'Floral',  color: '#e07a8f' },
-  woody:  { label: 'Woody',   color: '#b07a4a' },
-  amber:  { label: 'Amber',   color: '#e0a443' },
-  fresh:  { label: 'Fresh',   color: '#9fcf8a' },
-  musk:   { label: 'Musk',    color: '#efe6d6' },
-  spicy:  { label: 'Spice',   color: '#d0582f' },
+  floral:   { label: 'Floral',   color: '#e07a8f' },
+  fruity:   { label: 'Fruity',   color: '#ee8a5a' },
+  woody:    { label: 'Woody',    color: '#b07a4a' },
+  amber:    { label: 'Amber',    color: '#e0a443' },
+  gourmand: { label: 'Gourmand', color: '#c98d52' },
+  fresh:    { label: 'Fresh',    color: '#9fcf8a' },
+  musk:     { label: 'Musk',     color: '#efe6d6' },
+  spicy:    { label: 'Spice',    color: '#d0582f' },
 };
 
 window.gibProductFamily = function (p) {
-  const v = { floral: 0, woody: 0, amber: 0, fresh: 0, musk: 0, spicy: 0 };
+  const v = Object.fromEntries(Object.keys(window.GIB_FAMILIES).map((k) => [k, 0]));
   p.ingredients.forEach((k) => {
     const f = (window.GIB_INGREDIENTS[k] || {}).family || {};
     Object.keys(f).forEach((fam) => (v[fam] += f[fam]));
@@ -272,7 +330,7 @@ window.gibProductFamily = function (p) {
 };
 
 /* Which immersive "world" and soundscape suit a product (used by Scent Worlds, Journey, sound toggles).
-   Worlds: desert (oud & woods, moonlit dunes) · garden (florals) · bazaar (spice & saffron)
+   Worlds: desert (oud, woods & sweets) · garden (florals & fruits) · bazaar (spice & saffron)
            monsoon (fresh & citrus) · silk (musks) · temple (incense & bakhoor)
    Set `world: '…'` on a product to override. */
 window.gibProductWorld = function (p) {
@@ -280,9 +338,10 @@ window.gibProductWorld = function (p) {
   if (p.type === 'ritual' || p.ingredients.includes('smoke')) return 'temple';
   const f = window.gibProductFamily(p);
   const top = Object.keys(f).sort((a, b) => f[b] - f[a])[0];
-  return { woody: 'desert', amber: 'desert', floral: 'garden', spicy: 'bazaar', fresh: 'monsoon', musk: 'silk' }[top] || 'desert';
+  return { woody: 'desert', amber: 'desert', gourmand: 'desert', floral: 'garden', fruity: 'garden', spicy: 'bazaar', fresh: 'monsoon', musk: 'silk' }[top] || 'desert';
 };
 window.gibProductSound = function (p) {
+  if (p.sound) return p.sound;
   const w = window.gibProductWorld(p);
   if (w === 'desert') { const f = window.gibProductFamily(p); return f.amber > f.woody ? 'fire' : 'night'; }
   return { garden: 'forest', bazaar: 'bazaar', monsoon: 'sea', silk: 'silk', temple: 'temple' }[w] || 'breeze';

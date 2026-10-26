@@ -21,13 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- The pyramid ---------- */
   const TIERS = [
-    { id: 'top', label: 'Top', sub: 'The first breath', keys: ['citrus', 'cardamom', 'saffron'] },
-    { id: 'heart', label: 'Heart', sub: 'The soul of it', keys: ['rose', 'jasmine', 'leather'] },
-    { id: 'base', label: 'Base', sub: 'What stays', keys: ['oud', 'sandalwood', 'cedar', 'amber', 'vanilla', 'musk', 'smoke'] },
-  ];
+    { id: 'top', label: 'Top', sub: 'The first breath', keys: ['citrus', 'bergamot', 'apple', 'peach', 'raspberry', 'blackcurrant', 'green', 'cardamom', 'saffron'] },
+    { id: 'heart', label: 'Heart', sub: 'The soul of it', keys: ['rose', 'jasmine', 'peony', 'orangeblossom', 'orchid', 'candy', 'marshmallow', 'caramel', 'coffee', 'leather'] },
+    { id: 'base', label: 'Base', sub: 'What stays', keys: ['sandalwood', 'cedar', 'cashmere', 'vetiver', 'oud', 'amber', 'tonka', 'vanilla', 'praline', 'cocoa', 'musk', 'smoke'] },
+  ].map((t) => ({ ...t, keys: t.keys.filter((k) => ING[k]) }));
   const tierOf = (k) => TIERS.findIndex((t) => t.keys.includes(k));
   const SHORT = { rose: 'Rose', jasmine: 'Jasmine', oud: 'Oud', sandalwood: 'Sandalwood', cedar: 'Cedar', saffron: 'Saffron', amber: 'Amber',
-    musk: 'Musk', vanilla: 'Vanilla', citrus: 'Citrus', cardamom: 'Cardamom', leather: 'Leather', smoke: 'Incense' };
+    musk: 'Musk', vanilla: 'Vanilla', citrus: 'Citrus', cardamom: 'Cardamom', leather: 'Leather', smoke: 'Incense', green: 'Green Leaves',
+    apple: 'Green Apple', peach: 'Peach', raspberry: 'Raspberry', blackcurrant: 'Blackcurrant', bergamot: 'Bergamot',
+    peony: 'Peony', orangeblossom: 'Orange Blossom', orchid: 'Orchid', candy: 'Cotton Candy', marshmallow: 'Marshmallow',
+    tonka: 'Tonka', caramel: 'Caramel', cocoa: 'Cocoa', coffee: 'Espresso', praline: 'Praline', cashmere: 'Cashmere', vetiver: 'Vetiver' };
+  const short = (k) => SHORT[k] || ING[k].label;
   const icon = (k) => Art.url(Art.forIngredient(k)[0]);
 
   /* ---------- Colour helpers ---------- */
@@ -57,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const f = (t) => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
     return [f(h + 1 / 3) * 255, f(h) * 255, f(h - 1 / 3) * 255];
   }
-  const ingRgb = (k) => vivid(mixFamilies(ING[k].family));
+  const ingRgb = (k) => (ING[k].color ? hexRgb(ING[k].color) : vivid(mixFamilies(ING[k].family))); // a note's own colour, else its families
 
   /* ---------- Composition maths ---------- */
   function vec(notes) {
@@ -84,9 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     floral: ['Serenade', 'Reverie', 'Garden', 'Bloom'], woody: ['Nocturne', 'Temple', 'Elegy', 'Vespers'],
     amber: ['Elixir', 'Dusk', 'Ember', 'Gold'], fresh: ['Aubade', 'Monsoon', 'Morning', 'Tide'],
     musk: ['Silk', 'Whisper', 'Veil', 'Lullaby'], spicy: ['Caravan', 'Bazaar', 'Saga', 'Fire'],
+    fruity: ['Orchard', 'Nectar', 'Summer', 'Harvest'], gourmand: ['Confection', 'Truffle', 'Delight', 'Indulgence'],
   };
   const ADJ = { floral: ['Velvet', 'Blushing'], woody: ['Midnight', 'Sacred'], amber: ['Honeyed', 'Golden'],
-    fresh: ['Dawn-lit', 'Rain-washed'], musk: ['Silken', 'Moonlit'], spicy: ['Gilded', 'Smouldering'] };
+    fresh: ['Dawn-lit', 'Rain-washed'], musk: ['Silken', 'Moonlit'], spicy: ['Gilded', 'Smouldering'],
+    fruity: ['Sun-kissed', 'Dewy'], gourmand: ['Sugared', 'Warm-spun'] };
   const LINE = {
     floral: 'Soft-spoken and romantic, like petals left on warm stone.',
     woody: 'Deep and grounded, the quiet of an old temple after the last bell.',
@@ -94,25 +100,28 @@ document.addEventListener('DOMContentLoaded', () => {
     fresh: 'Bright and open, a window thrown wide after rain.',
     musk: 'Close and tender, the scent of clean skin in sunlight.',
     spicy: 'Vivid and daring, a bazaar at dusk with saffron in the air.',
+    fruity: 'Juicy and bright, like fruit cut open in a sunlit orchard.',
+    gourmand: 'Decadent and warm, a kitchen at dusk where sugar turns slowly to gold.',
   };
+  const famOf = (T, f) => T[f] || T.amber; // every family has an entry; this only guards a future one
   const listJoin = (a) => (a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]);
   function compose(notes, v) {
     if (!notes.length) return { name: 'An empty vessel', line: 'Add a first note and the glass will begin to glow.', dom: null };
     const dom = dominant(v);
     const h = [...notes].sort().join('').split('').reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7); // stable per set
-    const lead = notes.slice(0, 2).sort((a, b) => tierOf(a) - tierOf(b)).map((k) => SHORT[k]);
-    const noun = NOUN[dom][h % NOUN[dom].length];
+    const lead = notes.slice(0, 2).sort((a, b) => tierOf(a) - tierOf(b)).map(short);
+    const nouns = famOf(NOUN, dom), noun = nouns[h % nouns.length];
     let name;
-    if (notes.length === 1) name = `${ADJ[dom][h % 2]} ${lead[0]}`;
+    if (notes.length === 1) name = `${famOf(ADJ, dom)[h % 2]} ${lead[0]}`;
     else if (notes.length === 2 || h % 2) name = `${lead[0]} & ${lead[1]} ${noun}`;
     else name = `${noun} of ${lead[0]} & ${lead[1]}`;
-    const rest = notes.slice(2).map((k) => SHORT[k].toLowerCase());
-    return { name, line: LINE[dom] + (rest.length ? ` With a whisper of ${listJoin(rest)}.` : ''), dom };
+    const rest = notes.slice(2).map((k) => short(k).toLowerCase());
+    return { name, line: famOf(LINE, dom) + (rest.length ? ` With a whisper of ${listJoin(rest)}.` : ''), dom };
   }
   function soundTheme(notes, v) {
     if (notes.includes('smoke')) return 'temple';
     if (!notes.length) return 'silk';
-    return { floral: 'forest', woody: 'night', amber: 'fire', fresh: 'stream', musk: 'silk', spicy: 'bazaar' }[dominant(v)]; // calm themes from sound.js
+    return { floral: 'forest', woody: 'night', amber: 'fire', fresh: 'stream', musk: 'silk', spicy: 'bazaar', fruity: 'forest', gourmand: 'fire' }[dominant(v)] || 'silk'; // calm themes from sound.js
   }
 
   /* ---------- DOM ---------- */
@@ -441,6 +450,75 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (withFx) Art.drawFx(ctx, L.fx, dt);
     }
+
+    /* --- sprites + helpers for the fruit, flower, sweet and wood notes --- */
+    function sprite(key, n, paint) {
+      if (cache[key]) return cache[key];
+      const c = document.createElement('canvas'); c.width = c.height = n;
+      paint(c.getContext('2d'), n / 2);
+      return (cache[key] = c);
+    }
+    const bead = (rgb) => sprite('b' + rgb, 48, (g, h) => { // a glossy berry bead: deep colour, a small window of light
+      const dk = rgb.split(',').map((x) => Math.round(x * .32)).join(',');
+      const rg = g.createRadialGradient(h * .72, h * .64, 1, h, h, h * .92);
+      rg.addColorStop(0, 'rgba(255,244,248,.95)'); rg.addColorStop(.2, `rgba(${rgb},1)`); rg.addColorStop(.86, `rgba(${dk},1)`); rg.addColorStop(1, `rgba(${dk},0)`);
+      g.fillStyle = rg; g.beginPath(); g.arc(h, h, h * .92, 0, TAU); g.fill();
+    });
+    const petalImg = (rgb) => sprite('l' + rgb, 48, (g, h) => { // a soft cupped petal
+      g.translate(h, h);
+      const rg = g.createRadialGradient(0, -6, 2, 0, 0, 24);
+      rg.addColorStop(0, 'rgba(255,253,248,1)'); rg.addColorStop(.7, `rgba(${rgb},1)`); rg.addColorStop(1, `rgba(${rgb},.8)`);
+      g.fillStyle = rg; g.beginPath();
+      g.moveTo(0, -21); g.bezierCurveTo(16, -16, 16, 10, 0, 21); g.bezierCurveTo(-16, 10, -16, -16, 0, -21); g.fill();
+      g.strokeStyle = 'rgba(255,255,255,.4)'; g.lineWidth = 1; g.beginPath(); g.moveTo(0, -13); g.quadraticCurveTo(2, 0, 0, 16); g.stroke();
+    });
+    const blossom = () => sprite('ob', 48, (g, h) => { // five white petals round a golden heart
+      g.translate(h, h);
+      for (let i = 0; i < 5; i++) {
+        g.save(); g.rotate((i * TAU) / 5);
+        const lg = g.createLinearGradient(0, 0, 0, -21);
+        lg.addColorStop(0, 'rgb(246,236,220)'); lg.addColorStop(1, 'rgb(255,254,250)');
+        g.fillStyle = lg; g.beginPath(); g.ellipse(0, -11, 7, 11, 0, 0, TAU); g.fill(); g.restore();
+      }
+      g.fillStyle = 'rgb(240,196,90)'; g.beginPath(); g.arc(0, 0, 4.5, 0, TAU); g.fill();
+      g.fillStyle = 'rgb(200,140,50)';
+      for (let i = 0; i < 6; i++) { const a = (i * TAU) / 6; g.fillRect(Math.cos(a) * 6 - 1, Math.sin(a) * 6 - 1, 2, 2); }
+    });
+    function spin(img, x, y, size, a, rot, sx = 1, sy = 1) { // a sprite turned and flipped in place
+      if (a <= .002) return;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sx, sy);
+      blit(img, 0, 0, size, a); ctx.restore();
+    }
+    function wash(x, y, r, rgb, a) { // a soft pool of coloured light
+      if (a <= .002 || r <= 0) return;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, `rgba(${rgb},${a})`); g.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.globalAlpha = 1; ctx.fillStyle = g; box(x, y, r);
+    }
+    // a particle field: spawns while the note is on; each mote eases towards its drift (ax, ay) and sways
+    function field(L, arr, name, rate, cap, dt, spawn, draw) {
+      if (L.on && spawn && arr.length < cap) emit(L, name, rate, dt, () => arr.push(spawn()));
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const p = arr[i];
+        p.life += dt;
+        if (p.life > p.max) { arr.splice(i, 1); continue; }
+        if (p.life < 0) continue;
+        if (p.ax != null) { const k = 1 - Math.exp(-dt * (p.dr || .8)); p.vx += (p.ax - p.vx) * k; p.vy += (p.ay - p.vy) * k; }
+        p.x += (p.vx + Math.sin(p.life * (p.sf || 1) + (p.ph || 0)) * (p.sw || 0)) * dt; p.y += p.vy * dt;
+        draw(p, fade(p, p.fin || .6, p.fout || 1.5) * L.I);
+      }
+    }
+    // motes thrown out of the orb's rim when a note arrives
+    function ring(arr, n, make) {
+      for (let i = 0; i < n; i++) { const a = (i / n) * TAU + rr(-.2, .2); arr.push(make(a, O.x + Math.cos(a) * O.r * .9, O.y + Math.sin(a) * O.r * .9)); }
+    }
+    const creamPetal = (x, y, vx, vy, max) => ({ x, y, vx, vy, ax: rr(-6, 6), ay: rr(10, 22), sw: 18, sf: rr(.5, .9), ph: rr(0, TAU), rot: rr(0, TAU), vr: rr(-.6, .6),
+      fl: rr(.8, 1.5), z: rr(.5, 1), s: rr(15, 24), c: Math.random() < .3 ? '246,212,212' : '250,236,220', life: 0, max, fin: .4, fout: 2 });
+    const tinyBlossom = (x, y, vx, vy, max) => ({ x, y, vx, vy, ax: rr(-5, 5), ay: rr(6, 14), sw: 10, sf: rr(.5, 1), ph: rr(0, TAU), rot: rr(0, TAU), vr: rr(-.5, .5),
+      z: rr(.5, 1), s: rr(10, 17), life: 0, max, fin: .5, fout: 2 });
+    const speck = (x, y, vx, vy, max) => ({ x, y, vx, vy, ax: rr(-6, 6), ay: rr(18, 34), dr: 1.2, rot: rr(0, TAU), vr: rr(-3, 3), ph: rr(0, TAU), s: rr(1.6, 3.4),
+      pts: Array.from({ length: 5 }, (_, i) => [Math.cos((i / 5) * TAU) * rr(.6, 1.2), Math.sin((i / 5) * TAU) * rr(.6, 1.2)]),
+      c: ['226,170,80', '186,120,52', '246,206,128'][(Math.random() * 3) | 0], life: 0, max, fin: .1, fout: 1.5 });
 
     /* --- effects, one per ingredient (z = paint order) --- */
     const petal = (burst) => ({
@@ -839,6 +917,401 @@ document.addEventListener('DOMContentLoaded', () => {
           floaters(L, ['smoke'], 2, 70, dt, false);
         },
       },
+
+      /* green leaves → leaves ride a slow breeze across the stage */
+      green: {
+        z: 6,
+        init(L) { ring(L.p, Math.round(8 * D), (a, x, y) => ({ item: { kind: 'leaf' }, x, y, vx: Math.cos(a) * rr(90, 170), vy: Math.sin(a) * rr(60, 120), ax: rr(16, 34), ay: rr(-4, 6), sw: 14, sf: rr(.6, 1.1), ph: rr(0, TAU), z: rr(.5, 1), life: 0, max: rr(8, 12) })); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(0, 0, diag * .55, '120,180,100', .07 * L.I * share);
+          ctx.globalCompositeOperation = 'source-over';
+          field(L, L.p, 'p', .7, Math.round(7 * D * share) + 1, dt,
+            () => ({ item: { kind: 'leaf' }, x: rr(-30, W * .7), y: rr(H * .1, H * .9), vx: rr(24, 44), vy: rr(-4, 4), sw: 14, sf: rr(.6, 1.1), ph: rr(0, TAU), z: rr(.4, 1), life: 0, max: rr(12, 18), fin: 1.5, fout: 2.5 }),
+            (p, a) => Art.draw(ctx, far(p.item, p.z), p.x, p.y, (small ? 26 : 36) * (.6 + .6 * p.z), a * (.4 + .5 * p.z), dt));
+        },
+      },
+
+      /* green apple → crisp green sparkles */
+      apple: {
+        z: 8,
+        init(L) { ring(L.p, Math.round(22 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(120, 260), vy: Math.sin(a) * rr(90, 200), ax: 0, ay: -6, dr: 1.4, s: rr(4, 9), ph: rr(0, TAU), life: -rr(0, .3), max: rr(1.8, 3), fin: .1, fout: 1 })); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 2.6, '190,230,140', .07 * L.I * share);
+          field(L, L.p, 's', 3.5 * D * share, 40, dt,
+            () => ({ x: rr(0, W), y: rr(0, H), vx: 0, vy: rr(-10, -3), s: rr(3, 8), ph: rr(0, TAU), life: 0, max: rr(1.4, 2.4), fin: .2, fout: .8 }),
+            (p, a) => { const k = Math.sin(Math.PI * clamp(p.life / p.max)); star(p.x, p.y, p.s * (.4 + .6 * k), a * (.6 + .4 * Math.sin(p.life * 9 + p.ph)), p.ph > 3 ? '226,250,190' : '180,232,120'); });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['apple'], 2, 46, dt, false);
+        },
+      },
+
+      /* peach → a soft blush haze drifts in */
+      peach: {
+        z: 2, ramp: .6,
+        init(L) { for (let i = 0; i < 3; i++) L.p.push({ x: O.x + rr(-1.5, 1.5) * O.r, y: O.y + rr(-1, 1) * O.r, vx: rr(-8, 8), vy: rr(-6, -2), r: rr(.18, .28) * diag, ph: rr(0, TAU), life: 0, max: rr(10, 14), fin: 2, fout: 4 }); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          field(L, L.p, 'h', .45, Math.round(5 * D) + 2, dt,
+            () => ({ x: rr(-.1, 1.1) * W, y: rr(.1, 1) * H, vx: rr(-8, 8), vy: rr(-6, -2), r: rr(.18, .3) * diag, ph: rr(0, TAU), life: 0, max: rr(11, 16), fin: 3, fout: 4 }),
+            (p, a) => blit(puff(p.ph > 3 ? '255,170,150' : '255,204,170'), p.x, p.y, p.r * 2, a * .24 * (.5 + .5 * share)));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['peach'], 2, 52, dt, false);
+        },
+      },
+
+      /* raspberry → ruby droplets fall slowly through the light */
+      raspberry: {
+        z: 7,
+        init(L) { ring(L.p, Math.round(16 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(80, 180), vy: Math.sin(a) * rr(60, 140) - 90, ax: 0, ay: rr(40, 70), r: rr(4, 7.5), life: 0, max: rr(3, 5), fin: .1, fout: 1 })); },
+        frame(L, dt) {
+          field(L, L.p, 'd', 1.6 * D * share, 24, dt,
+            () => ({ x: rr(W * .04, W * .96), y: -12, vx: 0, vy: rr(30, 60), ax: 0, ay: rr(40, 70), sw: 6, sf: rr(.5, 1), ph: rr(0, TAU), r: rr(3, 6.5), life: 0, max: rr(9, 14), fin: .8, fout: 2 }),
+            (p, a) => {
+              ctx.globalCompositeOperation = 'lighter'; blit(glow('230,40,90'), p.x, p.y, p.r * 5, a * .35);
+              ctx.globalCompositeOperation = 'source-over'; spin(bead('206,24,78'), p.x, p.y, p.r * 2.4, a * .92, 0, .86, 1.14);
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['raspberry'], 2, 40, dt, false);
+        },
+      },
+
+      /* blackcurrant → deep violet beads rise like slow bubbles */
+      blackcurrant: {
+        z: 6,
+        init(L) { ring(L.p, Math.round(14 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(70, 150), vy: Math.sin(a) * rr(50, 110), ax: 0, ay: rr(-16, -8), r: rr(5, 9), sw: 8, ph: rr(0, TAU), life: 0, max: rr(6, 9), fin: .2 })); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(W * .5, H * 1.05, H * .8, '110,60,160', .1 * L.I * share);
+          field(L, L.p, 'b', 1.4 * D * share, 22, dt,
+            () => ({ x: rr(0, W), y: H + 12, vx: 0, vy: rr(-26, -12), sw: 10, sf: rr(.4, .9), ph: rr(0, TAU), r: rr(3.5, 8), life: 0, max: rr(12, 18), fin: 1, fout: 3 }),
+            (p, a) => {
+              ctx.globalCompositeOperation = 'lighter'; blit(glow('150,90,210'), p.x, p.y, p.r * 4.5, a * .25);
+              ctx.globalCompositeOperation = 'source-over'; blit(bead('96,38,136'), p.x, p.y, p.r * 2.2, a * .95);
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['blackcurrant', 'leaf'], 2, 40, dt, false);
+        },
+      },
+
+      /* bergamot → bright zest mist spritzes from the orb */
+      bergamot: {
+        z: 7,
+        init(L) { L.next = 0; },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y - O.r * .4, diag * .45, '236,232,150', .07 * L.I * share * (.8 + .2 * Math.sin(t * .9)));
+          if (L.on && (L.next -= dt) <= 0) { // a spritz of peel oil
+            L.next = rr(3, 5) / share;
+            const a0 = rr(0, TAU), x = O.x + Math.cos(a0) * O.r, y = O.y + Math.sin(a0) * O.r * .8;
+            for (let i = 0; i < Math.round(26 * D); i++) {
+              const a = a0 + rr(-.45, .45), sp = rr(60, 260);
+              L.p.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, ax: 0, ay: -8, dr: 2.4, r: rr(1.2, 3.2), c: i % 3 ? '246,236,120' : '200,236,120', life: 0, max: rr(1.6, 3), fin: .05, fout: 1.4 });
+            }
+          }
+          field(L, L.p, 'm', 0, 0, dt, null, (p, a) => blit(glow(p.c), p.x, p.y, p.r * 6, a * .8));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['bergamot', 'leaf'], 2, 44, dt, false);
+        },
+      },
+
+      /* white peony → soft cream petals drift down */
+      peony: {
+        z: 6,
+        init(L) { ring(L.p, Math.round(14 * D), (a, x, y) => creamPetal(x, y, Math.cos(a) * rr(80, 160), Math.sin(a) * rr(60, 120), rr(8, 12))); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 2.4, '255,240,226', .06 * L.I * share);
+          ctx.globalCompositeOperation = 'source-over';
+          field(L, L.p, 'p', .9, Math.round(10 * D * share) + 2, dt,
+            () => creamPetal(rr(0, W), -20, rr(-6, 6), rr(10, 22), rr(18, 26)),
+            (p, a) => { p.rot += p.vr * dt; spin(petalImg(p.c), p.x, p.y, p.s * (small ? .75 : 1) * (.6 + .5 * p.z), a * (.5 + .4 * p.z), p.rot, Math.max(.15, Math.abs(Math.cos(p.life * p.fl + p.ph)))); });
+          floaters(L, ['peony'], 2, 52, dt, false);
+        },
+      },
+
+      /* orange blossom → tiny white blossoms in a warm light */
+      orangeblossom: {
+        z: 6,
+        init(L) { ring(L.p, Math.round(12 * D), (a, x, y) => tinyBlossom(x, y, Math.cos(a) * rr(60, 140), Math.sin(a) * rr(50, 110), rr(8, 12))); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 3, '255,200,130', .1 * L.I * share * (.85 + .15 * Math.sin(t * .7)));
+          field(L, L.p, 'p', .9, Math.round(10 * D * share) + 2, dt,
+            () => tinyBlossom(rr(0, W), rr(-20, H * .5), rr(-5, 5), rr(6, 14), rr(14, 20)),
+            (p, a) => {
+              p.rot += p.vr * dt;
+              ctx.globalCompositeOperation = 'lighter'; blit(glow('255,214,150'), p.x, p.y, p.s * 2.6, a * .28);
+              ctx.globalCompositeOperation = 'source-over'; spin(blossom(), p.x, p.y, p.s * (small ? .8 : 1) * (.7 + .4 * p.z), a * (.6 + .4 * p.z), p.rot);
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['orangeblossom'], 2, 40, dt, false);
+        },
+      },
+
+      /* wild orchid → an orchid-pink glow opens around the orb */
+      orchid: {
+        z: 2, ramp: .7,
+        init(L) { L.seed = rr(0, TAU); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          const env = L.I * (.5 + .5 * share) * (.75 + .25 * Math.sin(t * .8 + L.seed)), grow = 1 - Math.pow(1 - Math.min(1, L.age / 3), 3);
+          for (let i = 0; i < 5; i++) { // five lobes of light, like a flower opening around the glass
+            const a = L.seed + t * .05 + (i / 5) * TAU, d = O.r * (.9 + .6 * grow);
+            wash(O.x + Math.cos(a) * d * 1.2, O.y + Math.sin(a) * d, O.r * (1 + .5 * grow), i % 2 ? '226,120,214' : '196,110,232', .11 * env);
+          }
+          wash(O.x, O.y, diag * .5, '214,112,200', .05 * env);
+          field(L, L.p, 'm', 1.6 * D * share, 18, dt,
+            () => ({ x: rr(0, W), y: rr(H * .2, H), vx: 0, vy: rr(-14, -6), sw: 8, ph: rr(0, TAU), r: rr(1.5, 3.5), life: 0, max: rr(5, 8), fin: 1, fout: 2 }),
+            (p, a) => blit(glow('244,170,232'), p.x, p.y, p.r * 6, a * .6));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['orchid'], 2, 52, dt, false);
+        },
+      },
+
+      /* cotton candy → pink sugar wisps spin round the orb */
+      candy: {
+        z: 5,
+        init(L) { L.w = Array.from({ length: 7 }, (_, i) => ({ ph: rr(0, TAU), sp: rr(.06, .14) * (i % 2 ? 1 : -1), r0: rr(1.15, 2.3), len: rr(1.2, 2.2), wob: rr(0, TAU), c: ['255,182,214', '255,214,232', '246,160,206'][i % 3] })); },
+        frame(L, dt) {
+          const grow = 1 - Math.pow(1 - Math.min(1, L.age / 3), 3), env = L.I * (.5 + .5 * share);
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 2.8, '255,170,214', .07 * env);
+          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+          L.w.forEach((w) => {
+            ctx.beginPath();
+            for (let i = 0; i <= 24; i++) {
+              const th = w.ph + t * w.sp + (i / 24) * w.len, r = O.r * w.r0 * (.6 + .4 * grow) + Math.sin(i * .5 + t * .9 + w.wob) * 14;
+              const x = O.x + Math.cos(th) * r * 1.3, y = O.y + Math.sin(th) * r * .8 + Math.sin(i * .3 + t) * 6;
+              i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+            }
+            ctx.strokeStyle = `rgb(${w.c})`;
+            ctx.globalAlpha = .07 * env; ctx.lineWidth = small ? 10 : 14; ctx.stroke();
+            ctx.globalAlpha = .4 * env; ctx.lineWidth = 1.1; ctx.stroke();
+          });
+          field(L, L.p, 's', 2 * D * share, 16, dt,
+            () => { const a = rr(0, TAU), d = O.r * rr(1.2, 2.6); return { x: O.x + Math.cos(a) * d * 1.3, y: O.y + Math.sin(a) * d * .8, vx: 0, vy: -4, s: rr(2.5, 5), life: 0, max: rr(1.4, 2.4), fin: .3, fout: .9 }; },
+            (p, a) => star(p.x, p.y, p.s, a, '255,226,240'));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['cottoncandy'], 2, 56, dt, false);
+        },
+      },
+
+      /* marshmallow → soft white puffs float up and breathe */
+      marshmallow: {
+        z: 4,
+        init(L) { ring(L.p, Math.round(9 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(40, 90), vy: Math.sin(a) * rr(30, 70), ax: 0, ay: -12, r: rr(18, 34), ph: rr(0, TAU), life: 0, max: rr(6, 9), fin: .4, fout: 2.5 })); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          field(L, L.p, 'p', 1.1 * D * share, 14, dt,
+            () => ({ x: rr(0, W), y: H + 40, vx: 0, vy: rr(-18, -9), sw: 10, sf: rr(.4, .8), ph: rr(0, TAU), r: rr(22, 46) * (small ? .75 : 1), life: 0, max: rr(13, 19), fin: 1.5, fout: 3 }),
+            (p, a) => {
+              const b = 1 + .07 * Math.sin(p.life * 1.5 + p.ph);
+              blit(puff('255,246,240'), p.x, p.y, p.r * 2 * b, a * .32);
+              blit(puff('255,224,232'), p.x + p.r * .2, p.y - p.r * .15, p.r * 1.3 / b, a * .18);
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['marshmallow'], 2, 44, dt, false);
+        },
+      },
+
+      /* tonka → warm brown curls rise and unwind */
+      tonka: {
+        z: 5,
+        init(L) { ring(L.p, Math.round(8 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(110, 190), vy: Math.sin(a) * rr(80, 140), ax: 0, ay: -14, s: rr(16, 28), rot: rr(0, TAU), vr: rr(-.5, .5), life: 0, max: rr(7, 10), fin: .4, fout: 2.5 })); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y + O.r * .3, O.r * 2.6, '200,140,80', .08 * L.I * share);
+          ctx.lineCap = 'round';
+          field(L, L.p, 'c', 1.2 * D * share, 14, dt,
+            () => ({ x: rr(W * .05, W * .95), y: rr(H * .6, H + 20), vx: 0, vy: rr(-16, -8), sw: 8, sf: rr(.4, .8), ph: rr(0, TAU), s: rr(14, 30) * (small ? .75 : 1), rot: rr(0, TAU), vr: rr(-.5, .5), life: 0, max: rr(10, 15), fin: 1.5, fout: 3 }),
+            (p, a) => {
+              p.rot += p.vr * dt;
+              const un = .75 + .25 * Math.sin(p.life * .6 + p.ph); // the curl slowly loosens and tightens
+              ctx.beginPath();
+              for (let j = 0; j <= 20; j++) {
+                const an = p.rot + j * .5 * un, rd = p.s * (j / 20), x = p.x + Math.cos(an) * rd, y = p.y + Math.sin(an) * rd * .8 - j * .8;
+                j ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+              }
+              ctx.strokeStyle = 'rgb(232,178,116)';
+              ctx.globalAlpha = a * .12; ctx.lineWidth = 8; ctx.stroke();
+              ctx.globalAlpha = a * .7; ctx.lineWidth = 1.6; ctx.stroke();
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['tonka'], 3, 36, dt, false);
+        },
+      },
+
+      /* caramel → slow golden drips from the top of the stage */
+      caramel: {
+        z: 5,
+        init(L) {
+          L.d = [];
+          L.drip = (x) => ({ x, len: 0, to: rr(.2, .44) * H, w: rr(2.5, 5) * (small ? .8 : 1), life: 0, max: rr(10, 14), fin: .3, fout: 2.5, fell: false });
+          for (let i = 0; i < Math.round(5 * D); i++) L.p.push({ ...L.drip(rr(W * .08, W * .92)), life: -i * .5 });
+        },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          const lg = ctx.createLinearGradient(0, 0, 0, H * .3);
+          lg.addColorStop(0, `rgba(230,160,70,${.1 * L.I * share})`); lg.addColorStop(1, 'rgba(230,160,70,0)');
+          ctx.globalAlpha = 1; ctx.fillStyle = lg; ctx.fillRect(0, 0, W, H * .3);
+          ctx.globalCompositeOperation = 'source-over';
+          if (L.on && L.p.length < Math.round(6 * D * share) + 2) emit(L, 'n', .35, dt, () => L.p.push(L.drip(rr(W * .04, W * .96))));
+          const k = 1 - Math.exp(-dt * .35);
+          for (let i = L.p.length - 1; i >= 0; i--) {
+            const p = L.p[i];
+            p.life += dt;
+            if (p.life > p.max) { L.p.splice(i, 1); continue; }
+            if (p.life < 0) continue;
+            p.len += (p.to - p.len) * k;
+            if (!p.fell && p.len > p.to * .92) { p.fell = true; L.d.push({ x: p.x, y: p.len + p.w, vy: 8, r: p.w * 1.1, life: 0, max: 6 }); } // a bead lets go
+            const a = fade(p, p.fin, p.fout) * L.I, x = p.x, w = p.w, len = p.len;
+            ctx.globalAlpha = a * .85; ctx.fillStyle = 'rgb(176,104,34)';
+            ctx.beginPath(); ctx.moveTo(x - w * 1.8, -2); ctx.quadraticCurveTo(x - w * .45, len * .3, x - w * .45, len);
+            ctx.lineTo(x + w * .45, len); ctx.quadraticCurveTo(x + w * .45, len * .3, x + w * 1.8, -2); ctx.fill();
+            ctx.globalAlpha = a * .45; ctx.strokeStyle = 'rgb(255,214,150)'; ctx.lineWidth = .8;
+            ctx.beginPath(); ctx.moveTo(x - w * .9, 0); ctx.quadraticCurveTo(x - w * .2, len * .3, x - w * .2, len * .9); ctx.stroke();
+            blit(bead('224,150,56'), x, len + w * .3, w * (2.4 + .3 * Math.sin(p.life * 1.3)), a);
+          }
+          for (let i = L.d.length - 1; i >= 0; i--) {
+            const d = L.d[i];
+            d.life += dt; d.vy += 40 * dt; d.y += d.vy * dt;
+            if (d.life > d.max || d.y > H + 20) { L.d.splice(i, 1); continue; }
+            ctx.globalCompositeOperation = 'lighter'; blit(glow('240,170,80'), d.x, d.y, d.r * 5, L.I * .3 * (1 - d.life / d.max));
+            ctx.globalCompositeOperation = 'source-over'; spin(bead('224,150,56'), d.x, d.y, d.r * 2.2, L.I * (1 - d.life / d.max), 0, .9, 1.12);
+          }
+          floaters(L, ['caramel'], 2, 44, dt, false);
+        },
+      },
+
+      /* dark cocoa → a dark, velvety dust settles */
+      cocoa: {
+        z: 3,
+        init(L) { ring(L.p, Math.round(30 * D), (a, x, y) => ({ x, y, vx: Math.cos(a) * rr(60, 200), vy: Math.sin(a) * rr(40, 150), ax: rr(-4, 4), ay: rr(6, 14), dr: 1, r: rr(2, 6), ph: rr(0, TAU), life: 0, max: rr(5, 9), fin: .1, fout: 2.5 })); },
+        frame(L, dt) {
+          const g = ctx.createRadialGradient(O.x, O.y, diag * .25, O.x, O.y, diag * .6);
+          g.addColorStop(0, 'rgba(26,12,6,0)'); g.addColorStop(1, `rgba(26,12,6,${.3 * L.I * share})`);
+          ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+          field(L, L.p, 'd', 8 * D * share, 70, dt,
+            () => ({ x: rr(0, W), y: rr(-20, H * .7), vx: rr(-4, 4), vy: rr(5, 14), sw: 6, sf: rr(.3, .7), ph: rr(0, TAU), r: rr(1.5, 5), life: 0, max: rr(7, 11), fin: 1.2, fout: 2.5 }),
+            (p, a) => {
+              ctx.globalCompositeOperation = 'source-over'; blit(puff('34,18,10'), p.x, p.y, p.r * 6, a * .5); // the velvet shadow
+              ctx.globalCompositeOperation = 'screen'; blit(puff('190,128,86'), p.x, p.y, p.r * 3, a * (.6 + .25 * Math.sin(p.life * 2 + p.ph))); // its soft lit grain
+            });
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['cocoa'], 2, 44, dt, false);
+        },
+      },
+
+      /* espresso → roasted steam rises in soft columns */
+      coffee: {
+        z: 3,
+        init(L) { for (let i = 0; i < Math.round(10 * D); i++) L.p.push({ x: O.x + rr(-.3, .3) * O.r, y: O.y - O.r * rr(.5, .9), vx: rr(-6, 6), vy: rr(-40, -24), r0: rr(18, 32), seed: rr(0, TAU), life: -i * .15, max: rr(5, 7), fin: .8, fout: 2.5 }); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(W / 2, H * 1.08, H * .7, '140,80,44', .14 * L.I * share);
+          if (L.on) {
+            emit(L, 'b', 2.4 * D * share, dt, () => { const c = [.18, .5, .82][(Math.random() * 3) | 0]; L.p.push({ x: W * c + rr(-30, 30), y: H + 30, vx: rr(-4, 4), vy: rr(-34, -22), r0: rr(26, 46), seed: rr(0, TAU), life: 0, max: rr(10, 14), fin: 1.5, fout: 3 }); });
+            emit(L, 'o', .9, dt, () => L.p.push({ x: O.x + rr(-.25, .25) * O.r, y: O.y - O.r * .7, vx: rr(-4, 4), vy: rr(-26, -16), r0: rr(16, 28), seed: rr(0, TAU), life: 0, max: rr(6, 9), fin: 1, fout: 2.5 }));
+          }
+          ctx.globalCompositeOperation = 'screen';
+          for (let i = L.p.length - 1; i >= 0; i--) {
+            const p = L.p[i];
+            p.life += dt;
+            if (p.life > p.max) { L.p.splice(i, 1); continue; }
+            if (p.life < 0) continue;
+            p.x += (p.vx + Math.sin(p.life * .9 + p.seed) * 18) * dt; p.y += p.vy * dt;
+            const r = p.r0 * (1 + p.life * .3);
+            blit(puff('222,196,170'), p.x, p.y, r * 2, fade(p, p.fin, p.fout) * L.I * .22 * (.5 + .5 * share));
+          }
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['coffee'], 2, 44, dt, false);
+        },
+      },
+
+      /* hazelnut praline → golden crunchy specks tumble and catch the light */
+      praline: {
+        z: 6,
+        init(L) { ring(L.p, Math.round(34 * D), (a, x, y) => speck(x, y, Math.cos(a) * rr(80, 240), Math.sin(a) * rr(60, 180) - 60, rr(4, 7))); },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 2.4, '230,170,90', .07 * L.I * share);
+          ctx.globalCompositeOperation = 'source-over';
+          field(L, L.p, 's', 4 * D * share, 40, dt,
+            () => speck(rr(0, W), -10, rr(-6, 6), rr(18, 34), rr(12, 20)),
+            (p, a) => {
+              p.rot += p.vr * dt;
+              const s = p.s * (small ? .85 : 1);
+              ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+              ctx.globalAlpha = a * .9; ctx.fillStyle = `rgb(${p.c})`; ctx.beginPath();
+              p.pts.forEach(([u, v], j) => (j ? ctx.lineTo(u * s, v * s) : ctx.moveTo(u * s, v * s)));
+              ctx.fill(); ctx.restore();
+              const gl = Math.sin(p.life * 2.2 + p.ph); // now and then a facet catches the light
+              if (gl > .9) { ctx.globalCompositeOperation = 'lighter'; star(p.x, p.y, s * 2.4 * (gl - .9) * 10, a, '255,226,160'); ctx.globalCompositeOperation = 'source-over'; }
+            });
+          floaters(L, ['hazelnut', 'caramel'], 2, 42, dt, false);
+        },
+      },
+
+      /* cashmere wood → a creamy haze, brushed in slow soft bands */
+      cashmere: {
+        z: 2, ramp: .6,
+        init(L) { L.bands = [0, 1].map((i) => ({ ph: i * .55 + rr(0, .2), sp: rr(.012, .02), bw: rr(.18, .28) })); },
+        frame(L, dt) {
+          const env = L.I * (.5 + .5 * share);
+          ctx.globalCompositeOperation = 'lighter';
+          wash(O.x, O.y, O.r * 2.8, '246,230,206', .08 * env);
+          ctx.save();
+          ctx.translate(W / 2, H / 2); ctx.rotate(-.42);
+          L.bands.forEach((b) => {
+            const cx = (((t * b.sp + b.ph) % 1.4) - .7) * diag, bw = b.bw * diag;
+            const lg = ctx.createLinearGradient(cx - bw, 0, cx + bw, 0);
+            lg.addColorStop(0, 'rgba(244,226,200,0)'); lg.addColorStop(.5, `rgba(244,226,200,${.07 * env})`); lg.addColorStop(1, 'rgba(244,226,200,0)');
+            ctx.globalAlpha = 1; ctx.fillStyle = lg; ctx.fillRect(cx - bw, -diag / 2, bw * 2, diag);
+          });
+          ctx.restore();
+          ctx.globalCompositeOperation = 'lighter';
+          field(L, L.p, 'm', 1.4 * D * share, 14, dt,
+            () => ({ x: rr(0, W), y: rr(0, H), vx: rr(4, 10), vy: rr(-4, 2), r: rr(30, 70), life: 0, max: rr(8, 12), fin: 2.5, fout: 3 }),
+            (p, a) => blit(puff('240,222,196'), p.x, p.y, p.r * 2, a * .12));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['cashmere'], 2, 50, dt, false);
+        },
+      },
+
+      /* vetiver → earthy green-gold strands sway along the ground */
+      vetiver: {
+        z: 1, ramp: .7,
+        init(L) {
+          L.g = [];
+          for (let i = 0, n = Math.round(13 * D); i < n; i++) { // tufts of grass, each a fan of blades
+            const u = (i + rr(.1, .9)) / n, m = 3 + ((Math.random() * 4) | 0), tall = rr(.12, .26);
+            for (let j = 0; j < m; j++) L.g.push({ u: u + rr(-.012, .012), lean: (j - (m - 1) / 2) * rr(.08, .16), h: tall * rr(.55, 1), ph: rr(0, TAU), w: rr(1, 2.2), c: ['128,140,64', '164,156,78', '204,178,96'][(Math.random() * 3) | 0], d: i * .12 + rr(0, .3) });
+          }
+        },
+        frame(L, dt) {
+          ctx.globalCompositeOperation = 'lighter';
+          wash(W / 2, H * 1.1, H * .6, '170,160,80', .1 * L.I * share);
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.lineCap = 'round';
+          const hs = Math.min(H, 900);
+          L.g.forEach((s) => {
+            const grow = 1 - Math.pow(1 - clamp((L.age - s.d) / 3), 3);
+            if (grow <= 0) return;
+            const x = s.u * W, h = s.h * hs * grow, sway = s.lean * h + Math.sin(t * .7 - x * .006 + s.ph * .3) * h * .14 + Math.sin(t * 1.9 + s.ph) * h * .03; // a wind wave travels along
+            ctx.beginPath(); ctx.moveTo(x, H + 4); ctx.quadraticCurveTo(x + sway * .25, H - h * .55, x + sway, H - h);
+            ctx.strokeStyle = `rgb(${s.c})`; ctx.lineWidth = s.w; ctx.globalAlpha = L.I * (.35 + .25 * share);
+            ctx.stroke();
+          });
+          ctx.globalCompositeOperation = 'lighter';
+          field(L, L.p, 'm', 1.6 * D * share, 16, dt,
+            () => ({ x: rr(0, W), y: H - rr(0, .2) * hs, vx: rr(-4, 4), vy: rr(-14, -6), sw: 8, ph: rr(0, TAU), r: rr(1.2, 2.6), life: 0, max: rr(5, 8), fin: 1, fout: 2 }),
+            (p, a) => blit(glow('220,196,120'), p.x, p.y, p.r * 6, a * .6));
+          ctx.globalCompositeOperation = 'source-over';
+          floaters(L, ['vetiver'], 2, 46, dt, false);
+        },
+      },
     };
 
     function measure() {
@@ -1084,4 +1557,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   render();
   kick();
+
+  // deep link: alchemy.html?add=tonka,vanilla pre-fills the orb (unknown keys are ignored), one note at a time
+  const linked = [...new Set((new URLSearchParams(location.search).get('add') || '').toLowerCase().split(',').map((s) => s.trim()))]
+    .filter((k) => ING[k] && tierOf(k) >= 0).slice(0, MAX);
+  linked.forEach((k, i) => setTimeout(() => { if (canAdd(k, true)) addNote(k); }, reduce ? 0 : 500 + i * 380));
 });

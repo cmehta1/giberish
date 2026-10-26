@@ -32,7 +32,8 @@
   const dict = () => (window.GIB_I18N || {})[lang] || {};
 
   // the dictionary (~300 KB) is only fetched for Hindi / Gujarati, never for English visitors
-  const DICT_SRC = ((document.currentScript && document.currentScript.src) || 'assets/js/i18n.js').replace(/i18n\.js(\?.*)?$/, 'i18n-dict.js');
+  // the page names the (versioned) dictionary on its script tag: data-dict="assets/js/i18n-dict.js?v=…"
+  const DICT_SRC = (document.currentScript && document.currentScript.dataset.dict) || ((document.currentScript && document.currentScript.src) || 'assets/js/i18n.js').replace(/i18n\.js(\?.*)?$/, 'i18n-dict.js');
   let waiting = null;
   function withDict(cb) {
     if (window.GIB_I18N) return cb();

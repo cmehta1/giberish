@@ -29,7 +29,7 @@
   const D = { back: .07, photo: .2, cmid: .42, hero: .6, front: .8 };
 
   /* ============================================================
-     The thirteen worlds — one photograph and one mood per fragrance.
+     The worlds — one photograph and one mood per fragrance.
      pos: where to crop the photo · grade: colour grade (CSS filter, applied once)
      floor: colour of the dark floor the bottle stands on · sound: GibSound theme
      entrance: rise | bloom | mist | smoke | glow
@@ -90,6 +90,26 @@
         front: [['dust', { count: 40, rgb: '232,242,245', size: [.4, 1.2], vx: 70, vy: -6, swirl: 24, alpha: .5 }],
           ['rain', { count: 34, len: [26, 50], speed: [900, 1150], alpha: .2, width: 1, color: '#e6f0f2', wind: -.4 }],
           ['burst', { rgb: '220,232,236', sprite: 'soft', soft: true, comp: 'source-over', count: 16, delay: 0, dur: .4, spread: 1.2, vx: 30, vy: [4, 20], r: [40, 110], grow: 18, life: [2.5, 4], alpha: .16, yOff: -.8 }]],
+      }),
+    },
+    'liquid-burn': {
+      title: 'The Ember Hearth', mood: 'Smouldering wood, rising sparks, and a warmth that stays.',
+      sound: 'fire', pos: '58% 55%', grade: 'brightness(.8) contrast(1.08) saturate(.95)', floor: '12,6,3', accent: '255,150,70', entrance: 'glow', reflect: true, sink: .012,
+      parts: (e) => ({
+        mid: [['haze', { count: 5, rgb: '255,110,40', y: e.base - e.H * .1, a: [.05, .08] }], ['dust', { count: 34, rgb: '255,150,70', size: [.5, 1.3], vx: 3, vy: -10, swirl: 10, alpha: .6 }]],
+        front: [['sparks', { rate: 4.5, rgb: '255,140,50', spread: 1 }], ['dust', { count: 16, rgb: '255,180,100', size: [1, 2.2], vx: 4, vy: -14, swirl: 14, alpha: .75 }],
+          ['burst', { rgb: '255,140,60', count: 60, delay: .4, dur: 1.2, spread: 1, vx: 40, vy: [30, 90], g: -10, r: [.8, 1.9], life: [1.4, 2.8], alpha: .75 }]],
+      }),
+    },
+    'green-irish': {
+      title: 'The Emerald Hills', mood: 'Mist rolling over green hills, and rain still on the grass.',
+      sound: 'forest', pos: '50% 62%', grade: 'brightness(.74) contrast(1.06) saturate(.85)', floor: '5,9,6', accent: '200,235,200', entrance: 'mist', sink: .03,
+      parts: (e) => ({
+        mid: [['mist', { count: 6, rgb: '214,226,218', r: [.3, .55], y0: e.hy - e.H * .2, y1: e.gy, a: [.05, .09], vx: [4, 12], boost: 2 }],
+          ['dust', { count: 22, rgb: '220,240,215', size: [.4, 1.1], vx: 8, vy: -3, swirl: 10, alpha: .45 }]],
+        front: [['mist', { count: 3, rgb: '225,235,228', r: [.25, .4], y0: e.base - e.H * .1, y1: e.H, a: [.04, .07], vx: [6, 14] }],
+          ['rain', { count: 28, len: [18, 36], speed: [700, 900], alpha: .12, width: .8, color: '#dfeee4', wind: -.15 }],
+          ['burst', { rgb: '215,235,220', sprite: 'soft', soft: true, comp: 'source-over', count: 16, delay: 0, dur: .4, spread: 1.1, vx: 26, vy: [6, 22], r: [40, 100], grow: 16, life: [2.4, 3.6], alpha: .16, yOff: -.7 }]],
       }),
     },
     'ajmal-1001-night': {

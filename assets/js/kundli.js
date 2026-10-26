@@ -15,28 +15,32 @@ document.addEventListener('DOMContentLoaded', () => {
     { key: 'name', type: 'name', eyebrow: 'Before we begin', q: 'What should we <em>call you?</em>', hint: 'Your kundli and your bespoke attar will carry your name.' },
     { key: 'hour', eyebrow: 'The hour', q: 'When do you feel <em>most like yourself?</em>', opts: [
       ['🌅', 'Dawn', 'First light, first chai', { fresh: 1, musk: .5 }],
-      ['☀️', 'Golden afternoon', 'Warm light through the curtains', { amber: 1, floral: .4 }],
+      ['☀️', 'Golden afternoon', 'Warm light through the curtains', { amber: .9, fruity: .4, floral: .3 }],
       ['🪔', 'Dusk', 'When the lamps are lit', { woody: .6, amber: .7 }],
       ['🌙', 'Midnight', 'When the world finally sleeps', { woody: 1, spicy: .5 }],
     ] },
     { key: 'place', eyebrow: 'The place', q: 'Where does your mind <em>go to rest?</em>', opts: [
       ['🌹', 'A rose garden after rain', 'Petals, wet earth, birdsong', { floral: 1.2 }],
+      ['🍑', 'An orchard in summer', 'Ripe fruit, warm leaves, bees', { fruity: 1.2 }],
       ['🛕', 'An old temple courtyard', 'Stone, smoke, bells far away', { woody: 1, amber: .5 }],
       ['🌊', 'A cliff above the sea', 'Wind, salt, open sky', { fresh: 1.2 }],
       ['🏮', 'A spice bazaar at dusk', 'Colour, noise, saffron in the air', { spicy: 1.2 }],
+      ['☕', 'A café on a winter evening', 'Cocoa, coffee, warm hands', { gourmand: 1.2 }],
       ['📚', 'A library of old books', 'Paper, wood, a quiet corner', { woody: .6, musk: .6, amber: .4 }],
     ] },
     { key: 'memory', eyebrow: 'The memory', q: 'Which memory <em>smells like home?</em>', opts: [
       ['🪵', 'Nani’s cupboard', 'Sandalwood and old silk sarees', { woody: 1, musk: .4 }],
       ['🌧️', 'First rain on dry earth', 'That smell of mitti', { fresh: .7, woody: .5 }],
-      ['✨', 'Diwali night', 'Diyas, incense, sweets', { amber: 1, woody: .4, spicy: .3 }],
-      ['🌼', 'A mehendi evening', 'Jasmine in the hair, henna on hands', { floral: 1.2 }],
+      ['✨', 'Diwali night', 'Diyas, incense, sweets', { gourmand: .9, amber: .6, woody: .2 }],
+      ['🌼', 'A mehendi evening', 'Jasmine in the hair, henna on hands', { floral: 1.1, gourmand: .3 }],
+      ['🥭', 'Mango season', 'Sticky fingers, long summer holidays', { fruity: 1.2, fresh: .2 }],
       ['☁️', 'Laundry drying in the sun', 'Clean, soft, simple', { musk: 1.2, fresh: .4 }],
     ] },
     { key: 'texture', eyebrow: 'The texture', q: 'Which fabric would you <em>wrap yourself in?</em>', opts: [
       ['🪶', 'Silk', 'Cool, fluid, effortless', { musk: .8, floral: .5 }],
-      ['🧣', 'Pashmina', 'Soft warmth on a winter evening', { amber: .8, musk: .6 }],
+      ['🧣', 'Pashmina', 'Soft warmth on a winter evening', { gourmand: .7, amber: .5, musk: .4 }],
       ['🌾', 'Raw linen', 'Light, breezy, honest', { fresh: 1.1 }],
+      ['🌸', 'Printed cotton', 'Bright, light, full of colour', { fruity: .8, fresh: .4 }],
       ['🍷', 'Velvet', 'Deep, rich, a little dramatic', { woody: .7, amber: .6, spicy: .3 }],
       ['🧥', 'Worn leather', 'Lived-in and confident', { spicy: .7, woody: .8 }],
     ] },
@@ -44,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ['🕊️', 'Calm', 'Like everything is okay', { musk: 1, woody: .3 }],
       ['🗝️', 'Curious', 'Who was that?', { woody: .8, spicy: .5 }],
       ['🔥', 'Unforgettable', 'They’ll remember you tomorrow', { spicy: 1, amber: .6 }],
-      ['🤍', 'Warm', 'Like they’ve just been hugged', { amber: 1, musk: .5 }],
+      ['🤍', 'Warm', 'Like they’ve just been hugged', { amber: .8, gourmand: .6, musk: .4 }],
+      ['🌤️', 'Lighter', 'Smiling, without quite knowing why', { fruity: 1, floral: .3 }],
       ['🍃', 'Refreshed', 'Like a window was opened', { fresh: 1.2 }],
     ] },
     { key: 'voice', eyebrow: 'The voice', q: 'How loud should your fragrance <em>speak?</em>', opts: [
@@ -54,49 +59,60 @@ document.addEventListener('DOMContentLoaded', () => {
     ] },
     { key: 'when', eyebrow: 'The moment', q: 'When will you <em>wear it most?</em>', opts: [
       ['🌿', 'Every day', 'My signature, my skin', { fresh: .5, musk: .5 }],
-      ['🥂', 'Evenings out', 'Dinners, dates, music', { amber: .6, spicy: .5 }],
+      ['🥂', 'Evenings out', 'Dinners, dates, music', { amber: .5, spicy: .4, gourmand: .4 }],
       ['🧘', 'Prayer & meditation', 'My quiet time', { woody: .8, amber: .4 }],
-      ['💐', 'Celebrations', 'Weddings, festivals, family', { floral: .6, spicy: .5 }],
+      ['💐', 'Celebrations', 'Weddings, festivals, family', { floral: .6, spicy: .4, gourmand: .3 }],
     ] },
     { key: 'sound', eyebrow: 'The sound', q: 'Which sound <em>brings you peace?</em>', opts: [
       ['🔔', 'Temple bells', 'Far away, at dusk', { woody: .8, amber: .5 }],
       ['🌧️', 'Rain on leaves', 'Soft and steady', { fresh: 1, floral: .3 }],
       ['🌊', 'Ocean waves', 'Slow and endless', { fresh: .8, musk: .5 }],
-      ['🔥', 'A crackling fire', 'Warm hands, long talks', { amber: .9, spicy: .4 }],
-      ['🐦', 'Birdsong at dawn', 'A garden waking up', { floral: 1.1 }],
+      ['🔥', 'A crackling fire', 'Warm hands, long talks', { amber: .8, gourmand: .5, spicy: .3 }],
+      ['🐦', 'Birdsong at dawn', 'A garden waking up', { floral: .9, fruity: .4 }],
     ] },
     { key: 'noise', eyebrow: 'The noise', q: 'How loud is your <em>inner noise</em> today?', hint: 'Be honest. There’s no wrong answer here.', opts: [
       ['🌪️', 'Very loud', 'I really need some peace', { musk: .5, woody: .5 }, 3],
       ['〰️', 'A constant hum', 'Busy, but managing', { amber: .3 }, 2],
-      ['🪷', 'Quiet', 'I feel content right now', { floral: .3, fresh: .3 }, 1],
+      ['🪷', 'Quiet', 'I feel content right now', { floral: .3, fresh: .3, fruity: .2 }, 1],
     ] },
   ];
 
   const ARCH = {
-    woody:  { title: 'The Midnight <em>Sufi</em>', plain: 'The Midnight Sufi', reading: 'You are depth that never needs to announce itself. People feel steadier around you without knowing why. Your scent lives in old woods, smoke and oud, the fragrance of someone who has already sat with their own silence.' },
-    floral: { title: 'The Rose <em>Mystic</em>', plain: 'The Rose Mystic', reading: 'You love openly and remember everything. There’s a garden inside you that blooms even in winter. Your scent is petals and soft light: romantic, generous and quietly unforgettable.' },
-    amber:  { title: 'The Golden Hour <em>Soul</em>', plain: 'The Golden Hour Soul', reading: 'You are warmth. When you walk in, the room softens like late afternoon light. Your scent is amber, resin and vanilla, the feeling of coming home after a long day.' },
-    spicy:  { title: 'The Saffron <em>Royal</em>', plain: 'The Saffron Royal', reading: 'You were not made to blend in. You carry fire with grace, and people remember your name. Your scent is saffron, spice and smoke: bold, regal and impossible to ignore.' },
-    fresh:  { title: 'The Monsoon <em>Wanderer</em>', plain: 'The Monsoon Wanderer', reading: 'You are the first breath after rain. Restless in the best way, you bring air into every room. Your scent is citrus, green leaves and open sky, made for people who are always becoming.' },
-    musk:   { title: 'The Velvet <em>Whisper</em>', plain: 'The Velvet Whisper', reading: 'You don’t chase attention; it finds you. Gentle, clean and deeply comforting, you are the person others tell their secrets to. Your scent is soft musk, like your own skin on its best day.' },
+    woody:    { title: 'The Midnight <em>Sufi</em>', plain: 'The Midnight Sufi', reading: 'You are depth that never needs to announce itself. People feel steadier around you without knowing why. Your scent lives in old woods, smoke and oud, the fragrance of someone who has already sat with their own silence.' },
+    floral:   { title: 'The Rose <em>Mystic</em>', plain: 'The Rose Mystic', reading: 'You love openly and remember everything. There’s a garden inside you that blooms even in winter. Your scent is petals and soft light: romantic, generous and quietly unforgettable.' },
+    fruity:   { title: 'The Orchard <em>Muse</em>', plain: 'The Orchard Muse', reading: 'You are summer that arrived a little early. Light on your feet and quick to laugh, you turn an ordinary afternoon into a holiday. Your scent is sun-warmed peach, raspberry and crisp green apple: bright, juicy and full of life.' },
+    amber:    { title: 'The Golden Hour <em>Soul</em>', plain: 'The Golden Hour Soul', reading: 'You are warmth. When you walk in, the room softens like late afternoon light. Your scent is amber, resin and vanilla, the feeling of coming home after a long day.' },
+    gourmand: { title: 'The Mishri <em>Heart</em>', plain: 'The Mishri Heart', reading: 'You are the kitchen at festival time, the plate passed round twice. People linger near you the way they linger near something sweet left to cool. Your scent is golden caramel, creamy tonka and dark cocoa: tender, generous and a little indulgent.' },
+    spicy:    { title: 'The Saffron <em>Royal</em>', plain: 'The Saffron Royal', reading: 'You were not made to blend in. You carry fire with grace, and people remember your name. Your scent is saffron, spice and smoke: bold, regal and impossible to ignore.' },
+    fresh:    { title: 'The Monsoon <em>Wanderer</em>', plain: 'The Monsoon Wanderer', reading: 'You are the first breath after rain. Restless in the best way, you bring air into every room. Your scent is citrus, green leaves and open sky, made for people who are always becoming.' },
+    musk:     { title: 'The Velvet <em>Whisper</em>', plain: 'The Velvet Whisper', reading: 'You don’t chase attention; it finds you. Gentle, clean and deeply comforting, you are the person others tell their secrets to. Your scent is soft musk, like your own skin on its best day.' },
   };
+  // notes that speak for each family, strongest first ([0] is the ruling / rising / moon note)
   const NOTE_FOR = {
-    floral: ['Rose', 'Jasmine'], woody: ['Oud', 'Sandalwood'], amber: ['Amber', 'Vanilla'],
-    fresh: ['Bergamot', 'Green Cardamom'], spicy: ['Saffron', 'Pink Pepper'], musk: ['White Musk', 'Orris'],
+    floral: ['Rose', 'Jasmine', 'White Peony', 'Orange Blossom', 'Wild Orchid'], fruity: ['Peach', 'Raspberry', 'Green Apple', 'Blackcurrant'],
+    woody: ['Oud', 'Sandalwood', 'Cashmere Wood', 'Vetiver'], amber: ['Amber', 'Vanilla'],
+    gourmand: ['Caramel', 'Tonka Bean', 'Dark Cocoa', 'Espresso', 'Hazelnut Praline', 'Marshmallow'],
+    fresh: ['Bergamot', 'Green Cardamom', 'Green Apple'], spicy: ['Saffron', 'Pink Pepper'], musk: ['White Musk', 'Orris', 'Cashmere Wood'],
   };
 
   // Poetic names for the bespoke attar, chosen by the ruling family (e.g. "Chetas’s Kesar Darbar")
   const POETIC = {
-    woody:  ['Midnight Raag', 'Sandal Sutra', 'Temple Dusk', 'Oud Nocturne', 'Silent Darbar', 'Agarwood Dua'],
-    floral: ['Gulab Ghazal', 'Rose Dua', 'Jasmine Sutra', 'Mehendi Moon', 'Petal Prayer', 'Mogra Nights'],
-    amber:  ['Golden Aarti', 'Amber Dhoop', 'Honeyed Dusk', 'Diya Glow', 'Shahad Noor', 'Saanjh Sona'],
-    spicy:  ['Kesar Darbar', 'Saffron Sutra', 'Royal Ember', 'Zafran Noor', 'Spice Route Raag', 'Shahi Kesar'],
-    fresh:  ['Monsoon Raag', 'First Rain', 'Barish Dua', 'Neem Breeze', 'Sea Mehfil', 'Pehli Barish'],
-    musk:   ['Velvet Silence', 'Mulmul Musk', 'Soft Noor', 'Chandni Whisper', 'Quiet Kasturi', 'Resham Dua'],
+    woody:    ['Midnight Raag', 'Sandal Sutra', 'Temple Dusk', 'Oud Nocturne', 'Silent Darbar', 'Agarwood Dua'],
+    floral:   ['Gulab Ghazal', 'Rose Dua', 'Jasmine Sutra', 'Mehendi Moon', 'Petal Prayer', 'Mogra Nights'],
+    fruity:   ['Aam Ki Daal', 'Bagh Bahar', 'Orchard Raag', 'Jamun Sawan', 'Shahtoot Dhoop', 'Peach Mehfil'],
+    amber:    ['Golden Aarti', 'Amber Dhoop', 'Honeyed Dusk', 'Diya Glow', 'Shahad Noor', 'Saanjh Sona'],
+    gourmand: ['Mishri Mehfil', 'Kesar Kulfi Raat', 'Gulkand Dua', 'Mithaas Sutra', 'Kahwa Ghazal', 'Caramel Chandni'],
+    spicy:    ['Kesar Darbar', 'Saffron Sutra', 'Royal Ember', 'Zafran Noor', 'Spice Route Raag', 'Shahi Kesar'],
+    fresh:    ['Monsoon Raag', 'First Rain', 'Barish Dua', 'Neem Breeze', 'Sea Mehfil', 'Pehli Barish'],
+    musk:     ['Velvet Silence', 'Mulmul Musk', 'Soft Noor', 'Chandni Whisper', 'Quiet Kasturi', 'Resham Dua'],
   };
   const NOTE_ART = {
     Rose: ['rose', 'petal'], Jasmine: ['jasmine'], Oud: ['oud'], Sandalwood: ['sandalwood'], Amber: ['amber', 'honey'], Vanilla: ['vanilla'],
-    Bergamot: ['orange', 'lemon', 'leaf'], 'Green Cardamom': ['cardamom'], Saffron: ['saffron'], 'Pink Pepper': ['anise'], 'White Musk': ['musk'], Orris: ['jasmine', 'musk'],
+    Bergamot: ['bergamot', 'leaf'], 'Green Cardamom': ['cardamom'], Saffron: ['saffron'], 'Pink Pepper': ['anise'], 'White Musk': ['musk'], Orris: ['jasmine', 'musk'],
+    'Green Apple': ['apple'], Peach: ['peach'], Raspberry: ['raspberry'], Blackcurrant: ['blackcurrant', 'leaf'],
+    'White Peony': ['peony', 'petal'], 'Orange Blossom': ['orangeblossom'], 'Wild Orchid': ['orchid'],
+    'Cotton Candy': ['cottoncandy'], Marshmallow: ['marshmallow'], Caramel: ['caramel'], Espresso: ['coffee'],
+    'Tonka Bean': ['tonka'], 'Dark Cocoa': ['cocoa'], 'Hazelnut Praline': ['hazelnut', 'caramel'], 'Cashmere Wood': ['cashmere'], Vetiver: ['vetiver'],
   };
 
   let step = -1;
@@ -118,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function drawWheel(svg) {
-    const notes = ['Rose', 'Oud', 'Saffron', 'Amber', 'Musk', 'Jasmine', 'Sandal', 'Vanilla', 'Citrus', 'Incense', 'Leather', 'Cardamom'];
+    const notes = ['Rose', 'Oud', 'Saffron', 'Peach', 'Amber', 'Jasmine', 'Tonka', 'Sandal', 'Bergamot', 'Cocoa', 'Musk', 'Peony', 'Vetiver', 'Vanilla'];
     let s = `<circle cx="200" cy="200" r="190" class="kw-line"/><circle cx="200" cy="200" r="150" class="kw-line"/><path d="M200 10 L390 200 L200 390 L10 200 Z" class="kw-line"/><path d="M66 66 L334 334 M334 66 L66 334" class="kw-line faint"/><g class="kw-rot">`;
     notes.forEach((n, i) => {
       const a = (i / notes.length) * Math.PI * 2 - Math.PI / 2, x = 200 + Math.cos(a) * 170, y = 200 + Math.sin(a) * 170;
@@ -211,13 +227,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function hash(str) { let h = 7; for (const c of str) h = (h * 31 + c.charCodeAt(0)) % 997; return h; }
 
   function blend(prof) {
-    const pick = (fams, avoid = []) => {
-      const f = prof.ranked.find((k) => fams.includes(k)) || fams[0];
-      return NOTE_FOR[f].find((n) => !avoid.includes(n)) || NOTE_FOR[f][0];
+    // strongest family (in ranked order) that has an unused note sitting naturally in this tier
+    const pick = (tier, fams, avoid = []) => {
+      for (const f of prof.ranked.filter((k) => fams.includes(k))) {
+        const n = NOTE_FOR[f].find((x) => OPTS[tier].includes(x) && !avoid.includes(x));
+        if (n) return n;
+      }
+      return OPTS[tier].find((x) => !avoid.includes(x));
     };
-    const top = pick(['fresh', 'spicy', 'floral']);
-    const heart = pick(['floral', 'spicy', 'amber'], [top]);
-    const base = pick(['woody', 'amber', 'musk'], [top, heart]);
+    const top = pick('top', ['fresh', 'fruity', 'spicy', 'floral']);
+    const heart = pick('heart', ['floral', 'gourmand', 'spicy', 'amber'], [top]);
+    const base = pick('base', ['woody', 'gourmand', 'amber', 'musk'], [top, heart]);
     const list = POETIC[prof.ranked[0]];
     const title = list[hash(answers.name + prof.ranked.join('')) % list.length];
     return finish({ owner: answers.name, title, top, heart, base, voice: prof.intensity, arch: prof.ranked[0], c1: prof.ranked[0], c2: prof.ranked[1] });
@@ -226,11 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Portable blends: fine-tune, code, share link ---------- */
   const VOICES = ['', 'Soft · skin-close', 'Classic · balanced', 'Intense · long trail'];
   const OPTS = {
-    top: ['Bergamot', 'Green Cardamom', 'Saffron', 'Pink Pepper', 'Rose', 'Jasmine'],
-    heart: ['Rose', 'Jasmine', 'Saffron', 'Pink Pepper', 'Amber', 'Vanilla', 'Orris'],
-    base: ['Oud', 'Sandalwood', 'Amber', 'Vanilla', 'White Musk', 'Orris'],
+    top: ['Bergamot', 'Green Apple', 'Peach', 'Raspberry', 'Blackcurrant', 'Green Cardamom', 'Saffron', 'Pink Pepper', 'Rose', 'Jasmine'],
+    heart: ['Rose', 'Jasmine', 'White Peony', 'Orange Blossom', 'Wild Orchid', 'Saffron', 'Pink Pepper', 'Caramel', 'Espresso', 'Cotton Candy', 'Marshmallow', 'Amber', 'Vanilla', 'Orris'],
+    base: ['Oud', 'Sandalwood', 'Cashmere Wood', 'Vetiver', 'Tonka Bean', 'Dark Cocoa', 'Hazelnut Praline', 'Amber', 'Vanilla', 'White Musk', 'Orris'],
   };
-  const ABBR = { Rose: 'ROS', Jasmine: 'JAS', Oud: 'OUD', Sandalwood: 'SAN', Amber: 'AMB', Vanilla: 'VAN', Bergamot: 'BER', 'Green Cardamom': 'CAR', Saffron: 'SAF', 'Pink Pepper': 'PEP', 'White Musk': 'MSK', Orris: 'ORR' };
+  // codes stay stable: never change an existing one, shared blend codes quote them
+  const ABBR = { Rose: 'ROS', Jasmine: 'JAS', Oud: 'OUD', Sandalwood: 'SAN', Amber: 'AMB', Vanilla: 'VAN', Bergamot: 'BER', 'Green Cardamom': 'CAR', Saffron: 'SAF', 'Pink Pepper': 'PEP', 'White Musk': 'MSK', Orris: 'ORR',
+    'Green Apple': 'APL', Peach: 'PCH', Raspberry: 'RAS', Blackcurrant: 'BLC', 'White Peony': 'PEO', 'Orange Blossom': 'OBL', 'Wild Orchid': 'ORC',
+    'Cotton Candy': 'CAN', Marshmallow: 'MAL', Caramel: 'CML', Espresso: 'ESP', 'Tonka Bean': 'TON', 'Dark Cocoa': 'COC', 'Hazelnut Praline': 'PRA', 'Cashmere Wood': 'CSH', Vetiver: 'VET' };
   // derived fields (label, art, code) from the stored essentials
   function finish(b) {
     b.voice = Math.min(3, Math.max(1, Number(b.voice) || 2));
@@ -375,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Chart ---------- */
   function chartSVG(prof) {
-    const cx = 160, cy = 160, R = 110;
+    const cx = 160, cy = 160, R = 100;
     const pt = (i, r) => {
       const a = (i / FKEYS.length) * Math.PI * 2 - Math.PI / 2;
       return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
@@ -383,12 +406,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let s = '';
     [.33, .66, 1].forEach((k) => (s += `<polygon class="ring" points="${FKEYS.map((_, i) => pt(i, R * k).join(',')).join(' ')}"/>`));
     FKEYS.forEach((k, i) => {
-      const [x, y] = pt(i, R); const [lx, ly] = pt(i, R + 26);
-      s += `<line class="axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/><text x="${lx}" y="${ly}">${FAM[k].label}</text>`;
+      // labels hug their axis tip and grow outwards, so eight families never collide
+      const [x, y] = pt(i, R); const [lx, ly] = pt(i, R + 14);
+      const anchor = Math.abs(lx - cx) < 6 ? 'middle' : lx > cx ? 'start' : 'end';
+      s += `<line class="axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/><text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" style="text-anchor:${anchor}">${FAM[k].label}</text>`;
     });
     s += `<polygon class="shape" points="${FKEYS.map((k, i) => pt(i, R * Math.max(.12, prof.v[k])).join(',')).join(' ')}"/>`;
     FKEYS.forEach((k, i) => { const [x, y] = pt(i, R * Math.max(.12, prof.v[k])); s += `<circle cx="${x}" cy="${y}" r="3.5" fill="${FAM[k].color}"/>`; });
-    return `<svg viewBox="0 0 320 320">${s}</svg>`;
+    return `<svg viewBox="-8 0 336 320">${s}</svg>`;
   }
 
   /* ---------- Result ---------- */
@@ -489,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
     x.strokeStyle = 'rgba(212,169,87,.25)'; x.lineWidth = 1.5;
     [.33, .66, 1].forEach((k) => { x.beginPath(); FKEYS.forEach((_, i) => { const [px, py] = pt(i, R * k); i ? x.lineTo(px, py) : x.moveTo(px, py); }); x.closePath(); x.stroke(); });
     x.font = '400 26px Jost'; x.fillStyle = '#f2d59b';
-    FKEYS.forEach((k, i) => { const [lx, ly] = pt(i, R + 55); x.fillText(FAM[k].label.toUpperCase(), lx, ly + 8); });
+    FKEYS.forEach((k, i) => { const [lx, ly] = pt(i, R + 30); x.textAlign = Math.abs(lx - cx) < 10 ? 'center' : lx > cx ? 'left' : 'right'; x.fillText(FAM[k].label.toUpperCase(), lx, ly + 9 + Math.sign(Math.round(ly - cy)) * 14); });
     x.beginPath(); FKEYS.forEach((k, i) => { const [px, py] = pt(i, R * Math.max(.12, prof.v[k])); i ? x.lineTo(px, py) : x.moveTo(px, py); }); x.closePath();
     x.fillStyle = 'rgba(242,213,155,.22)'; x.fill(); x.strokeStyle = '#f2d59b'; x.lineWidth = 3; x.stroke();
     // notes

@@ -75,7 +75,7 @@
     pairs: ['lavender', 'neroli', 'vetiver', 'black-tea'],
     fact: 'An essence from bergamot peel is what flavours Earl Grey tea.',
     safety: 'Natural bergamot contains bergapten, which can make skin burn in sunlight. Perfumers often use bergapten-reduced (FCF) grades.',
-    gib: 'citrus',
+    gib: 'bergamot',
     img: 'assets/img/atlas/bergamot.webp', credit: 'Photo: Daria Chernik / Unsplash',
     src: [W + 'Bergamot_orange', GSC + 'es1001871.html', P + '2355'] }),
 
@@ -199,6 +199,7 @@
     smells: 'Fresh, green and honeyed: orange blossom with a bitter citrus twist.',
     pairs: ['petitgrain', 'orange-flower', 'bergamot', 'jasmine-sambac'],
     fact: 'It is named after Anne Marie Orsini, princess of Nerola, who used it to scent her gloves and bath in the late 1600s.',
+    gib: 'orangeblossom',
     img: 'assets/img/atlas/neroli.webp', credit: 'Photo: 雙 film / Unsplash',
     src: [W + 'Neroli'] }),
 
@@ -389,6 +390,7 @@
     smells: 'Watery green, like cucumber peel and crushed leaves, with an earthy edge.',
     pairs: ['galbanum', 'alpha-ionone', 'orris'],
     fact: 'Sweet violet’s leaves and flowers are both edible, and both have been used to make fragrances.',
+    gib: 'green',
     img: 'assets/img/atlas/violet-leaf.webp', credit: 'Photo: Tadeusz Zachwieja / Unsplash',
     src: [W + 'Viola_odorata'] }),
 
@@ -414,6 +416,7 @@
     smells: 'Tart, fruity and green, with a sharp, slightly sulfury tang that perfumers love.',
     pairs: ['rose-damask', 'galbanum', 'beta-damascone'],
     fact: 'In French it is called cassis, which is why perfume note lists often say “cassis”.',
+    gib: 'blackcurrant',
     img: 'assets/img/atlas/blackcurrant-bud.webp', credit: 'Photo: Oleh Korzh / Unsplash',
     src: [W + 'Blackcurrant'] }),
 
@@ -611,6 +614,7 @@
     smells: 'Warmer and richer than neroli: honeyed, slightly animal orange blossom with a grape-like sweetness.',
     pairs: ['neroli', 'methyl-anthranilate', 'jasmine-grandiflorum', 'tuberose'],
     fact: 'The same blossoms give orange flower water, used to flavour sweets and drinks.',
+    gib: 'orangeblossom',
     img: 'assets/img/atlas/orange-flower.webp', credit: 'Photo: Raja Patel / Unsplash',
     src: [W + 'Bitter_orange', W + 'Absolute_(perfumery)'] }),
 
@@ -712,6 +716,7 @@
     pairs: ['vanilla', 'lavender', 'tobacco', 'benzoin'],
     fact: 'Its high coumarin content is why many governments control tonka beans as a food ingredient.',
     safety: 'Rich in coumarin, a fragrance allergen named on EU labels and limited by IFRA.',
+    gib: 'tonka',
     src: [W + 'Dipteryx_odorata', W + 'Coumarin', STD + '023.pdf'] }),
 
   e({ id: 'cocoa', name: 'Cocoa absolute', latin: 'Theobroma cacao',
@@ -723,6 +728,7 @@
     smells: 'Dark, bitter and powdery, like cocoa powder rather than milk chocolate.',
     pairs: ['vanilla', 'patchouli', 'tonka-bean', 'coffee'],
     fact: 'Cocoa beans are fermented and dried before they become the cocoa we know; the tree itself is native to the Amazon rainforest.',
+    gib: 'cocoa',
     img: 'assets/img/atlas/cocoa.webp', credit: 'Photo: Pablo Merchán Montes / Unsplash',
     src: [W + 'Cocoa_bean'] }),
 
@@ -735,6 +741,7 @@
     smells: 'Dark, roasted and bittersweet, like freshly ground beans.',
     pairs: ['cardamom', 'vanilla', 'tobacco', 'cocoa'],
     fact: 'The earliest reports of coffee drinking come from Sufis in Yemen in the mid-1400s.',
+    gib: 'coffee',
     img: 'assets/img/atlas/coffee.webp', credit: 'Photo: Łukasz Rawa / Unsplash',
     src: [W + 'Coffee'] }),
 
@@ -1018,6 +1025,7 @@
     smells: 'Earthy, smoky and woody, like damp roots, with a cool, nutty freshness.',
     pairs: ['grapefruit', 'cedarwood-virginia', 'rose-damask', 'mitti'],
     fact: 'Vetiver comes from Tamil veṭṭivēr, “root that is dug up”. In north India it is khus, not to be confused with khus khus (poppy seed).',
+    gib: 'vetiver',
     src: [W + 'Chrysopogon_zizanioides'] }),
 
   e({ id: 'patchouli', name: 'Patchouli', latin: 'Pogostemon cablin',
@@ -1468,6 +1476,7 @@
     fact: 'Chemists also call it musk indanone; it smells spicy, musky and woody all at once.',
     safety: 'IFRA limits how much may be used.',
     cid: 92292, formula: 'C14H22O',
+    gib: 'cashmere',
     img: 'assets/img/atlas/mol/cashmeran.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '92292', W + 'Cashmeran', STD + '028.pdf'] }),
 
@@ -1878,6 +1887,7 @@
     pairs: ['galbanum', 'violet-leaf', 'fig-leaf'],
     fact: 'Most plants make small amounts of it, which is why it is called “leaf alcohol”.',
     cid: 5281167, formula: 'C6H12O',
+    gib: 'green',
     img: 'assets/img/atlas/mol/cis-3-hexenol.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '5281167', W + 'Cis-3-Hexen-1-ol'] }),
 
@@ -1948,6 +1958,7 @@
     fact: 'Houbigant’s Fougère Royale (1882) used it, and founded the whole fougère family of perfumes.',
     safety: 'A fragrance allergen named on EU labels; IFRA limits it.',
     cid: 323, formula: 'C9H6O2',
+    gib: 'tonka',
     img: 'assets/img/atlas/mol/coumarin.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '323', W + 'Coumarin', EU_ALLERGENS] }),
 
@@ -1961,6 +1972,7 @@
     pairs: ['orris', 'vanillin', 'mimosa'],
     fact: 'It is named after the heliotrope flower, whose “cherry pie” smell it recalls.',
     cid: 8438, formula: 'C8H6O3',
+    gib: 'marshmallow',
     img: 'assets/img/atlas/mol/heliotropin.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '8438', W + 'Piperonal'] }),
 
@@ -1974,6 +1986,7 @@
     pairs: ['vanillin', 'patchouli', 'raspberry-ketone'],
     fact: 'It is a go-to molecule for sweet “gourmand” perfumes that smell edible.',
     cid: 21059, formula: 'C7H8O3',
+    gib: 'candy',
     img: 'assets/img/atlas/mol/ethyl-maltol.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '21059', W + 'Ethyl_maltol'] }),
 
@@ -2000,6 +2013,7 @@
     pairs: ['osmanthus', 'rose-damask', 'oakmoss'],
     fact: 'Despite its old trade name “aldehyde C-14”, it is not an aldehyde, and it has 11 carbon atoms, not 14.',
     cid: 7714, formula: 'C11H20O2',
+    gib: 'peach',
     img: 'assets/img/atlas/mol/gamma-undecalactone.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '7714', GSC + 'rw1000821.html'] }),
 
@@ -2013,6 +2027,7 @@
     pairs: ['beta-ionone', 'rose-damask', 'ethyl-maltol'],
     fact: 'It is the main scent molecule of red raspberries.',
     cid: 21648, formula: 'C10H12O2',
+    gib: 'raspberry',
     img: 'assets/img/atlas/mol/raspberry-ketone.svg', credit: 'Structure: PubChem (public domain)',
     src: [P + '21648', W + 'Raspberry_ketone'] }),
 

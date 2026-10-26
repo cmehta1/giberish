@@ -64,7 +64,7 @@ Images are cached by browsers for a year, so give a replaced photo a **new file 
 
 - **Images** are served as WebP (AVIF for the large photos in the page HTML) with the original PNG/JPG as the fallback. Bottle cut-outs also have a 400px `-400.webp` copy for small cards.
 - **Fonts** (Cormorant Garamond, Great Vibes, Jost) are self-hosted in `assets/fonts/`, so the first paint needs no Google Fonts connection. Hindi and Gujarati fonts still load from Google, only for visitors who pick those languages.
-- **Translations** (`i18n-dict.js`, about 300 KB) load only for हि and ગુ visitors.
+- **Translations** (`i18n-dict.js`, about 700 KB) load only for हि and ગુ visitors.
 - Page scripts use `defer`. The Boutique is the only page that loads three.js; the Layering Lab loads `bottle3d.js` once the page is idle.
 - **Sharing and search**: every page has a title, description, canonical link and Open Graph / Twitter tags with `assets/img/og-image.jpg` (1200×630). The shop and the Feel it overlay add schema.org Product data (price in INR) built from `data.js`. `sitemap.xml` and `robots.txt` are in the root.
 - **The domain** is a placeholder until the site is live: `https://giberish.vercel.app`. It is written in the canonical, Open Graph and Twitter tags in every page head, the `index.html` JSON-LD, `sitemap.xml` and `robots.txt` (the Product data on the shop builds its URLs from the live address, so it needs no change). To switch, for example to `https://www.giberish.com`, run this once from the project folder:
@@ -74,6 +74,11 @@ grep -rl 'giberish.vercel.app' --include='*.html' --include='*.xml' --include='*
 ```
 
 - **`vercel.json`** turns on clean URLs (`/shop` instead of `/shop.html`) and caches fonts and images for a year. CSS and JS are not cached long: their names don't change between deploys, so browsers check for a new version on each visit (a quick 304 when nothing changed). That way a price change in `data.js` reaches everyone straight away.
+- **Version stamps**: every page links its CSS and JS with a short content hash, for example `assets/js/data.js?v=1a2b3c4d`, so a browser loads a file again as soon as it changes, even on a local server. After you change any CSS or JS, run this before you commit:
+
+```bash
+node tools/version.mjs
+```
 
 ## Animation pieces
 
@@ -104,7 +109,7 @@ There is an EN · हि · ગુ switch in the header. Pages are written in En
 ## 3D bottles and world photos
 
 - `assets/js/bottle3d.js` (`GibBottle3D`) builds a 3D glass-and-metal bottle for each product, with its label. The Boutique uses these bottles, and the Layering Lab uses them as thumbnails. On slow devices it steps down to simpler glass, then to the HD photos. Add `boutique.html?bottles=high|low|photo` to force one quality for testing.
-- Scent Worlds uses 13 free-licence Unsplash photos in `assets/img/worlds/` (served as `.webp`). Photographer credits are in `assets/img/worlds/CREDITS.md`, and the world for each product is set in `assets/js/worlds.js`.
+- Scent Worlds uses 15 free-licence Unsplash photos in `assets/img/worlds/` (served as `.webp`). Photographer credits are in `assets/img/worlds/CREDITS.md`, and the world for each product is set in `assets/js/worlds.js`.
 
 ## The Scent Atlas
 

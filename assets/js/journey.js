@@ -56,10 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
      2. Notes → ingredients → art
      ============================================================ */
   // note labels that aren't catalogue ingredient names
-  const NOTE_KEY = { spices: 'cardamom', floral: 'rose', patchouli: 'cedar', 'smoked birch': 'smoke', incense: 'smoke', 'white musk': 'musk', cedarwood: 'cedar' };
-  const NOTE_ART = { spices: ['cinnamon', 'anise'], floral: ['petal', 'jasmine'], patchouli: ['leaf'], 'smoked birch': ['smoke', 'sandalwood'] };
+  const NOTE_KEY = { spices: 'cardamom', floral: 'rose', patchouli: 'cedar', 'smoked birch': 'smoke', incense: 'smoke', 'white musk': 'musk', cedarwood: 'cedar',
+    'black pepper': 'cardamom', woods: 'cedar', 'violet leaf': 'green', iris: 'jasmine', ambergris: 'amber',
+    // fruit, flower, sweet and wood notes as perfumers write them
+    apple: 'apple', 'black currant': 'blackcurrant', cassis: 'blackcurrant', berries: 'raspberry', 'red berries': 'raspberry', strawberry: 'raspberry',
+    peony: 'peony', 'orange blossom': 'orangeblossom', neroli: 'orangeblossom', orchid: 'orchid',
+    'cotton candy': 'candy', 'pink cotton candy': 'candy', 'spun sugar': 'candy', sugar: 'candy', 'marshmallow fluff': 'marshmallow',
+    tonka: 'tonka', 'salted caramel': 'caramel', cocoa: 'cocoa', 'cocoa truffle': 'cocoa', 'dark cocoa truffle': 'cocoa', chocolate: 'cocoa', 'dark chocolate': 'cocoa',
+    coffee: 'coffee', espresso: 'coffee', 'roasted espresso': 'coffee', mocha: 'coffee', 'mocha crema': 'coffee', hazelnut: 'praline', praline: 'praline',
+    cashmere: 'cashmere', cashmeran: 'cashmere', bergamot: 'bergamot' };
+  const NOTE_ART = { spices: ['cinnamon', 'anise'], floral: ['petal', 'jasmine'], patchouli: ['leaf'], 'smoked birch': ['smoke', 'sandalwood'],
+    'black pepper': ['anise'], woods: ['sandalwood', 'oud'], 'violet leaf': ['leaf'], iris: ['jasmine', 'musk'],
+    hazelnut: ['hazelnut'], mocha: ['coffee', 'cocoa'], 'mocha crema': ['coffee', 'cocoa'], neroli: ['orangeblossom', 'leaf'] };
   // where each catalogue ingredient naturally sits in a perfume (used to enrich short note lists)
-  const NATURAL = { citrus: 0, cardamom: 0, saffron: 0, rose: 1, jasmine: 1, leather: 1, oud: 2, amber: 2, vanilla: 2, musk: 2, sandalwood: 2, cedar: 2, smoke: 2 };
+  const NATURAL = { citrus: 0, cardamom: 0, saffron: 0, rose: 1, jasmine: 1, leather: 1, oud: 2, amber: 2, vanilla: 2, musk: 2, sandalwood: 2, cedar: 2, smoke: 2, green: 0,
+    apple: 0, peach: 0, raspberry: 0, blackcurrant: 0, bergamot: 0, peony: 1, orangeblossom: 1, orchid: 1,
+    candy: 1, marshmallow: 1, caramel: 1, coffee: 1, tonka: 2, cocoa: 2, praline: 2, cashmere: 2, vetiver: 2 };
   const keyOf = (label) => { const l = label.toLowerCase(); return NOTE_KEY[l] || Object.keys(ING).find((k) => k === l || ING[k].label.toLowerCase() === l) || null; };
   const artOf = (label) => { const l = label.toLowerCase(); if (NOTE_ART[l]) return NOTE_ART[l]; const k = keyOf(label); return k ? Art.forIngredient(k) : ['musk']; };
 

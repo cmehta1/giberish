@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ---------- Featured rail ---------- */
   const rail = $('#featured-rail');
-  const order = ['barakkat-rouge-540', 'kaaf', 'fahad', 'giberish-signature', 'white-oud', 'ajmal-1001-night', 'mukhallat-malaki', 'musk-gold'];
+  const order = ['barakkat-rouge-540', 'liquid-burn', 'green-irish', 'kaaf', 'fahad', 'giberish-signature', 'white-oud', 'ajmal-1001-night', 'mukhallat-malaki', 'musk-gold'];
   rail.innerHTML = order.map((id) => window.GIB_PRODUCTS.find((p) => p.id === id)).filter(Boolean)
     .map((p) => `<div class="rail-item">${window.gibCard(p)}</div>`).join('');
 

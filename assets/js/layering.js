@@ -26,11 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ============================================================
      1. Scent maths
      ============================================================ */
-  const FK = ['floral', 'fresh', 'musk', 'woody', 'amber', 'spicy']; // radar order: opposite axes are natural contrasts
+  // radar order: neighbours are kin (fruity sits by floral and fresh, gourmand by woody and amber);
+  // opposite axes are natural contrasts: floral/woody, fruity/gourmand, fresh/amber, musk/spicy
+  const FK = ['floral', 'fruity', 'fresh', 'musk', 'woody', 'gourmand', 'amber', 'spicy'];
   const profiles = {};
   const profile = (p) => (profiles[p.id] = profiles[p.id] || window.gibProductFamily(p));
   // How much "base" a family carries: heavy, long-lasting materials score high.
-  const HEAVY = { woody: 1, amber: .85, spicy: .7, musk: .45, floral: .35, fresh: .1 };
+  const HEAVY = { woody: 1, amber: .85, gourmand: .75, spicy: .7, musk: .45, floral: .35, fruity: .25, fresh: .1 };
   const heaviness = (p) => { const f = profile(p); let s = 0, w = 0; FK.forEach((k) => { s += f[k] * HEAVY[k]; w += f[k]; }); return s / (w || 1); };
   const ranked = (f) => [...FK].sort((x, y) => f[y] - f[x]);
   const dominant = (p) => ranked(profile(p))[0];
@@ -63,8 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
                               the other is woody (woody ≥ .9, floral < .6).
                               Floral + woody: the rose-and-oud tradition.
        FRESH LIFT        +18  one has real freshness (fresh ≥ .5), the other is
-                              heavy (heaviness ≥ .7) with little freshness.
-                              Citrus/cardamom lifts heavy oud and amber.
+                              heavy (heaviness ≥ .7) with little freshness and
+                              not gourmand-led. Citrus/cardamom lifts oud and amber.
+       SWEET LIFT        +16  one is gourmand (gourmand ≥ .7), the other is fresh
+                              or fruity (≥ .5) with little sweetness. Bergamot or
+                              fruit over caramel and tonka: the classic lift.
+       COSY              +12  one is gourmand (≥ .7), the other woody (≥ .8) with
+                              little sweetness. Cocoa and coffee over sandalwood.
+       ORCHARD BLOOM     +10  one is fruity (≥ .7), the other floral-led
+                              (floral ≥ .7) with little fruit. Peach and peony.
        WARM DEPTH        +10  one is amber-rich (amber ≥ .9), the other carries
                               spice (spicy ≥ .6) and is not amber-led itself.
                               Amber + spice = warmth with glow.
@@ -92,8 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if ((m = either((x, y) => x.floral >= .7 && x.floral >= x.woody && y.woody >= .9 && y.floral < .6))) {
       rules.push({ pts: 16, key: 'contrast', title: 'Classic contrast', line: `${m[0].name}’s florals bloom over the woods of ${m[1].name}: the rose-and-oud idea perfumers have trusted for centuries.` });
     }
-    if ((m = either((x, y, px, py) => x.fresh >= .5 && heaviness(py) >= .7 && y.fresh < .3))) {
+    if ((m = either((x, y, px, py) => x.fresh >= .5 && heaviness(py) >= .7 && y.fresh < .3 && dominant(py) !== 'gourmand'))) {
       rules.push({ pts: 18, key: 'lift', title: 'Fresh lift', line: `${m[0].name}’s brightness lifts the weight of ${m[1].name}, so the oud and amber feel airy instead of heavy.` });
+    }
+    if ((m = either((x, y) => x.gourmand >= .7 && (y.fresh >= .5 || y.fruity >= .5) && y.gourmand < .3))) {
+      rules.push({ pts: 16, key: 'sweet', title: 'Sweet lift', line: `${m[1].name} brings air and light to the sweetness of ${m[0].name}, like fruit and zest over a warm dessert.` });
+    }
+    if ((m = either((x, y) => x.gourmand >= .7 && y.woody >= .8 && y.gourmand < .4))) {
+      rules.push({ pts: 12, key: 'cosy', title: 'Cosy depth', line: `The woods of ${m[1].name} hold the sweetness of ${m[0].name} close, like cocoa by a fire. Soft, warm, made for winter.` });
+    }
+    if ((m = either((x, y) => x.fruity >= .7 && y.floral >= .7 && y.fruity < .4))) {
+      rules.push({ pts: 10, key: 'orchard', title: 'Orchard bloom', line: `${m[0].name}’s fruit ripens among the flowers of ${m[1].name}: a garden in full summer.` });
     }
     if ((m = either((x, y, px, py) => x.amber >= .9 && y.spicy >= .6 && dominant(py) !== 'amber'))) {
       rules.push({ pts: 10, key: 'warm', title: 'Warm depth', line: `The spice in ${m[1].name} glows against the amber of ${m[0].name}. Warm, deep, made for evenings.` });
@@ -693,14 +711,14 @@ document.addEventListener('DOMContentLoaded', () => {
      ============================================================ */
   const svgNS = 'http://www.w3.org/2000/svg';
   const radar = $('.ll-radar');
-  const RC = { x: 170, y: 166, r: 104 };
+  const RC = { x: 170, y: 166, r: 94 }; // leaves room for eight labels, the widest sit on the horizontal and diagonals
   const axisPt = (i, v) => { const a = -Math.PI / 2 + (i / FK.length) * TAU; return [RC.x + Math.cos(a) * RC.r * v, RC.y + Math.sin(a) * RC.r * v]; };
   const ptsStr = (vals) => vals.map((v, i) => axisPt(i, Math.max(.04, v)).map((n) => n.toFixed(1)).join(',')).join(' ');
   (function buildRadar() {
     let g = '';
     [.25, .5, .75, 1].forEach((v) => (g += `<polygon class="ring" points="${ptsStr(FK.map(() => v))}"/>`));
     FK.forEach((k, i) => {
-      const [x, y] = axisPt(i, 1), [lx, ly] = axisPt(i, 1.2);
+      const [x, y] = axisPt(i, 1), [lx, ly] = axisPt(i, 1.18);
       const anchor = Math.abs(lx - RC.x) < 8 ? 'middle' : lx > RC.x ? 'start' : 'end';
       g += `<line class="axis" x1="${RC.x}" y1="${RC.y}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
       g += `<text class="lbl" x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="${anchor}"><tspan fill="${FAM[k].color}">●</tspan> ${FAM[k].label}</text>`;

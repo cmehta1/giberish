@@ -35,6 +35,7 @@
 
   /* ============================================================
      Recipes: which shape, cap, juice colour and label crop each product gets.
+     labelW / labelY (square bottles): label width and height of its centre, as fractions of the body.
      crop = [x0, y0, x1, y1] as fractions of the HD cut-out image.
      ============================================================ */
   const ATTAR_LABEL = { crop: [0.12, 0.4, 0.88, 0.93], mask: 'arch' };
@@ -52,6 +53,8 @@
     'viking-creed':       { form: 'square', w: 0.62, h: 0.56, d: 0.28, juice: '#d9a531', cap: 'blackRibbed', label: { crop: [0.13, 0.42, 0.87, 0.93] } },
     'fahad':              { form: 'faceted', juice: '#2a1a10', cap: 'ornateGold', label: { crop: [0.25, 0.49, 0.75, 0.77], mask: 'circle' } },
     'white-oud':          { form: 'pebble', juice: '#e9dcc0', cap: 'goldCylinder', label: { crop: [0.2, 0.4, 0.8, 0.74] } },
+    'liquid-burn':        { form: 'square', w: 0.6, h: 0.68, d: 0.3, juice: '#b8661c', cap: 'blackFlare', labelW: 0.6, labelY: 0.46, label: { crop: [0.26, 0.41, 0.84, 0.85] } },
+    'green-irish':        { form: 'square', w: 0.56, h: 0.74, d: 0.28, juice: '#1d6b2b', tint: 0.6, cap: 'champagneFlare', labelW: 0.64, labelY: 0.52, label: { crop: [0.19, 0.41, 0.83, 0.745] } },
     'celoud':             { form: 'tall', juice: '#7a1414', cap: 'roseSpray', label: { text: true } },
     'bakhoor-dani':       { form: 'burner', label: { crop: [0.27, 0.46, 0.74, 0.86], mask: 'circle' } },
   };
@@ -194,11 +197,12 @@
       // clear glass: real transmission, faint juice tint in the attenuation
       glass: () => {
         const m = phys({
-          color: white.clone().lerp(juice, 0.12), metalness: 0, roughness: 0.05, ior: 1.45,
-          transmission: 1, thickness: 0.3, attenuationColor: white.clone().lerp(juice, 0.35), attenuationDistance: 0.9,
+          // r.tint: how strongly the glass itself is coloured (green glass for Green Irish)
+          color: white.clone().lerp(juice, r.tint || 0.12), metalness: 0, roughness: 0.05, ior: 1.45,
+          transmission: 1, thickness: 0.3, attenuationColor: white.clone().lerp(juice, Math.max(0.35, (r.tint || 0) * 1.4)), attenuationDistance: 0.9,
           clearcoat: 1, clearcoatRoughness: 0.03, specularIntensity: 1, envMapIntensity: 1.25,
           // a warm grazing-angle sheen: the outline and edges stay readable on dark backgrounds
-          sheen: 1, sheenColor: new THREE.Color('#ffe2b8'), sheenRoughness: 0.3,
+          sheen: 1, sheenColor: new THREE.Color('#ffe2b8').lerp(juice, (r.tint || 0) * 0.8), sheenRoughness: 0.3,
         });
         m.userData.glass = true;
         applyQuality(m, quality);
@@ -209,6 +213,7 @@
       goldBrushed: () => phys({ color: '#dcae58', metalness: 1, roughness: 0.3, envMapIntensity: 1.3 }),
       goldOrnate: () => phys({ color: '#e6b85f', metalness: 1, roughness: 0.2, bumpMap: T.filigree, bumpScale: 1.2, envMapIntensity: 1.4 }),
       goldLattice: () => phys({ color: '#e2b25a', metalness: 1, roughness: 0.24, map: T.latticeMap, bumpMap: T.latticeBump, bumpScale: 2, envMapIntensity: 1.4 }),
+      champagne: () => phys({ color: '#ddd3bf', metalness: 1, roughness: 0.14, clearcoat: 0.3, clearcoatRoughness: 0.08, envMapIntensity: 1.35 }),
       rose: () => phys({ color: '#e7a587', metalness: 1, roughness: 0.18, clearcoat: 0.3, envMapIntensity: 1.35 }),
       bronze: () => phys({ color: '#c99358', metalness: 1, roughness: 0.3, map: T.bronzeMap, bumpMap: T.bronzeBump, bumpScale: 1.6, envMapIntensity: 1.4 }),
       bronzePlain: () => phys({ color: '#b5804a', metalness: 1, roughness: 0.26, envMapIntensity: 1.3 }),
@@ -324,6 +329,13 @@
         mesh(lathe(THREE, [[0.15, 0], [0.165, 0.012], [0.165, 0.035], [0.155, 0.04], [0.16, 0.05], [0.16, 0.2], [0.15, 0.215], [0, 0.22]], 64), M('gold'));
         h = 0.22; break;
       }
+      case 'blackFlare': // gloss black cap that widens to the top, over a gold collar (Liquid Burn)
+      case 'champagneFlare': { // polished champagne-silver flared cap and collar (Green Irish)
+        const black = kind === 'blackFlare';
+        mesh(lathe(THREE, [[0.1, 0], [0.12, 0.004], [0.122, 0.04], [0.118, 0.05], [0, 0.052]], 48), M(black ? 'gold' : 'champagne'));
+        mesh(lathe(THREE, [[0.125, 0], [0.13, 0.008], [0.165, 0.225], [0.158, 0.238], [0, 0.242]], 64), M(black ? 'lacquer' : 'champagne'), 0.05);
+        h = 0.29; break;
+      }
       case 'roseSpray': { // tall rose-gold spray cap (Celoud)
         mesh(lathe(THREE, [[0.075, 0], [0.12, 0.005], [0.13, 0.03], [0.12, 0.055], [0.07, 0.06]], 48), M('rose'));
         mesh(lathe(THREE, [[0.12, 0], [0.13, 0.015], [0.13, 0.26], [0.115, 0.29], [0.06, 0.305], [0.055, 0.34], [0.04, 0.35], [0, 0.352]], 64), M('rose'), 0.06);
@@ -365,7 +377,7 @@
       grp.add(new THREE.Mesh(inner, M('liquid')));
       const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.04, 24), M('glass')); neck.position.y = h + 0.02; grp.add(neck);
       const capH = addCap(THREE, grp, M, r.cap || 'goldBlock', h + 0.03);
-      return { h: h + 0.03 + capH, w, label: { type: 'flat', z: d / 2 + 0.004, cy: h * 0.48, maxW: w * 0.84, maxH: h * 0.8 } };
+      return { h: h + 0.03 + capH, w, label: { type: 'flat', z: d / 2 + 0.004, cy: h * (r.labelY || 0.48), maxW: w * (r.labelW || 0.84), maxH: h * 0.8 } };
     },
     // rounded cream body (White Oud) — a lathe squashed front-to-back
     pebble(THREE, grp, M, r) {
