@@ -16,6 +16,18 @@ window.GIB_CONFIG = {
   instagram: 'https://instagram.com/gibberish_perfume',
   instagramHandle: 'gibberish_perfume',
   whatsappDisplay: '+91 90169 95128',
+  // Festive offer. It switches itself on and off by date (India time, both days included).
+  // Set `offer: null` to turn it off early; change the dates and words for the next festival.
+  offer: {
+    id: 'diwali-2026',
+    name: 'Diwali offer',
+    short: 'Diwali',      // used on the small badge: "Diwali · 2 for ₹800"
+    start: '2026-10-26',
+    end: '2026-11-11',
+    pairPrice: 800,       // any two eligible perfumes
+    types: ['perfume'],   // which product types count (only priced ones; Kaaf "by invitation" is excluded)
+    freeShipping: true,   // orders with at least one pair ship free
+  },
 };
 
 /* Optional HD ingredient photos. The site uses hand-drawn vector art by default.
@@ -346,3 +358,16 @@ window.gibProductSound = function (p) {
   if (w === 'desert') { const f = window.gibProductFamily(p); return f.amber > f.woody ? 'fire' : 'night'; }
   return { garden: 'forest', bazaar: 'bazaar', monsoon: 'sea', silk: 'silk', temple: 'temple' }[w] || 'breeze';
 };
+
+/* The festive offer, if it is running right now (else null), and whether a product counts toward it. */
+window.gibOffer = function (now = new Date()) {
+  const o = window.GIB_CONFIG.offer;
+  if (!o) return null;
+  const from = new Date(o.start + 'T00:00:00+05:30'), to = new Date(o.end + 'T23:59:59+05:30');
+  return now >= from && now <= to ? Object.assign({ endsAt: to }, o) : null;
+};
+window.gibOfferEligible = function (p) {
+  const o = window.gibOffer();
+  return !!(o && p && p.price != null && o.types.includes(p.type));
+};
+

@@ -92,6 +92,17 @@ node tools/version.mjs
 
 The ingredients are vector art. To use photos instead, add square, transparent PNGs to `GIB_INGREDIENT_PHOTOS` in `assets/js/data.js`, for example `orange: 'assets/img/ingredients/orange.png'`. Every animation keeps working with the photos.
 
+## Festive offers
+
+The Diwali offer ("any two perfumes ₹800") is set in `GIB_CONFIG.offer` in `assets/js/data.js`. It switches itself on and off by date (India time, both days included):
+
+- a slim strip with a countdown on top of every page (visitors can close it for a day)
+- a "Diwali · 2 for ₹800" badge on every perfume that counts, and a **Diwali offer** filter on the collection (`shop.html#offer`)
+- the bag and checkout pair the dearest perfumes first: every two cost ₹800, an odd one stays at its price, and orders with a pair ship free. The order message on WhatsApp/Instagram shows the saving
+- the Layering Lab shows "take this pair home for ₹800" when both bottles count
+
+For the next festival, change `name`, `short`, `start`, `end` and `pairPrice` (and add the new words to `i18n-dict.js`). Set `offer: null` to switch it off early.
+
 ## Shared Kundli blends
 
 At the end of the Scent Kundli, visitors can fine-tune their bespoke attar (top, heart and base notes, and strength) and press **Share this blend**. The link (`kundli.html?blend=…`) holds the exact formula. Anyone who opens it sees that blend and can order the same bottle.

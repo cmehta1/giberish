@@ -265,3 +265,7 @@
   .ll-pick-name { font-size: 9.5px; letter-spacing: .03em; -webkit-line-clamp: 1; white-space: nowrap; text-overflow: ellipsis; display: block; width: 100%; overflow: hidden; }
   .ll-pick-taken { width: 58px; font-size: 7.5px; padding: 3px 4px; letter-spacing: .1em; top: 42%; }
 }
+/* festive offer on the pair */
+.ll-shop-total s { margin-left: auto; margin-right: 10px; color: var(--muted); font-size: 15px; }
+.ll-offer { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; padding: 9px 12px; border-radius: 12px; font-size: 13px; line-height: 1.45; color: #ffe2a8;
+  background: linear-gradient(135deg, rgba(110,26,16,.55), rgba(70,14,10,.3)); border: 1px solid rgba(255,190,110,.32); }

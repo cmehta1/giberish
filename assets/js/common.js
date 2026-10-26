@@ -115,6 +115,25 @@
         </div>`;
       header.appendChild(crumbs);
     }
+    // festive offer strip on top of the header (GIB_CONFIG.offer in data.js); hidden for a day once closed
+    const offer = window.gibOffer && window.gibOffer(), OFFER_KEY = 'giberish.offerbar';
+    let closed = false;
+    try { const v = JSON.parse(localStorage.getItem(OFFER_KEY) || 'null'); closed = !!(offer && v && v.id === offer.id && Date.now() - v.t < 864e5); } catch (_) {}
+    if (offer && !closed) {
+      document.body.classList.add('has-offer');
+      const days = Math.ceil((offer.endsAt - Date.now()) / 864e5);
+      const strip = document.createElement('div');
+      strip.className = 'offer-strip';
+      strip.innerHTML = `<div class="container">
+          <a href="shop.html#offer" class="offer-link"><span class="diya" aria-hidden="true"><i></i></span><b>${offer.name}</b><span class="offer-sep" aria-hidden="true">·</span><span>Any two perfumes ${money(offer.pairPrice)}</span>${offer.freeShipping ? '<span class="offer-sep offer-wide" aria-hidden="true">·</span><span class="offer-wide">Free shipping</span>' : ''}<span class="offer-left">${days <= 1 ? 'Ends today' : `${days} days left`}</span><span class="offer-go">Shop now ›</span></a>
+          <button type="button" class="offer-close" aria-label="Hide the offer">×</button>
+        </div>`;
+      strip.querySelector('.offer-close').onclick = () => {
+        strip.remove(); document.body.classList.remove('has-offer');
+        try { localStorage.setItem(OFFER_KEY, JSON.stringify({ id: offer.id, t: Date.now() })); } catch (_) {}
+      };
+      header.prepend(strip);
+    }
     document.body.prepend(header);
     if (window.GibI18n) header.querySelector('.header-actions').prepend(window.GibI18n.switcher());
 
@@ -259,7 +278,22 @@
     },
     count() { return this.items.reduce((a, b) => a + b.qty, 0); },
     subtotal() { return this.lines().reduce((a, l) => a + l.price * l.qty, 0); },
-    shipping() { const s = this.subtotal(); return s === 0 || s >= C.freeShippingAbove ? 0 : C.shippingFee; },
+    // Festive offer (data.js): every two eligible perfumes cost the pair price; the dearest ones pair up first
+    offer() {
+      const o = window.gibOffer && window.gibOffer();
+      if (!o) return { pairs: 0, discount: 0 };
+      const units = this.lines().filter((l) => !l.custom && window.gibOfferEligible(findProduct(l.id)))
+        .flatMap((l) => Array(l.qty).fill(l.price)).sort((a, b) => b - a);
+      let pairs = 0, discount = 0;
+      for (let i = 0; i + 1 < units.length; i += 2) { const d = units[i] + units[i + 1] - o.pairPrice; if (d > 0) { pairs++; discount += d; } }
+      return { pairs, discount, name: o.name, freeShipping: o.freeShipping };
+    },
+    shipping() {
+      const s = this.subtotal(), o = this.offer();
+      if (s === 0 || (o.pairs && o.freeShipping)) return 0;
+      return s - o.discount >= C.freeShippingAbove ? 0 : C.shippingFee;
+    },
+    total() { return this.subtotal() - this.offer().discount + this.shipping(); },
     add(id, custom) {
       const p = findProduct(id);
       if (!custom && (!p || p.price == null)) { toastMsg('You’re on the waitlist for ' + (p ? p.name : 'this') + '. We’ll let you know.'); return; }
@@ -315,12 +349,15 @@
         </div>
         <div><div class="price">${money(l.price * l.qty)}</div><button class="remove" data-rm="${l.key}">Remove</button></div>
       </div>`).join('');
-    const sub = Cart.subtotal();
-    const left = Math.max(0, C.freeShippingAbove - sub);
+    const sub = Cart.subtotal(), off = Cart.offer(), net = sub - off.discount;
+    const left = Cart.shipping() ? Math.max(0, C.freeShippingAbove - net) : 0;
     foot.innerHTML = `
       <div class="ship-meter">${left > 0 ? `Add <b class="gold">${money(left)}</b> more for complimentary shipping` : 'Your order ships <b class="gold">free</b>, gift-wrapped with care'}
-        <div class="bar"><i style="width:${Math.min(100, (sub / C.freeShippingAbove) * 100)}%"></i></div></div>
-      <div class="total-row"><span class="eyebrow">Subtotal</span><span>${money(sub)}</span></div>
+        <div class="bar"><i style="width:${left > 0 ? Math.min(100, (net / C.freeShippingAbove) * 100) : 100}%"></i></div></div>
+      ${off.discount ? `<div class="total-row sm"><span class="eyebrow">Subtotal</span><span>${money(sub)}</span></div>
+      <div class="total-row sm offer-row"><span class="eyebrow">${off.name}</span><span>−${money(off.discount)}</span></div>
+      <div class="total-row"><span class="eyebrow">Total</span><span>${money(net)}</span></div>`
+      : `<div class="total-row"><span class="eyebrow">Subtotal</span><span>${money(sub)}</span></div>`}
       <a href="checkout.html" class="btn btn-solid" style="width:100%">Checkout</a>`;
     body.querySelectorAll('[data-q]').forEach((b) => b.onclick = () => {
       const it = Cart.items.find((i) => i.key === b.dataset.q);
@@ -339,6 +376,7 @@
           ${window.GibArt ? [...new Set(p.ingredients.flatMap((k) => window.GibArt.forIngredient(k)))].filter((k) => k !== 'smoke').slice(0, 3)
             .map((k) => `<img class="p-ing" data-k="${k}" src="${window.GibArt.url(k)}" alt="">`).join('') : ''}
           <span class="feel-badge"><i></i>Feel it</span>
+          ${window.gibOfferEligible && window.gibOfferEligible(p) ? `<span class="offer-badge"><i></i>${window.GIB_CONFIG.offer.short} · 2 for ${money(window.GIB_CONFIG.offer.pairPrice)}</span>` : ''}
         </div>
         <div class="p-body">
           <span class="p-house">${p.house}</span>

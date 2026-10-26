@@ -811,13 +811,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderShop(ca, cb) {
     const priced = [A, B].filter((p) => p.price != null);
     const total = priced.reduce((s, p) => s + p.price, 0);
+    // festive offer (data.js): two eligible perfumes for the pair price
+    const offer = window.gibOffer && window.gibOffer(), offerPair = offer && [A, B].every(window.gibOfferEligible) && total > offer.pairPrice;
     $('#shopPair').innerHTML = [[A, ca], [B, cb]].map(([p, c]) => `
       <div class="ll-shop-item" style="--c:${rgba(c, 1)}">
         <img src="${p.image}" alt="${esc(p.name)}">
         <div><b>${esc(p.name)}</b><small>${esc(p.size)}</small></div>
         <span class="ll-shop-price">${p.price != null ? money(p.price) : 'By invitation'}</span>
       </div>`).join('') +
-      (priced.length ? `<div class="ll-shop-total"><span class="eyebrow">${priced.length === 2 ? 'The pair' : 'Available now'}</span><b>${money(total)}</b></div>` : '');
+      (priced.length ? `<div class="ll-shop-total"><span class="eyebrow">${priced.length === 2 ? 'The pair' : 'Available now'}</span>${offerPair ? `<s>${money(total)}</s>` : ''}<b>${money(offerPair ? offer.pairPrice : total)}</b></div>` : '') +
+      (offerPair ? `<p class="ll-offer"><span class="diya" aria-hidden="true"><i></i></span><span>${offer.name}: take this pair home for ${money(offer.pairPrice)}${offer.freeShipping ? ', with free shipping' : ''}.</span></p>` : '');
     const add = $('#addBoth');
     add.textContent = priced.length === 2 ? 'Add both to bag' : priced.length ? `Add ${priced[0].name} to bag` : 'Join the waitlist';
     $('[data-feel-slot="a"]').textContent = `Feel ${A.name}`;
