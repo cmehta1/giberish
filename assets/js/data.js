@@ -16,6 +16,10 @@ window.GIB_CONFIG = {
   instagram: 'https://instagram.com/gibberish_perfume',
   instagramHandle: 'gibberish_perfume',
   whatsappDisplay: '+91 90169 95128',
+  // Database (Supabase, free plan). Paste the Project URL and the publishable ("anon") key from
+  // Supabase → Project Settings → API. The key is meant to be public: the security rules in
+  // supabase/schema.sql decide what it can do. Leave them empty and nothing is saved.
+  supabase: { url: 'https://qibtiywuhbqlftgxicvz.supabase.co', key: 'sb_publishable_3FDXazct7muqlzGe0drldA_1j2gvuqn' },
   // Festive offer. It switches itself on and off by date (India time, both days included).
   // Set `offer: null` to turn it off early; change the dates and words for the next festival.
   offer: {
@@ -369,5 +373,15 @@ window.gibOffer = function (now = new Date()) {
 window.gibOfferEligible = function (p) {
   const o = window.gibOffer();
   return !!(o && p && p.price != null && o.types.includes(p.type));
+};
+
+/* The catalogue can come from the database: api/catalog (a Vercel function that reads Supabase) loads right
+   after this file and calls gibApplyCatalog(). Everything above stays as the fallback when it can't. */
+window.GIB_BUILTIN_NOTES = Object.keys(window.GIB_INGREDIENTS);
+window.gibApplyCatalog = function (c) {
+  if (!c || !c.products || !c.products.length || !c.notes || !Object.keys(c.notes).length) return;
+  window.GIB_INGREDIENTS = c.notes;
+  window.GIB_PRODUCTS = c.products.map((p) => Object.assign(p, { ingredients: (p.ingredients || []).filter((k) => c.notes[k]) }));
+  window.GIB_CATALOG_SOURCE = 'database';
 };
 

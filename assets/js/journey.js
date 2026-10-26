@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const keys = labels.map(keyOf).filter(Boolean);
       let kinds = labels.flatMap(artOf);
       // add the product's own ingredients that belong to this phase, if they're not named already
-      p.ingredients.filter((k) => NATURAL[k] === i && !keys.includes(k)).forEach((k) => { keys.push(k); kinds.push(Art.forIngredient(k)[0]); });
+      p.ingredients.filter((k) => (k in NATURAL ? NATURAL[k] : { top: 0, heart: 1, base: 2 }[(ING[k] || {}).tier]) === i && !keys.includes(k)).forEach((k) => { keys.push(k); kinds.push(Art.forIngredient(k)[0]); });
       kinds = [...new Set(kinds)].slice(0, 5);
       if (!kinds.length) kinds = ['musk'];
       // tint the phase light with the family these notes belong to

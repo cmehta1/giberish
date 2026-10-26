@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Questions ---------- */
   function go(i) {
     step = i;
-    if (i >= QUESTIONS.length) return reading();
+    if (i >= QUESTIONS.length) return window.GibDB && window.GibDB.on ? emailStep() : reading(); // emails are only asked for when there's a database to keep them
     const Q = QUESTIONS[i];
     const prog = QUESTIONS.map((_, j) => `<i class="${j <= i ? 'on' : ''}"></i>`).join('');
     let body = '';
@@ -195,6 +195,58 @@ document.addEventListener('DOMContentLoaded', () => {
         };
       });
     }
+  }
+
+  /* ---------- Email, before the reading is revealed ---------- */
+  const who = { email: '', consent: false }; // kept across retakes
+  try { who.email = localStorage.getItem('giberish.email') || ''; } catch (_) {}
+  const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
+  function emailStep() {
+    const prog = QUESTIONS.map(() => '<i class="on"></i>').join('');
+    app.innerHTML = `
+      <div class="k-progress">${prog}</div>
+      <div class="k-q k-anim-in">
+        <span class="eyebrow">Your reading is ready</span>
+        <h2 class="h-1">Where can we <em>find you?</em></h2>
+        <p class="muted">Leave your email to unlock your Scent Kundli. We keep your chart and your bespoke formula with it, so whenever you write to us we can blend exactly what your reading asked for.</p>
+        <form class="k-name k-email" id="k-email-form" novalidate>
+          <div class="field"><input id="k-email" type="email" inputmode="email" autocomplete="email" maxlength="160" placeholder="you@example.com" value="${esc(who.email)}" aria-label="Your email" required></div>
+          <label class="k-consent"><input type="checkbox" id="k-consent" ${who.consent ? 'checked' : ''}><span>Also send me new launches and festive offers</span></label>
+          <p class="k-email-err" id="k-email-err" role="alert"></p>
+          <button class="btn btn-solid" type="submit">Reveal my Kundli</button>
+          <small class="muted">We never share or sell your email. Write to us any time and we’ll remove it.</small>
+        </form>
+      </div>
+      <div class="k-nav"><button class="k-back" id="k-back">← Back</button><span></span></div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('k-back').onclick = () => go(QUESTIONS.length - 1);
+    const input = document.getElementById('k-email');
+    if (matchMedia('(hover: hover)').matches) input.focus();
+    document.getElementById('k-email-form').onsubmit = (e) => {
+      e.preventDefault();
+      const email = input.value.trim().toLowerCase();
+      if (!EMAIL_RE.test(email)) { document.getElementById('k-email-err').textContent = 'Please enter a valid email address.'; input.focus(); return; }
+      who.email = email; who.consent = document.getElementById('k-consent').checked;
+      try { localStorage.setItem('giberish.email', email); } catch (_) {}
+      answers.saved = false;
+      reading();
+    };
+  }
+
+  // one row per completed reading (GibDB → Supabase, see db.js); quietly skipped when no database is set up
+  function saveReading({ prof, a, m, b }) {
+    if (answers.saved || !window.GibDB || !who.email) return;
+    answers.saved = true;
+    const chosen = {};
+    QUESTIONS.forEach((Q) => { if (Q.opts && answers[Q.key] != null) chosen[Q.key] = Q.opts[answers[Q.key]][1]; });
+    window.GibDB.saveKundli({
+      name: answers.name, email: who.email, consent_marketing: who.consent,
+      answers: chosen, archetype: a.plain,
+      profile: Object.fromEntries(FKEYS.map((k) => [k, Math.round(prof.v[k] * 100) / 100])),
+      blend: { name: b.name, title: b.title, top: b.top, heart: b.heart, base: b.base, voice: b.voice, code: b.code },
+      matches: m.map((x) => ({ id: x.p.id, name: x.p.name, score: x.score })),
+      share_url: shareURL(b).slice(0, 2000), lang: (window.GibI18n && window.GibI18n.lang) || 'en',
+    });
   }
 
   /* ---------- Scoring ---------- */
@@ -250,6 +302,13 @@ document.addEventListener('DOMContentLoaded', () => {
     heart: ['Rose', 'Jasmine', 'White Peony', 'Orange Blossom', 'Wild Orchid', 'Saffron', 'Pink Pepper', 'Caramel', 'Espresso', 'Cotton Candy', 'Marshmallow', 'Amber', 'Vanilla', 'Orris'],
     base: ['Oud', 'Sandalwood', 'Cashmere Wood', 'Vetiver', 'Tonka Bean', 'Dark Cocoa', 'Hazelnut Praline', 'Amber', 'Vanilla', 'White Musk', 'Orris'],
   };
+  // notes added in the admin panel (not built into data.js) can be chosen for the bespoke attar too
+  const BUILTIN = new Set(window.GIB_BUILTIN_NOTES || []);
+  Object.entries(window.GIB_INGREDIENTS || {}).forEach(([k, n]) => {
+    if (BUILTIN.has(k) || !OPTS[n.tier] || OPTS[n.tier].includes(n.label)) return;
+    OPTS[n.tier].push(n.label);
+    if (!NOTE_ART[n.label]) NOTE_ART[n.label] = window.GibArt ? window.GibArt.forIngredient(k) : ['musk'];
+  });
   // codes stay stable: never change an existing one, shared blend codes quote them
   const ABBR = { Rose: 'ROS', Jasmine: 'JAS', Oud: 'OUD', Sandalwood: 'SAN', Amber: 'AMB', Vanilla: 'VAN', Bergamot: 'BER', 'Green Cardamom': 'CAR', Saffron: 'SAF', 'Pink Pepper': 'PEP', 'White Musk': 'MSK', Orris: 'ORR',
     'Green Apple': 'APL', Peach: 'PCH', Raspberry: 'RAS', Blackcurrant: 'BLC', 'White Peony': 'PEO', 'Orange Blossom': 'OBL', 'Wild Orchid': 'ORC',
@@ -429,6 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : prof.noise === 2 ? 'There is a hum inside you. A fragrance worn mindfully, one touch at your pulse, can turn that hum into rhythm.'
       : 'You are already close to your silence. Your fragrance simply needs to honour it.';
     last = { prof, a, m, b, ruling, rising, moon };
+    saveReading(last);
     const name = esc(answers.name);
 
     app.innerHTML = `

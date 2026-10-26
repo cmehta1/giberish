@@ -10,11 +10,11 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/great-vibes-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script>try{var gl=new URLSearchParams(location.search).get('lang')||localStorage.getItem('gib.lang');if(gl==='hi'||gl==='gu'){var pl=document.createElement('link');pl.rel='preload';pl.as='script';pl.href='assets/js/i18n-dict.js?v=00568223';document.head.appendChild(pl)}}catch(e){}</script>
+  <script>try{var gl=new URLSearchParams(location.search).get('lang')||localStorage.getItem('gib.lang');if(gl==='hi'||gl==='gu'){var pl=document.createElement('link');pl.rel='preload';pl.as='script';pl.href='assets/js/i18n-dict.js?v=7ed1c84a';document.head.appendChild(pl)}}catch(e){}</script>
   <script>try{sessionStorage.getItem('gibNav')&&document.documentElement.classList.add('nav-in')}catch(e){}</script>
   <style>html.nav-in{background:#0a0604}html.nav-in body>*{opacity:0}</style>
   <link rel="stylesheet" href="assets/css/style.css?v=a0cd748c">
-  <link rel="stylesheet" href="assets/css/pages.css?v=1256f674">
+  <link rel="stylesheet" href="assets/css/pages.css?v=9d21e9e7">
 </head>
 <body data-page="checkout">
 <main>
@@ -62,11 +62,13 @@
 </main>
 
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script defer src="assets/js/data.js?v=4e398fc4"></script>
-<script defer src="assets/js/art.js?v=719047c1"></script>
+<script defer src="assets/js/data.js?v=1fb21fa7"></script>
+<script defer src="api/catalog"></script>
+<script defer src="assets/js/db.js?v=8fdb6656"></script>
+<script defer src="assets/js/art.js?v=50cebe6b"></script>
 <script defer src="assets/js/scene.js?v=afc3b90d"></script>
 <script defer src="assets/js/sound.js?v=fc560397"></script>
-<script defer src="assets/js/i18n.js?v=66d95911" data-dict="assets/js/i18n-dict.js?v=00568223"></script>
+<script defer src="assets/js/i18n.js?v=66d95911" data-dict="assets/js/i18n-dict.js?v=7ed1c84a"></script>
 <script defer src="assets/js/common.js?v=737ad207"></script>
 <script type="module">
 document.addEventListener('DOMContentLoaded', () => {
@@ -153,6 +155,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = 'GB' + Date.now().toString(36).toUpperCase().slice(-6);
     const how = (document.querySelector('input[name=pay]:checked') || {}).value;
     const total = Cart.total();
+    // keep a record of every order in the database (admin.html); never blocks the order itself
+    const off = Cart.offer();
+    if (window.GibDB) window.GibDB.saveOrder({
+      code: id, channel: how === 'online' && C.razorpayKey ? 'online' : how === 'instagram' ? 'instagram' : 'whatsapp',
+      name: d.name.trim().slice(0, 120), phone: d.phone, email: (d.email || '').trim().slice(0, 160) || null,
+      address: d.address.trim().slice(0, 500), city: d.city.trim().slice(0, 80), pincode: d.pincode, gift_note: d.gift ? d.gift.slice(0, 300) : null,
+      items: Cart.lines().map((l) => Object.assign({ id: l.custom ? null : l.id, name: l.name, qty: l.qty, price: l.price }, l.custom ? { formula: l.custom.formula } : {})),
+      subtotal: Cart.subtotal(), discount: off.discount, shipping: Cart.shipping(), total, offer: off.discount ? off.name : null,
+      lang: (window.GibI18n && window.GibI18n.lang) || 'en',
+    });
 
     if (how === 'online' && C.razorpayKey) {
       try { await loadRazorpay(); } catch (_) { $('#co-error').textContent = 'Couldn’t reach the payment gateway. Please try WhatsApp instead.'; return; }

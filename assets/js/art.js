@@ -661,6 +661,7 @@
       if (!imgs[kind]) { const im = new Image(); im.decoding = 'async'; im.src = this.url(kind); imgs[kind] = im; }
       return imgs[kind];
     },
-    forIngredient(key) { return MAP[key] || ['musk']; },
+    // a note's own art (set in the admin panel) wins, then the built-in map
+    forIngredient(key) { const a = ((window.GIB_INGREDIENTS || {})[key] || {}).art; return (a && a.length && a.every((k) => ART[k]) ? a : MAP[key]) || ['musk']; },
   };
 })();

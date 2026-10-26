@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'base', label: 'Base', sub: 'What stays', keys: ['sandalwood', 'cedar', 'cashmere', 'vetiver', 'oud', 'amber', 'tonka', 'vanilla', 'praline', 'cocoa', 'musk', 'smoke'] },
   ].map((t) => ({ ...t, keys: t.keys.filter((k) => ING[k]) }));
   const tierOf = (k) => TIERS.findIndex((t) => t.keys.includes(k));
+  // notes added in the admin panel join the tier they were given there
+  Object.keys(ING).forEach((k) => { const t = TIERS.find((x) => x.id === ING[k].tier); if (t && tierOf(k) < 0) t.keys.push(k); });
   const SHORT = { rose: 'Rose', jasmine: 'Jasmine', oud: 'Oud', sandalwood: 'Sandalwood', cedar: 'Cedar', saffron: 'Saffron', amber: 'Amber',
     musk: 'Musk', vanilla: 'Vanilla', citrus: 'Citrus', cardamom: 'Cardamom', leather: 'Leather', smoke: 'Incense', green: 'Green Leaves',
     apple: 'Green Apple', peach: 'Peach', raspberry: 'Raspberry', blackcurrant: 'Blackcurrant', bergamot: 'Bergamot',

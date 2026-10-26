@@ -5,10 +5,10 @@ A static, mobile-first site for Giberish. It uses plain HTML, CSS and JavaScript
 ## Run it locally
 
 ```bash
-python3 -m http.server 5880
+node tools/serve.mjs
 ```
 
-Then open http://localhost:5880.
+Then open http://localhost:5880. (A plain `python3 -m http.server 5880` also works, but without the `api/` functions, so the catalogue comes from `data.js`.)
 
 ## Pages
 
@@ -91,6 +91,28 @@ node tools/version.mjs
 ## Swapping in HD ingredient photos
 
 The ingredients are vector art. To use photos instead, add square, transparent PNGs to `GIB_INGREDIENT_PHOTOS` in `assets/js/data.js`, for example `orange: 'assets/img/ingredients/orange.png'`. Every animation keeps working with the photos.
+
+## Database and admin panel
+
+The site uses a free **Supabase** database. Setup steps are in `supabase/SETUP.md`.
+
+- **What it stores**
+  - Every order placed at checkout, with items, the offer, totals and status.
+  - Every Scent Kundli reading. After the 10 questions, visitors leave their email (and can opt in to offers) before seeing their reading.
+  - The catalogue: products and notes.
+- **Admin panel** (`/admin`, sign-in only, hidden from search engines):
+  - **Orders:** mark each order Converted / Not converted and add a private note.
+  - **Scent Kundlis:** answers, chart, blend, and copy opted-in emails.
+  - **Products** and **Notes:** add, edit, hide or upload photos.
+  - Orders and Kundlis can be exported as CSV.
+- **Catalogue from the database**
+  - Every page loads `api/catalog` (a Vercel function) right after `data.js`. It replaces the built-in catalogue with the active products and notes from the database, cached for about a minute.
+  - If the database isn't set up or doesn't answer, the site simply uses `data.js`.
+  - Notes added in the admin panel appear in Scent Alchemy (in the layer you choose) and in the Kundli's bespoke attar, using the drawn art you pick.
+- **Security**
+  - Visitors can only *add* orders and readings and *read* the active catalogue.
+  - Everything else needs an email listed in `public.admins` (see `supabase/schema.sql`).
+- **Local preview:** `node tools/serve.mjs`. It behaves like Vercel: clean URLs, plus `api/` functions.
 
 ## Festive offers
 

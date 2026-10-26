@@ -30,5 +30,11 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/catalog.js": {
+      "includeFiles": "assets/js/data.js",
+      "maxDuration": 10
+    }
+  }
 }

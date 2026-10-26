@@ -628,3 +628,11 @@ html.after-intro .hero-word span { animation-duration: .01s !important; }
 .exp-vis.worlds { background: linear-gradient(180deg, rgba(10,6,4,.1), rgba(10,6,4,.55)), url('../img/worlds/kaaf.jpg') center 60%/cover no-repeat; }
 .exp-vis.worlds { background: linear-gradient(180deg, rgba(10,6,4,.1), rgba(10,6,4,.55)), image-set(url('../img/worlds/kaaf-1200.avif') type('image/avif'), url('../img/worlds/kaaf-1200.webp') type('image/webp'), url('../img/worlds/kaaf.jpg') type('image/jpeg')) center 60%/cover no-repeat; }
 .exp-vis.worlds .moon, .exp-vis.worlds .dune { display: none; }
+
+/* Kundli: email before the reading */
+.k-email { max-width: 460px; gap: 16px; }
+.k-email input[type=email] { font-size: 22px !important; }
+.k-consent { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 15px; color: var(--cream); cursor: pointer; line-height: 1.5; }
+.k-consent input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--gold); }
+.k-email-err { min-height: 1.2em; margin: -6px 0 0; color: #f0a07a; font-size: 14px; }
+.k-email small { font-size: 12.5px; line-height: 1.5; }
