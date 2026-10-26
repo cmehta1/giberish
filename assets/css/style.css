@@ -733,8 +733,8 @@ body.has-offer.has-crumbs { --header-h: calc(106px + var(--offer-h)); }
   body.has-offer.has-crumbs { --header-h: calc(96px + var(--offer-h)); }
   .offer-strip .container { justify-content: flex-start; padding-right: 40px; }
   .offer-link { font-size: 10.5px; letter-spacing: .08em; gap: 7px; }
-  .offer-sep, .offer-go { display: none; }
-  .offer-left { margin-left: 2px; padding: 1px 7px; font-size: 9.5px; }
+  .offer-sep, .offer-left { display: none; } /* phones: keep "Shop now", drop the countdown */
+  .offer-go { margin-left: 2px; white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .offer-strip::after, .diya i { animation: none; } }
 
@@ -749,4 +749,8 @@ body.has-offer.has-crumbs { --header-h: calc(106px + var(--offer-h)); }
 .total-row.sm { margin-bottom: 6px; }
 .total-row.sm span:last-child { font-size: 19px; }
 .total-row.sm + .total-row:not(.sm) { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
-@media (max-width: 420px) { .offer-left { display: none; } }
+@media (max-width: 400px) {
+  .offer-strip .container { padding-right: 34px; }
+  .offer-link { font-size: 10px; letter-spacing: .02em; gap: 6px; }
+}
+@media (max-width: 345px) { .offer-link .diya { display: none; } .offer-link { font-size: 9.5px; letter-spacing: 0; gap: 5px; } }
