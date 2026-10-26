@@ -15,7 +15,8 @@ code { font-size: .92em; color: var(--gold-2); background: rgba(255,236,200,.06)
 .adm-card { width: min(440px, 100%); padding: 34px 30px; border-radius: 22px; border: 1px solid var(--line); background: var(--panel); box-shadow: var(--shadow); }
 .adm-card h1 { font-family: var(--f-serif); font-weight: 400; font-size: 38px; margin: 18px 0 6px; color: var(--cream); }
 .adm-card p { line-height: 1.6; }
-.adm-brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-script); font-size: 30px; color: var(--gold-2); }
+.adm-brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-script); font-size: 30px; color: var(--gold-2); background: none; border: 0; padding: 0; }
+button.adm-brand { font-family: var(--f-script); line-height: 1.2; }
 .adm-brand .brand-mark { width: 34px; height: 34px; }
 .adm-brand small { font-family: var(--f-sans); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-left: 4px; }
 
@@ -154,6 +155,7 @@ legend { padding: 0 6px; font-size: 12px; letter-spacing: .12em; text-transform:
   .o-cols { grid-template-columns: 1fr; gap: 0; }
   .adm-form.grid { grid-template-columns: 1fr; }
   .adm-me span { display: none; }
+  .adm-me { gap: 12px; font-size: 12.5px; }
   .adm-top { gap: 10px 16px; padding-top: 10px; padding-bottom: 8px; }
   .adm-me { margin-left: auto; }
   .adm-tabs { order: 3; flex-basis: 100%; }

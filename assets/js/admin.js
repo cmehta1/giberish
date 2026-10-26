@@ -115,13 +115,14 @@
   function frame() {
     root.innerHTML = `
       <header class="adm-top">
-        <a href="index.html" class="adm-brand" target="_blank" rel="noopener"><span class="brand-mark"></span><span>Giberish</span><small>Admin</small></a>
+        <button type="button" class="adm-brand" id="adm-home" title="Back to orders"><span class="brand-mark"></span><span>Giberish</span><small>Admin</small></button>
         <nav class="adm-tabs" role="tablist">${TABS.map(([k, l]) => `<button role="tab" data-tab="${k}">${l}<em data-count="${k}"></em></button>`).join('')}</nav>
-        <div class="adm-me"><span>${esc(me.email)}</span><button class="adm-link" id="adm-refresh" title="Reload data">Refresh</button><button class="adm-link" id="adm-out">Sign out</button></div>
+        <div class="adm-me"><span>${esc(me.email)}</span><a class="adm-link" href="index.html" target="_blank" rel="noopener">View website ↗</a><button class="adm-link" id="adm-refresh" title="Reload data">Refresh</button><button class="adm-link" id="adm-out">Sign out</button></div>
       </header>
       <main class="adm-main" id="adm-main"><p class="adm-loading">Loading…</p></main>`;
     $$('[data-tab]').forEach((b) => (b.onclick = () => { state.tab = b.dataset.tab; state.open = null; try { localStorage.setItem('gib.adm.tab', state.tab); } catch (_) {} draw(); }));
     $('#adm-out').onclick = async () => { await api.signOut(); login(); };
+    $('#adm-home').onclick = () => $('[data-tab=orders]').click();
     $('#adm-refresh').onclick = () => loadAll().then(() => toast('Up to date'));
     try { state.tab = localStorage.getItem('gib.adm.tab') || state.tab; } catch (_) {}
   }
