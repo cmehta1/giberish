@@ -194,6 +194,7 @@
         <div class="footer-bottom">
           <span>© ${new Date().getFullYear()} Giberish · www.giberish.com</span>
           <span>Pure · Rare · Timeless</span>
+          <span class="footer-credit">Website crafted by <a href="https://chetas.dev/" target="_blank" rel="noopener" data-no-i18n>Chetas Mehta</a></span>
         </div>
       </div>`;
     if (!document.body.hasAttribute('data-no-footer')) document.body.appendChild(footer);
