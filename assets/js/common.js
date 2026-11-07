@@ -20,7 +20,7 @@
      the fallback). Bottle cut-outs also have a 400px-wide "-400" copy for small cards. */
   const IMG_W = { 'ajmal-1001-night': 621, 'al-bakhoor': 630, 'bakhoor-dani': 793, 'barakkat-rouge': 491, celoud: 531, fahad: 531, 'giberish-signature': 573,
     'hajar-al-aswad': 633, kaaf: 380, 'mukhallat-malaki': 630, 'musk-gold': 633, 'viking-creed': 756, 'white-oud': 714,
-    'liquid-burn': 623, 'green-irish': 539 };
+    'liquid-burn': 623, 'green-irish': 539, 'noir-confidence': 555, reverie: 618 };
   window.GibImg = {
     // "x-400.webp 400w, x.webp 573w" for a bottle in assets/img/hd/, else ''
     srcset(src) {

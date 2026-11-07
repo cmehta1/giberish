@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // note labels that aren't catalogue ingredient names
   const NOTE_KEY = { spices: 'cardamom', floral: 'rose', patchouli: 'cedar', 'smoked birch': 'smoke', incense: 'smoke', 'white musk': 'musk', cedarwood: 'cedar',
     'black pepper': 'cardamom', woods: 'cedar', 'violet leaf': 'green', iris: 'jasmine', ambergris: 'amber',
+    mandarin: 'citrus', 'pink pepper': 'cardamom', lavender: 'green', geranium: 'rose', 'fresh spices': 'cardamom', 'woody accord': 'cedar',
     // fruit, flower, sweet and wood notes as perfumers write them
     apple: 'apple', 'black currant': 'blackcurrant', cassis: 'blackcurrant', berries: 'raspberry', 'red berries': 'raspberry', strawberry: 'raspberry',
     peony: 'peony', 'orange blossom': 'orangeblossom', neroli: 'orangeblossom', orchid: 'orchid',

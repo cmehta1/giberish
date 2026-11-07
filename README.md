@@ -142,7 +142,7 @@ There is an EN · हि · ગુ switch in the header. Pages are written in En
 ## 3D bottles and world photos
 
 - `assets/js/bottle3d.js` (`GibBottle3D`) builds a 3D glass-and-metal bottle for each product, with its label. The Boutique uses these bottles, and the Layering Lab uses them as thumbnails. On slow devices it steps down to simpler glass, then to the HD photos. Add `boutique.html?bottles=high|low|photo` to force one quality for testing.
-- Scent Worlds uses 15 free-licence Unsplash photos in `assets/img/worlds/` (served as `.webp`). Photographer credits are in `assets/img/worlds/CREDITS.md`, and the world for each product is set in `assets/js/worlds.js`.
+- Scent Worlds uses 17 free-licence Unsplash photos in `assets/img/worlds/` (served as `.webp`). Photographer credits are in `assets/img/worlds/CREDITS.md`, and the world for each product is set in `assets/js/worlds.js`.
 
 ## The Scent Atlas
 

@@ -55,6 +55,8 @@
     'white-oud':          { form: 'pebble', juice: '#e9dcc0', cap: 'goldCylinder', label: { crop: [0.2, 0.4, 0.8, 0.74] } },
     'liquid-burn':        { form: 'square', w: 0.6, h: 0.68, d: 0.3, juice: '#b8661c', cap: 'blackFlare', labelW: 0.6, labelY: 0.46, label: { crop: [0.26, 0.41, 0.84, 0.85] } },
     'green-irish':        { form: 'square', w: 0.56, h: 0.74, d: 0.28, juice: '#1d6b2b', tint: 0.6, cap: 'champagneFlare', labelW: 0.64, labelY: 0.52, label: { crop: [0.19, 0.41, 0.83, 0.745] } },
+    'noir-confidence':    { form: 'square', w: 0.5, h: 0.76, d: 0.26, juice: '#2a221d', tint: 0.62, cap: 'blackCylinder', labelW: 0.62, labelY: 0.43, label: { crop: [0.205, 0.452, 0.795, 0.89] } },
+    'reverie':            { form: 'square', w: 0.6, h: 0.74, d: 0.3, juice: '#d9a02c', cap: 'blackCylinderGold', labelW: 0.7, labelY: 0.52, label: { crop: [0.142, 0.386, 0.832, 0.873] } },
     'celoud':             { form: 'tall', juice: '#7a1414', cap: 'roseSpray', label: { text: true } },
     'bakhoor-dani':       { form: 'burner', label: { crop: [0.27, 0.46, 0.74, 0.86], mask: 'circle' } },
   };
@@ -335,6 +337,12 @@
         mesh(lathe(THREE, [[0.1, 0], [0.12, 0.004], [0.122, 0.04], [0.118, 0.05], [0, 0.052]], 48), M(black ? 'gold' : 'champagne'));
         mesh(lathe(THREE, [[0.125, 0], [0.13, 0.008], [0.165, 0.225], [0.158, 0.238], [0, 0.242]], 64), M(black ? 'lacquer' : 'champagne'), 0.05);
         h = 0.29; break;
+      }
+      case 'blackCylinder': // straight gloss-black cap over a thin metal collar (Noir Confidence: chrome, Reverie: gold)
+      case 'blackCylinderGold': {
+        mesh(lathe(THREE, [[0.1, 0], [0.13, 0.004], [0.132, 0.036], [0.128, 0.042], [0, 0.044]], 48), M(kind === 'blackCylinderGold' ? 'gold' : 'champagne'));
+        mesh(lathe(THREE, [[0.15, 0], [0.158, 0.008], [0.158, 0.215], [0.15, 0.226], [0, 0.23]], 64), M('lacquer'), 0.042);
+        h = 0.275; break;
       }
       case 'roseSpray': { // tall rose-gold spray cap (Celoud)
         mesh(lathe(THREE, [[0.075, 0], [0.12, 0.005], [0.13, 0.03], [0.12, 0.055], [0.07, 0.06]], 48), M('rose'));

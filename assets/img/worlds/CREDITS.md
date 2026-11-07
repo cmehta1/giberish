@@ -22,3 +22,5 @@ None of them are Unsplash+ (premium) images. Each file was resized by Unsplash's
 | bakhoor-dani.jpg | [A couple of candles on a table (diyas)](https://unsplash.com/photos/-UDMIt13Jxg) | [Suchandra Roy Chowdhury](https://unsplash.com/@artsy_lens21) |
 | liquid-burn.jpg | [Close photography of burning wood](https://unsplash.com/photos/rYWz3Q88P8g) | [Wil Stewart](https://unsplash.com/@wilstewart3) |
 | green-irish.jpg | [Misty green hills under a cloudy sky](https://unsplash.com/photos/Pdyam4q17Js) | [atelierbyvineeth](https://unsplash.com/@atelierbyvineeth) |
+| noir-confidence.jpg | [A window with rain drops on it at night](https://unsplash.com/photos/1e60bqR1Ar0) | [Max van den Oetelaar](https://unsplash.com/@maxvdo) |
+| reverie.jpg | [Golden sunset over a rocky coastline and calm sea](https://unsplash.com/photos/zNXBGwV0Wug) | [Marc Wieland](https://unsplash.com/@mawiswiss) |

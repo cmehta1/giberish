@@ -112,6 +112,26 @@
           ['burst', { rgb: '215,235,220', sprite: 'soft', soft: true, comp: 'source-over', count: 16, delay: 0, dur: .4, spread: 1.1, vx: 26, vy: [6, 22], r: [40, 100], grow: 16, life: [2.4, 3.6], alpha: .16, yOff: -.7 }]],
       }),
     },
+    'noir-confidence': {
+      title: 'The Midnight Window', mood: 'Rain on the glass, city lights below, and nowhere you’d rather be.',
+      sound: 'rain', pos: '50% 55%', grade: 'brightness(.7) contrast(1.08) saturate(.9)', floor: '6,5,6', accent: '255,200,150', entrance: 'mist', reflect: true, sink: .012,
+      parts: (e) => ({
+        mid: [['bokeh', { count: 10, rgbs: ['255,190,120', '150,200,220', '255,230,200'], r: [.03, .08], y1: e.gy }],
+          ['rain', { count: 50, len: [10, 22], speed: [520, 700], alpha: .12, width: .8, color: '#dfe6ec', wind: -.08 }]],
+        front: [['rain', { count: 30, len: [24, 46], speed: [900, 1150], alpha: .18, width: 1, color: '#eef2f5', wind: -.1 }],
+          ['dust', { count: 14, rgb: '255,220,180', size: [.5, 1.2], vx: 3, vy: -3, swirl: 6, alpha: .45 }],
+          ['burst', { rgb: '210,215,225', sprite: 'soft', soft: true, comp: 'source-over', count: 14, delay: 0, dur: .4, spread: 1.1, vx: 24, vy: [4, 18], r: [40, 100], grow: 16, life: [2.4, 3.6], alpha: .14, yOff: -.7 }]],
+      }),
+    },
+    reverie: {
+      title: 'The Golden Shore', mood: 'The sun going down over a still sea, and a thought you don’t want to finish.',
+      sound: 'sea', pos: '50% 58%', grade: 'brightness(.8) contrast(1.05) saturate(.95)', floor: '14,9,5', accent: '255,214,150', entrance: 'glow', reflect: true, sink: .02,
+      parts: (e) => ({
+        mid: [['haze', { count: 4, rgb: '255,190,110', y: e.hy, a: [.04, .07] }], ['dust', { count: 36, rgb: '255,226,170', size: [.5, 1.3], vx: 8, vy: -4, swirl: 12, alpha: .55 }]],
+        front: [['sparkles', { count: 8, y0: e.hy - e.H * .3, y1: e.gy, size: [2.2, 4.2] }], ['dust', { count: 16, rgb: '255,236,200', size: [.9, 2.2], vx: 10, vy: -6, swirl: 14, alpha: .7 }],
+          ['burst', { rgb: '255,220,160', count: 40, delay: .4, dur: 1.2, spread: 1, vx: 30, vy: [20, 60], g: -4, r: [.8, 1.8], life: [1.5, 3], alpha: .7 }]],
+      }),
+    },
     'ajmal-1001-night': {
       title: 'The Lantern Courtyard', mood: 'Lamps in the arches, and a story told until dawn.',
       sound: 'bazaar', pos: '42% 62%', grade: 'brightness(.8) contrast(1.05) saturate(.95)', floor: '12,7,3', accent: '255,190,110', entrance: 'glow', reflect: true, sink: .012,

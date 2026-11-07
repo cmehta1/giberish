@@ -214,6 +214,38 @@ window.GIB_PRODUCTS = [
     feel: ['Fresh', 'Refined', 'Timeless'],
   },
   {
+    id: 'noir-confidence',
+    sound: 'rain', // GibSound theme for this fragrance
+    nozzle: [.5, .02], // where the spray starts, as a fraction of the cut-out image
+    name: 'Noir Confidence',
+    house: 'Inspired by Gucci Guilty',
+    type: 'perfume',
+    size: '60 ml · Eau de Parfum',
+    price: 600,
+    image: 'assets/img/hd/noir-confidence.webp',
+    tagline: 'A scent of confidence.',
+    story: 'Bold, magnetic and hard to forget. Mandarin and pink pepper open bright and sharp, lavender and orange blossom bring a clean, polished heart, and patchouli, cedar and amber stay close to the skin long into the night. For the days you walk in as if you own the room.',
+    notes: { top: ['Mandarin', 'Pink Pepper', 'Bergamot'], heart: ['Lavender', 'Orange Blossom', 'Geranium'], base: ['Patchouli', 'Cedarwood', 'Amber'] },
+    ingredients: ['citrus', 'bergamot', 'orangeblossom', 'cedar', 'amber'],
+    feel: ['Bold', 'Magnetic', 'Unforgettable'],
+  },
+  {
+    id: 'reverie',
+    sound: 'sea', // GibSound theme for this fragrance
+    nozzle: [.5, .02], // where the spray starts, as a fraction of the cut-out image
+    name: 'Reverie',
+    house: 'Inspired by Louis Vuitton Imagination',
+    type: 'perfume',
+    size: '60 ml · Eau de Parfum',
+    price: 600,
+    image: 'assets/img/hd/reverie.webp',
+    tagline: 'Luxury in every breath.',
+    story: 'A fragrance that doesn’t just make you smell good; it makes you feel something. Bright citrus and bergamot with a whisper of fresh spice, a heart of lavender and soft amber, and a clean trail of musk, cedar and ambergris. Light enough for every day, memorable enough to be asked about.',
+    notes: { top: ['Citrus', 'Bergamot', 'Fresh Spices'], heart: ['Lavender', 'Amber', 'Woody Accord'], base: ['Musk', 'Cedarwood', 'Ambergris'] },
+    ingredients: ['citrus', 'bergamot', 'cardamom', 'amber', 'cedar', 'musk'],
+    feel: ['Elegant', 'Fresh', 'Luminous'],
+  },
+  {
     id: 'ajmal-1001-night',
     world: 'garden', // Scent Worlds scene (and soundscape)
     nozzle: [.5, .02], // where the spray starts, as a fraction of the cut-out image
