@@ -194,7 +194,9 @@
         <div class="footer-bottom">
           <span>© ${new Date().getFullYear()} Giberish · www.giberish.com</span>
           <span>Pure · Rare · Timeless</span>
-          <span class="footer-credit">Website crafted by <a href="https://chetas.dev/" target="_blank" rel="noopener" data-no-i18n>Chetas Mehta</a></span>
+          <span class="footer-credit">Website crafted by <a href="https://chetas.dev/" target="_blank" rel="noopener" data-no-i18n>Chetas Mehta</a>
+            <a class="credit-ico" href="https://www.linkedin.com/in/chetasmehta" target="_blank" rel="noopener" aria-label="Chetas Mehta on LinkedIn" title="LinkedIn" data-no-i18n><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.83v1.5h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13v5.43h-4v-4.81c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.89h-4z"/></svg></a>
+            <a class="credit-ico" href="https://x.com/chetas2" target="_blank" rel="noopener" aria-label="Chetas Mehta on X" title="X" data-no-i18n><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78zm-1.08 16.17h1.7L7.4 4.73H5.58z"/></svg></a></span>
         </div>
       </div>`;
     if (!document.body.hasAttribute('data-no-footer')) document.body.appendChild(footer);
